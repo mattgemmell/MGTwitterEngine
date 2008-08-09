@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'MGTwitterEngine' target in the 'MGTwitterEngine' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
