@@ -427,8 +427,7 @@
     [theRequest setValue:_clientURL     forHTTPHeaderField:@"X-Twitter-Client-URL"];
     
 #if SET_AUTHORIZATION_IN_HEADER
-	if ([self username] && [self password])
-	{
+	if ([self username] && [self password]) {
 		// Set header for HTTP Basic authentication explicitly, to avoid problems with proxies and other intermediaries
 		NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self username], [self password]];
 		NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
