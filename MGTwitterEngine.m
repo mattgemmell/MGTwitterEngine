@@ -600,6 +600,18 @@
 #pragma mark NSURLConnection delegate methods
 
 
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+	if ([challenge previousFailureCount] == 0 && ![challenge proposedCredential]) {
+		NSURLCredential *credential = [NSURLCredential credentialWithUser:_username password:_password 
+															  persistence:NSURLCredentialPersistenceForSession];
+		[[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
+	} else {
+		[[challenge sender] continueWithoutCredentialForAuthenticationChallenge:challenge];
+	}
+}
+
+
 - (void)connection:(MGTwitterHTTPURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     // This method is called when the server has determined that it has enough information to create the NSURLResponse.
