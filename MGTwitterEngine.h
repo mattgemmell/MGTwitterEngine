@@ -61,7 +61,7 @@
 
 // ======================================================================================================
 // Twitter API methods
-// See Twitter API docs at: http://groups.google.com/group/twitter-development-talk/web/api-documentation
+// See Twitter API docs at: http://apiwiki.twitter.com/REST+API+Documentation
 // All methods below return a unique connection identifier.
 // ======================================================================================================
 

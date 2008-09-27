@@ -7,7 +7,7 @@ How to use MGTwitterEngine
 ==========================
 
 MGTwitterEngine is an Objective-C/Cocoa class which makes it easy to add Twitter integration to your own Cocoa apps. It communicates with Twitter via the public Twitter API, which you can read about here:
-http://groups.google.com/group/twitter-development-talk/web/api-documentation
+http://apiwiki.twitter.com/REST+API+Documentation
 
 Using MGTwitterEngine is easy. The basic steps are:
 
