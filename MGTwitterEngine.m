@@ -1265,11 +1265,11 @@
 
 - (NSString *)sendUpdate:(NSString *)status
 {
-    return [self sendUpdate:status inReplyTo:nil];
+    return [self sendUpdate:status inReplyTo:0];
 }
 
 
-- (NSString *)sendUpdate:(NSString *)status inReplyTo:(NSString *)updateID
+- (NSString *)sendUpdate:(NSString *)status inReplyTo:(int)updateID
 {
     if (!status) {
         return nil;
@@ -1284,8 +1284,8 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     [params setObject:trimmedText forKey:@"status"];
-    if (updateID) {
-        [params setObject:updateID forKey:@"in_reply_to_status_id"];
+    if (updateID > 0) {
+        [params setObject:[NSString stringWithFormat:@"%d", updateID] forKey:@"in_reply_to_status_id"];
     }
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     

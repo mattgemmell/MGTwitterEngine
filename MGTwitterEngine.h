@@ -109,7 +109,7 @@
 
 // Sending and editing updates
 - (NSString *)sendUpdate:(NSString *)status;
-- (NSString *)sendUpdate:(NSString *)status inReplyTo:(NSString *)updateID;
+- (NSString *)sendUpdate:(NSString *)status inReplyTo:(int)updateID;
 - (NSString *)deleteUpdate:(int)updateID;                 // this user must be the AUTHOR
 - (NSString *)markUpdate:(int)updateID asFavorite:(BOOL)flag;
 
