@@ -18,8 +18,8 @@
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier;
 - (void)miscInfoReceived:(NSArray *)miscInfo forRequest:(NSString *)identifier;
 
-#if MG_ALT_PLATFORM
-- (void)imageReceived:(MG_ALT_PLATFORM_IMAGE_CLASS *)image forRequest:(NSString *)identifier;
+#if TARGET_OS_IPHONE
+- (void)imageReceived:(UIImage *)image forRequest:(NSString *)identifier;
 #else
 - (void)imageReceived:(NSImage *)image forRequest:(NSString *)identifier;
 #endif

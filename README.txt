@@ -47,10 +47,18 @@ In this case, you make need to make the following changes to your project:
 
 
 
-A note about using MGTwitterEngine on other target platforms
-============================================================
+A note about using MGTwitterEngine on the iPhone
+================================================
 
-MGTwitterEngine can potentially be used on other platforms which are supported for Cocoa development on Mac OS X. To find out more about this, please read the notes in the MGTwitterEngineGlobalHeader.h file.
+MGTwitterEngine can also be used on the iPhone (with the official iPhone SDK). Simply add it to your iPhone application project as usual.
+
+It's recommended that you use the LibXML parser rather than the NSXMLParser on the iPhone. The native parser is faster and has a smaller memory footprint, and every little bit counts on the device. If you configure USE_LIBXML to 1 in MGTwitterEngine.m, you'll need to make a couple of additions to your project.
+
+1. Add libxml2.dylib in Other Frameworks. You'll find the library in:
+
+	/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/lib/libxml2.dylib
+	
+2. Add "$SDKROOT/usr/include/libxml2" as a Header Search Path in your Project Settings.
 
 
 

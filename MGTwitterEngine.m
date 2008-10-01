@@ -127,7 +127,8 @@
 	// 1.0.5 = 06 Jun 2008
 	// 1.0.6 = 05 Aug 2008
 	// 1.0.7 = 28 Sep 2008
-    return @"1.0.7";
+	// 1.0.8 = 01 Oct 2008
+    return @"1.0.8";
 }
 
 
@@ -700,8 +701,8 @@
         
         if ([connection responseType] == MGTwitterImage) {
 			// Create image from data.
-#if MG_ALT_PLATFORM
-            MG_ALT_PLATFORM_IMAGE_CLASS *image = [[[MG_ALT_PLATFORM_IMAGE_CLASS alloc] initWithData:[connection data]] autorelease];
+#if TARGET_OS_IPHONE
+            UIImage *image = [[[UIImage alloc] initWithData:[connection data]] autorelease];
 #else
             NSImage *image = [[[NSImage alloc] initWithData:[connection data]] autorelease];
 #endif
