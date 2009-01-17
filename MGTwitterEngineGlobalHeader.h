@@ -16,3 +16,16 @@
 #else
 	#import <Cocoa/Cocoa.h>
 #endif
+
+/*
+ Set this if the YAJL JSON parser is available. More information about this parser here:
+
+ http://lloydforge.org/projects/yajl/
+
+ There are some speed advantages to using JSON instead of XML. Also, the Twitter Search API
+ uses JSON, so adding this library to your project makes additional methods available to your
+ application.
+*/
+
+#define YAJL_AVAILABLE 0
+
