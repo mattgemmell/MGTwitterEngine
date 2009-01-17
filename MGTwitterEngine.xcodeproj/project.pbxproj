@@ -239,7 +239,6 @@
 			children = (
 				C90F74CC0D6A3B7500F602A5 /* MGTwitterXMLParser.h */,
 				C90F74CD0D6A3B7500F602A5 /* MGTwitterXMLParser.m */,
-				C90F74E10D6A3FF300F602A5 /* MGTwitterParserDelegate.h */,
 				C9FEB12A0D6095AF009AA322 /* MGTwitterStatusesParser.h */,
 				C9FEB12B0D6095AF009AA322 /* MGTwitterStatusesParser.m */,
 				C90031BA0D6B796400C38924 /* MGTwitterUsersParser.h */,
@@ -271,6 +270,7 @@
 				C9AE949A0D678D4400ADEBEC /* MGTwitterHTTPURLConnection.h */,
 				C9AE949B0D678D4400ADEBEC /* MGTwitterHTTPURLConnection.m */,
 				C9E497610D686B3500C83995 /* MGTwitterRequestTypes.h */,
+				C90F74E10D6A3FF300F602A5 /* MGTwitterParserDelegate.h */,
 				44F7517D0E47DBF600858A1B /* Twitter LibXML Parsers */,
 				C90F74CB0D6A3B5300F602A5 /* Twitter NSXML Parsers */,
 				44AEFFD00F213814004F5AE3 /* Twitter YAJL Parsers */,

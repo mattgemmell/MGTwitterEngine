@@ -12,100 +12,108 @@
 
 #pragma mark Callbacks
 
+static NSString *currentKey;
+
 int process_yajl_null(void *ctx)
 {
 	id self = ctx;
 	
-    NSLog(@"%@: null", self);
-/*
-	if (dict && key)
+	//NSLog(@"%@: null", self);
+	if (currentKey)
 	{
-		[dict setValue:[NSNull null] forKey:key];
+		[self addValue:[NSNull null] forKey:currentKey];
 	}
-*/
+	
     return 1;
 }
 
 int process_yajl_boolean(void * ctx, int boolVal)
 {
-	id theSelf = ctx;
+	id self = ctx;
 
-    NSLog(@"%@: bool: %s", theSelf, boolVal ? "true" : "false");
-/*
-	if (dict && key)
+	//NSLog(@"%@: bool: %s", self, boolVal ? "true" : "false");
+	if (currentKey)
 	{
-		[dict setValue:[NSNumber numberWithBool:boolVal] forKey:key];
+		[self addValue:[NSNumber numberWithBool:boolVal] forKey:currentKey];
+
+		[currentKey release];
+		currentKey = nil;
 	}
-*/
+
     return 1;
 }
 
 int process_yajl_integer(void *ctx, long integerVal)
 {
-	id theSelf = ctx;
+	id self = ctx;
 	
-    NSLog(@"%@: integer: %ld", theSelf, integerVal);
-/*
-	if (dict && key)
+    //NSLog(@"%@: integer: %ld", self, integerVal);
+	if (currentKey)
 	{
-		[dict setValue:[NSNumber numberWithLong:integerVal] forKey:key];
+		[self addValue:[NSNumber numberWithLong:integerVal] forKey:currentKey];
+
+		[currentKey release];
+		currentKey = nil;
 	}
-*/
+
     return 1;
 }
 
 int process_yajl_double(void *ctx, double doubleVal)
 {
-	id theSelf = ctx;
+	id self = ctx;
 	
-    NSLog(@"%@: double: %lf", theSelf, doubleVal);
-/*
- 	if (dict && key)
+    //NSLog(@"%@: double: %lf", self, doubleVal);
+	if (currentKey)
 	{
-		[dict setValue:[NSNumber numberWithDouble:doubleVal] forKey:key];
+		[self addValue:[NSNumber numberWithDouble:doubleVal] forKey:currentKey];
+
+		[currentKey release];
+		currentKey = nil;
 	}
-*/
+
    return 1;
 }
 
 int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int stringLen)
 {
-	id theSelf = ctx;
+	id self = ctx;
 	
-    NSLog(@"%@: string: %@", theSelf, [[[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease]);
-/*
- 	if (dict && key)
+	//NSLog(@"%@: string: %@", self, [[[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease]);
+	if (currentKey)
 	{
 		NSString *value = [[[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease];
-		[dict setValue:value forKey:key];
+		[self addValue:value forKey:currentKey];
+
+		[currentKey release];
+		currentKey = nil;
 	}
-*/
+
     return 1;
 }
 
 int process_yajl_map_key(void *ctx, const unsigned char * stringVal, unsigned int stringLen)
 {
-	id theSelf = ctx;
+	id self = ctx;
 	
-    NSLog(@"%@: key: %@", theSelf, [[[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease]);
-
-/*
-	if (key)
+	//NSLog(@"%@: key: %@", self, [[[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease]);
+	if (currentKey)
 	{
-		[key release];
-		key = nil;
+		[currentKey release];
+		currentKey = nil;
 	}
 	
-	key = [[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding];
-*/	
+	currentKey = [[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding];
+
     return 1;
 }
 
 int process_yajl_start_map(void *ctx)
 {
-	id theSelf = ctx;
+	id self = ctx;
 	
-    NSLog(@"%@: map open '{'", theSelf);
+	//NSLog(@"%@: map open '{'", self);
+	[self startDictionaryWithKey:currentKey];
 /*
 	dict = [[NSMutableDictionary alloc] initWithCapacity:0];
 */
@@ -115,9 +123,10 @@ int process_yajl_start_map(void *ctx)
 
 int process_yajl_end_map(void *ctx)
 {
-	id theSelf = ctx;
+	id self = ctx;
 	
-    NSLog(@"%@: map close '}'", theSelf);
+    //NSLog(@"%@: map close '}'", self);
+	[self endDictionaryWithKey:currentKey];
 /*
 	[dict release];
 	dict = nil;
@@ -127,18 +136,20 @@ int process_yajl_end_map(void *ctx)
 
 int process_yajl_start_array(void *ctx)
 {
-	id theSelf = ctx;
+	id self = ctx;
 	
-    NSLog(@"%@: array open '['", theSelf);
+    //NSLog(@"%@: array open '['", self);
+	[self startArrayWithKey:currentKey];
 	
     return 1;
 }
 
 int process_yajl_end_array(void *ctx)
 {
-	id theSelf = ctx;
+	id self = ctx;
 	
-    NSLog(@"%@: array close ']'", theSelf);
+    //NSLog(@"%@: array close ']'", self);
+	[self endArrayWithKey:currentKey];
 	
     return 1;
 }
@@ -239,6 +250,32 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 }
 
 #pragma mark Subclass utilities
+
+- (void)addValue:(id)value forKey:(NSString *)key
+{
+	NSLog(@"%@ = %@ (%@)", key, value, NSStringFromClass([value class]));
+}
+
+- (void)startDictionaryWithKey:(NSString *)key
+{
+	NSLog(@"%@ = dictionary start", key);
+}
+
+- (void)endDictionaryWithKey:(NSString *)key
+{
+	NSLog(@"%@ = dictionary end", key);
+}
+
+- (void)startArrayWithKey:(NSString *)key
+{
+	NSLog(@"%@ = array start", key);
+}
+
+- (void)endArrayWithKey:(NSString *)key
+{
+	NSLog(@"%@ = array end", key);
+}
+
 
 /*
 // get the value from the current node

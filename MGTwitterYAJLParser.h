@@ -45,6 +45,12 @@ connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)re
 - (NSDictionary *)_userDictionaryForNodeWithName:(const xmlChar *)parentNodeName;
 - (NSDictionary *)_hashDictionaryForNodeWithName:(const xmlChar *)parentNodeName;
 */
+- (void)addValue:(id)value forKey:(NSString *)key;
+- (void)addValue:(id)value forKey:(NSString *)key;
+- (void)startDictionaryWithKey:(NSString *)key;
+- (void)endDictionaryWithKey:(NSString *)key;
+- (void)startArrayWithKey:(NSString *)key;
+- (void)endArrayWithKey:(NSString *)key;
 
 // delegate callbacks
 - (void)_parsingDidEnd;
