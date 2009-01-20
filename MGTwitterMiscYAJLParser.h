@@ -12,6 +12,8 @@
 
 @interface MGTwitterMiscYAJLParser : MGTwitterYAJLParser {
 
+	NSMutableDictionary *_results;
+
 }
 
 @end

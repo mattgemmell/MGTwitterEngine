@@ -8,49 +8,59 @@
 
 #import "MGTwitterMiscYAJLParser.h"
 
+#define DEBUG_PARSING 0
 
 @implementation MGTwitterMiscYAJLParser
 
-- (void)parse
+- (void)addValue:(id)value forKey:(NSString *)key
 {
-/*
-	int readerResult = xmlTextReaderRead(_reader);
-	if (readerResult != 1)
-		return;
-
-	int nodeType = xmlTextReaderNodeType(_reader);
-	const xmlChar *name = xmlTextReaderConstName(_reader);
-	while (! (nodeType == XML_READER_TYPE_END_ELEMENT))
+	if (_results)
 	{
-		if (nodeType == XML_READER_TYPE_ELEMENT)
-		{
-			if (xmlStrEqual(name, BAD_CAST "hash"))
-			{
-				[parsedObjects addObject:[self _hashDictionaryForNodeWithName:name]];
-			}
-			else
-			{
-				// process element as a string -- API calls like friendships/exists.xml just return <friends>false</friends> or <friends>true</friends>
-				NSString *string = [self _nodeValueAsString];
-				if (string)
-				{
-					NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-					[dictionary setObject:string forKey:[NSString stringWithUTF8String:(const char *)name]];
-					[parsedObjects addObject:dictionary];
-				}
-			}
-		}
-
-		// advance reader
-		int readerResult = xmlTextReaderRead(_reader);
-		if (readerResult != 1)
-		{
-			break;
-		}
-		nodeType = xmlTextReaderNodeType(_reader);
-		name = xmlTextReaderConstName(_reader);
+		[_results setObject:value forKey:key];
+#if DEBUG_PARSING
+		NSLog(@"misc:   results: %@ = %@ (%@)", key, value, NSStringFromClass([value class]));
+#endif
 	}
-*/
 }
+
+- (void)startDictionaryWithKey:(NSString *)key
+{
+#if DEBUG_PARSING
+	NSLog(@"misc: dictionary start = %@", key);
+#endif
+
+	if (! _results)
+	{
+		_results = [[NSMutableDictionary alloc] initWithCapacity:0];
+	}
+}
+
+- (void)endDictionary
+{
+	[_results setObject:[NSNumber numberWithInt:requestType] forKey:TWITTER_SOURCE_REQUEST_TYPE];
+		
+	[parsedObjects addObject:_results];
+	[_results release];
+	_results = nil;
+	
+#if DEBUG_PARSING
+	NSLog(@"misc: dictionary end");
+#endif
+}
+
+- (void)startArrayWithKey:(NSString *)key
+{
+#if DEBUG_PARSING
+	NSLog(@"misc: array start = %@", key);
+#endif
+}
+
+- (void)endArray
+{
+#if DEBUG_PARSING
+	NSLog(@"misc: array end");
+#endif
+}
+
 
 @end

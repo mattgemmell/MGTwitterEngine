@@ -882,6 +882,7 @@
 }
 
 
+// TODO: this API is deprecated, change to account/update_profile
 - (NSString *)setLocation:(NSString *)location
 {
 	if (!location) {

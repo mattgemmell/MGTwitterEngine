@@ -12,6 +12,9 @@
 
 @interface MGTwitterUsersYAJLParser : MGTwitterYAJLParser {
 
+	NSMutableDictionary *_user;
+	NSMutableDictionary *_status;
+
 }
 
 @end

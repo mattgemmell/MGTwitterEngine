@@ -12,6 +12,10 @@
 
 @interface MGTwitterMessagesYAJLParser : MGTwitterYAJLParser {
 
+	NSMutableDictionary *_status;
+	NSMutableDictionary *_sender;
+	NSMutableDictionary *_recipient;
+
 }
 
 @end

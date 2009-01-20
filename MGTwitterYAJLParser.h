@@ -32,7 +32,7 @@ connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)re
 connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)reqType 
 	 responseType:(MGTwitterResponseType)respType URL:(NSURL *)URL;
 
-- (void)parse;
+//- (void)parse;
 
 // subclass utilities
 /*
@@ -48,9 +48,9 @@ connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)re
 - (void)addValue:(id)value forKey:(NSString *)key;
 - (void)addValue:(id)value forKey:(NSString *)key;
 - (void)startDictionaryWithKey:(NSString *)key;
-- (void)endDictionaryWithKey:(NSString *)key;
+- (void)endDictionary;
 - (void)startArrayWithKey:(NSString *)key;
-- (void)endArrayWithKey:(NSString *)key;
+- (void)endArray;
 
 // delegate callbacks
 - (void)_parsingDidEnd;

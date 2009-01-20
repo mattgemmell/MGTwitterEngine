@@ -18,7 +18,6 @@ int process_yajl_null(void *ctx)
 {
 	id self = ctx;
 	
-	//NSLog(@"%@: null", self);
 	if (currentKey)
 	{
 		[self addValue:[NSNull null] forKey:currentKey];
@@ -31,10 +30,9 @@ int process_yajl_boolean(void * ctx, int boolVal)
 {
 	id self = ctx;
 
-	//NSLog(@"%@: bool: %s", self, boolVal ? "true" : "false");
 	if (currentKey)
 	{
-		[self addValue:[NSNumber numberWithBool:boolVal] forKey:currentKey];
+		[self addValue:[NSNumber numberWithBool:(BOOL)boolVal] forKey:currentKey];
 
 		[currentKey release];
 		currentKey = nil;
@@ -47,8 +45,7 @@ int process_yajl_integer(void *ctx, long integerVal)
 {
 	id self = ctx;
 	
-    //NSLog(@"%@: integer: %ld", self, integerVal);
-	if (currentKey)
+ 	if (currentKey)
 	{
 		[self addValue:[NSNumber numberWithLong:integerVal] forKey:currentKey];
 
@@ -63,8 +60,7 @@ int process_yajl_double(void *ctx, double doubleVal)
 {
 	id self = ctx;
 	
-    //NSLog(@"%@: double: %lf", self, doubleVal);
-	if (currentKey)
+ 	if (currentKey)
 	{
 		[self addValue:[NSNumber numberWithDouble:doubleVal] forKey:currentKey];
 
@@ -79,12 +75,23 @@ int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int
 {
 	id self = ctx;
 	
-	//NSLog(@"%@: string: %@", self, [[[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease]);
 	if (currentKey)
 	{
 		NSString *value = [[[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease];
-		[self addValue:value forKey:currentKey];
-
+		
+		if ([currentKey isEqualToString:@"created_at"])
+		{
+			// we have a priori knowledge that the value is a date, not a string
+			struct tm theTime;
+			strptime([value UTF8String], "%a %b %d %H:%M:%S +0000 %Y", &theTime);
+			time_t epochTime = timegm(&theTime);
+			[self addValue:[NSDate dateWithTimeIntervalSince1970:epochTime] forKey:currentKey];
+		}
+		else
+		{
+			[self addValue:value forKey:currentKey];
+		}
+		
 		[currentKey release];
 		currentKey = nil;
 	}
@@ -94,9 +101,6 @@ int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int
 
 int process_yajl_map_key(void *ctx, const unsigned char * stringVal, unsigned int stringLen)
 {
-	id self = ctx;
-	
-	//NSLog(@"%@: key: %@", self, [[[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease]);
 	if (currentKey)
 	{
 		[currentKey release];
@@ -112,11 +116,8 @@ int process_yajl_start_map(void *ctx)
 {
 	id self = ctx;
 	
-	//NSLog(@"%@: map open '{'", self);
 	[self startDictionaryWithKey:currentKey];
-/*
-	dict = [[NSMutableDictionary alloc] initWithCapacity:0];
-*/
+
 	return 1;
 }
 
@@ -125,12 +126,8 @@ int process_yajl_end_map(void *ctx)
 {
 	id self = ctx;
 	
-    //NSLog(@"%@: map close '}'", self);
-	[self endDictionaryWithKey:currentKey];
-/*
-	[dict release];
-	dict = nil;
-*/
+	[self endDictionary];
+
 	return 1;
 }
 
@@ -138,7 +135,6 @@ int process_yajl_start_array(void *ctx)
 {
 	id self = ctx;
 	
-    //NSLog(@"%@: array open '['", self);
 	[self startArrayWithKey:currentKey];
 	
     return 1;
@@ -148,8 +144,7 @@ int process_yajl_end_array(void *ctx)
 {
 	id self = ctx;
 	
-    //NSLog(@"%@: array close ']'", self);
-	[self endArrayWithKey:currentKey];
+	[self endArray];
 	
     return 1;
 }
@@ -200,30 +195,41 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		delegate = theDelegate;
 		parsedObjects = [[NSMutableArray alloc] initWithCapacity:0];
 
-		// setup the yajl parser
-		yajl_parser_config cfg = {
-			0, // allowComments: if nonzero, javascript style comments will be allowed in the input (both /* */ and //)
-			1  // checkUTF8: if nonzero, invalid UTF8 strings will cause a parse error
-		};
-		_handle = yajl_alloc(&callbacks, &cfg, self);
-		if (! _handle)
+		// this is a hack for the API methods that just return "true" or "false" and can't be parsed by YAJL
+		if ([json length] <= 5)
 		{
-			return nil;
+			NSString *result = [[[NSString alloc] initWithBytes:[json bytes] length:[json length] encoding:NSUTF8StringEncoding] autorelease];
+			NSMutableDictionary *dictionary = [[[NSMutableDictionary alloc] initWithCapacity:1] autorelease];
+			[dictionary setObject:[NSNumber numberWithBool:[result isEqualToString:@"true"]] forKey:@"result"];
+			[parsedObjects addObject:dictionary];
 		}
-		
-		// run the parser and create parsedObjects
-        [self parse];
-
-		yajl_status status = yajl_parse(_handle, [json bytes], [json	length]);
-		if (status != yajl_status_insufficient_data && status != yajl_status_ok)
+		else
 		{
-			unsigned char *errorMessage = yajl_get_error(_handle, 0, [json bytes], [json length]);
-			NSLog(@"YAJL error = %s", errorMessage);
-			yajl_free_error(errorMessage);
-		}
+			// setup the yajl parser
+			yajl_parser_config cfg = {
+				0, // allowComments: if nonzero, javascript style comments will be allowed in the input (both /* */ and //)
+				1  // checkUTF8: if nonzero, invalid UTF8 strings will cause a parse error
+			};
+			_handle = yajl_alloc(&callbacks, &cfg, self);
+			if (! _handle)
+			{
+				return nil;
+			}
+			
+			// run the parser and create parsedObjects
+			//[self parse];
 
-		// free the yajl parser
-		yajl_free(_handle);
+			yajl_status status = yajl_parse(_handle, [json bytes], [json length]);
+			if (status != yajl_status_insufficient_data && status != yajl_status_ok)
+			{
+				unsigned char *errorMessage = yajl_get_error(_handle, 0, [json bytes], [json length]);
+				NSLog(@"MGTwitterYAJLParser: error = %s", errorMessage);
+				yajl_free_error(errorMessage);
+			}
+
+			// free the yajl parser
+			yajl_free(_handle);
+		}
 		
 		// notify the delegate that parsing completed
 		[self _parsingDidEnd];
@@ -253,27 +259,37 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 
 - (void)addValue:(id)value forKey:(NSString *)key
 {
+	// default implementation -- override in subclasses
+	
 	NSLog(@"%@ = %@ (%@)", key, value, NSStringFromClass([value class]));
 }
 
 - (void)startDictionaryWithKey:(NSString *)key
 {
-	NSLog(@"%@ = dictionary start", key);
+	// default implementation -- override in subclasses
+	
+	NSLog(@"dictionary start = %@", key);
 }
 
-- (void)endDictionaryWithKey:(NSString *)key
+- (void)endDictionary
 {
-	NSLog(@"%@ = dictionary end", key);
+	// default implementation -- override in subclasses
+	
+	NSLog(@"dictionary end");
 }
 
 - (void)startArrayWithKey:(NSString *)key
 {
-	NSLog(@"%@ = array start", key);
+	// default implementation -- override in subclasses
+	
+	NSLog(@"array start = %@", key);
 }
 
-- (void)endArrayWithKey:(NSString *)key
+- (void)endArray
 {
-	NSLog(@"%@ = array end", key);
+	// default implementation -- override in subclasses
+	
+	NSLog(@"array end");
 }
 
 

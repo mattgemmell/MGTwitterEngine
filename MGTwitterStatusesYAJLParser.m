@@ -8,38 +8,82 @@
 
 #import "MGTwitterStatusesYAJLParser.h"
 
+#define DEBUG_PARSING 0
 
 @implementation MGTwitterStatusesYAJLParser
 
-
-- (void)parse
+- (void)addValue:(id)value forKey:(NSString *)key
 {
-/*
-	int readerResult = xmlTextReaderRead(_reader);
-	if (readerResult != 1)
-		return;
-	int nodeType = xmlTextReaderNodeType(_reader);
-	const xmlChar *name = xmlTextReaderConstName(_reader);
-	while (! (nodeType == XML_READER_TYPE_END_ELEMENT && xmlStrEqual(BAD_CAST "statuses", name)))
+	if (_user)
 	{
-		if (nodeType == XML_READER_TYPE_ELEMENT)
-		{
-			if (xmlStrEqual(name, BAD_CAST "status"))
-			{
-				[parsedObjects addObject:[self _statusDictionaryForNodeWithName:name]];
-			}
-		}
-
-		// advance reader
-		int readerResult = xmlTextReaderRead(_reader);
-		if (readerResult != 1)
-		{
-			break;
-		}
-		nodeType = xmlTextReaderNodeType(_reader);
-		name = xmlTextReaderConstName(_reader);
+		[_user setObject:value forKey:key];
+#if DEBUG_PARSING
+		NSLog(@"status:   user: %@ = %@ (%@)", key, value, NSStringFromClass([value class]));
+#endif
 	}
-*/
+	else if (_status)
+	{
+		[_status setObject:value forKey:key];
+#if DEBUG_PARSING
+		NSLog(@"status:   status: %@ = %@ (%@)", key, value, NSStringFromClass([value class]));
+#endif
+	}
 }
+
+- (void)startDictionaryWithKey:(NSString *)key
+{
+#if DEBUG_PARSING
+	NSLog(@"status: dictionary start = %@", key);
+#endif
+
+	if (! _status)
+	{
+		_status = [[NSMutableDictionary alloc] initWithCapacity:0];
+	}
+	else
+	{
+		if (! _user)
+		{
+			_user = [[NSMutableDictionary alloc] initWithCapacity:0];
+		}
+	}
+}
+
+- (void)endDictionary
+{
+	if (_user)
+	{
+		[_status setObject:_user forKey:@"user"];
+		[_user release];
+		_user = nil;
+	}
+	else
+	{
+		[_status setObject:[NSNumber numberWithInt:requestType] forKey:TWITTER_SOURCE_REQUEST_TYPE];
+		
+		[parsedObjects addObject:_status];
+		[_status release];
+		_status = nil;
+	}
+	
+#if DEBUG_PARSING
+	NSLog(@"status: dictionary end");
+#endif
+}
+
+- (void)startArrayWithKey:(NSString *)key
+{
+#if DEBUG_PARSING
+	NSLog(@"status: array start = %@", key);
+#endif
+}
+
+- (void)endArray
+{
+#if DEBUG_PARSING
+	NSLog(@"status: array end");
+#endif
+}
+
 
 @end
