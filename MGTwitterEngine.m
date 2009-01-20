@@ -20,6 +20,7 @@
 	#import "MGTwitterMessagesYAJLParser.h"
 	#import "MGTwitterUsersYAJLParser.h"
 	#import "MGTwitterMiscYAJLParser.h"
+	#import "MGTwitterSearchYAJLParser.h"
 #else
 	#define API_FORMAT @"xml"
 
@@ -37,6 +38,9 @@
 #endif
 
 #define TWITTER_DOMAIN          @"twitter.com"
+#if YAJL_AVAILABLE
+	#define TWITTER_SEARCH_DOMAIN	@"search.twitter.com"
+#endif
 #define HTTP_POST_METHOD        @"POST"
 #define MAX_MESSAGE_LENGTH      140 // Twitter recommends tweets of max 140 chars
 #define MAX_LOCATION_LENGTH		31
@@ -98,6 +102,10 @@
         _clientURL = [DEFAULT_CLIENT_URL retain];
 		_clientSourceToken = [DEFAULT_CLIENT_TOKEN retain];
 		_APIDomain = [TWITTER_DOMAIN retain];
+#if YAJL_AVAILABLE
+		_searchDomain = [TWITTER_SEARCH_DOMAIN retain];
+#endif
+
         _secureConnection = YES;
 		_clearsCookies = NO;
     }
@@ -120,6 +128,9 @@
     [_clientURL release];
     [_clientSourceToken release];
 	[_APIDomain release];
+#if YAJL_AVAILABLE
+	[_searchDomain release];
+#endif
     
     [super dealloc];
 }
@@ -232,6 +243,27 @@
 		_APIDomain = [domain retain];
 	}
 }
+
+
+#if YAJL_AVAILABLE
+
+- (NSString *)searchDomain
+{
+	return [[_searchDomain retain] autorelease];
+}
+
+
+- (void)setSearchDomain:(NSString *)domain
+{
+	[_searchDomain release];
+	if (!domain || [domain length] == 0) {
+		_searchDomain = [TWITTER_SEARCH_DOMAIN retain];
+	} else {
+		_searchDomain = [domain retain];
+	}
+}
+
+#endif
 
 
 - (BOOL)usesSecureConnection
@@ -409,15 +441,35 @@
         fullPath = [self _queryStringWithBase:fullPath parameters:params prefixed:YES];
     }
 
+	NSString *domain = nil;
+	NSString *connectionType = nil;
+	if (requestType == MGTwitterSearchRequest)
+	{
+		domain = _searchDomain;
+		connectionType = @"http";
+	}
+	else
+	{
+		domain = _APIDomain;
+		if (_secureConnection)
+		{
+			connectionType = @"https";
+		}
+		else
+		{
+			connectionType = @"http";
+		}
+	}
+	
 #if SET_AUTHORIZATION_IN_HEADER
     NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@", 
-                           (_secureConnection) ? @"https" : @"http",
-                           _APIDomain, fullPath];
+                           connectionType,
+                           domain, fullPath];
 #else    
     NSString *urlString = [NSString stringWithFormat:@"%@://%@:%@@%@/%@", 
-                           (_secureConnection) ? @"https" : @"http", 
+                           connectionType, 
                            [self _encodeString:_username], [self _encodeString:_password], 
-                           _APIDomain, fullPath];
+                           domain, fullPath];
 #endif
     
     NSURL *finalURL = [NSURL URLWithString:urlString];
@@ -526,7 +578,12 @@
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType URL:URL];
 			break;
-        default:
+        case MGTwitterSearchResults:
+ 			[MGTwitterSearchYAJLParser parserWithJSON:jsonData delegate:self 
+						  connectionIdentifier:identifier requestType:requestType 
+								  responseType:responseType URL:URL];
+			break;
+       default:
             break;
     }
 }
@@ -636,6 +693,12 @@
 			if ([self _isValidDelegateForSelector:@selector(miscInfoReceived:forRequest:)])
 				[_delegate miscInfoReceived:parsedObjects forRequest:identifier];
 			break;
+#if YAJL_AVAILABLE
+		case MGTwitterSearchResults:
+			if ([self _isValidDelegateForSelector:@selector(searchResultsReceived:forRequest:)])
+				[_delegate searchResultsReceived:parsedObjects forRequest:identifier];
+			break;
+#endif
         default:
             break;
     }
@@ -1410,5 +1473,27 @@
                            responseType:MGTwitterGeneric];
 }
 
+#if YAJL_AVAILABLE
+
+#pragma mark Search
+
+- (NSString *)getSearchResultsForQuery:(NSString *)query
+{
+    NSString *path = [NSString stringWithFormat:@"search.%@", API_FORMAT];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
+    [params setObject:query forKey:@"q"];
+
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterSearchRequest 
+                           responseType:MGTwitterSearchResults];
+}
+
+- (NSString *)getTrends
+{
+	return nil;
+}
+
+#endif
 
 @end

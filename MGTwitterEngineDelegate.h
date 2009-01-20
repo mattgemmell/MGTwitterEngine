@@ -17,6 +17,9 @@
 - (void)directMessagesReceived:(NSArray *)messages forRequest:(NSString *)identifier;
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier;
 - (void)miscInfoReceived:(NSArray *)miscInfo forRequest:(NSString *)identifier;
+#if YAJL_AVAILABLE
+- (void)searchResultsReceived:(NSArray *)searchResults forRequest:(NSString *)identifier;
+#endif
 
 #if TARGET_OS_IPHONE
 - (void)imageReceived:(UIImage *)image forRequest:(NSString *)identifier;

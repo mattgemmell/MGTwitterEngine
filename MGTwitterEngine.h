@@ -21,6 +21,9 @@
     NSString *_clientURL;
     NSString *_clientSourceToken;
 	NSString *_APIDomain;
+#if YAJL_AVAILABLE
+	NSString *_searchDomain;
+#endif
     BOOL _secureConnection;
 	BOOL _clearsCookies;
 }
@@ -41,6 +44,10 @@
 - (void)setClientName:(NSString *)name version:(NSString *)version URL:(NSString *)url token:(NSString *)token;
 - (NSString *)APIDomain;
 - (void)setAPIDomain:(NSString *)domain;
+#if YAJL_AVAILABLE
+- (NSString *)searchDomain;
+- (void)setSearchDomain:(NSString *)domain;
+#endif
 - (BOOL)usesSecureConnection; // YES = uses HTTPS, default is YES
 - (void)setUsesSecureConnection:(BOOL)flag;
 - (BOOL)clearsCookies; // YES = deletes twitter.com cookies when setting username/password, default is NO (see README.txt)
@@ -116,5 +123,25 @@
 // Sending and editing direct messages
 - (NSString *)sendDirectMessage:(NSString *)message to:(NSString *)username;
 - (NSString *)deleteDirectMessage:(int)updateID;          // this user must be the RECIPIENT
+
+#if YAJL_AVAILABLE
+
+// Search
+- (NSString *)getSearchResultsForQuery:(NSString *)query;
+- (NSString *)getTrends;
+
+/*
+lang: restricts tweets to the given language, given by an ISO 639-1 code. Ex: http://search.twitter.com/search.atom?lang=en&q=devo
+
+rpp: the number of tweets to return per page, up to a max of 100. Ex: http://search.twitter.com/search.atom?lang=en&q=devo&rpp=15
+
+page: the page number (starting at 1) to return, up to a max of roughly 1500 results (based on rpp * page)
+
+since_id: returns tweets with status ids greater than the given id.
+
+geocode: returns tweets by users located within a given radius of the given latitude/longitude, where the user's location is taken from their Twitter profile. The parameter value is specified by "latitide,longitude,radius", where radius units must be specified as either "mi" (miles) or "km" (kilometers). Ex: http://search.twitter.com/search.atom?geocode=40.757929%2C-73.985506%2C25km. Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.
+*/
+
+#endif
 
 @end

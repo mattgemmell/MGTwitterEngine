@@ -81,7 +81,7 @@ int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int
 		
 		if ([currentKey isEqualToString:@"created_at"])
 		{
-			// we have a priori knowledge that the value is a date, not a string
+			// we have a priori knowledge that the value for created_at is a date, not a string
 			struct tm theTime;
 			strptime([value UTF8String], "%a %b %d %H:%M:%S +0000 %Y", &theTime);
 			time_t epochTime = timegm(&theTime);
@@ -195,12 +195,12 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		delegate = theDelegate;
 		parsedObjects = [[NSMutableArray alloc] initWithCapacity:0];
 
-		// this is a hack for the API methods that just return "true" or "false" and can't be parsed by YAJL
+		// this is a hack for the friendships/exists API method that just returns "true" or "false" and can't be parsed by YAJL
 		if ([json length] <= 5)
 		{
 			NSString *result = [[[NSString alloc] initWithBytes:[json bytes] length:[json length] encoding:NSUTF8StringEncoding] autorelease];
 			NSMutableDictionary *dictionary = [[[NSMutableDictionary alloc] initWithCapacity:1] autorelease];
-			[dictionary setObject:[NSNumber numberWithBool:[result isEqualToString:@"true"]] forKey:@"result"];
+			[dictionary setObject:[NSNumber numberWithBool:[result isEqualToString:@"true"]] forKey:@"friends"];
 			[parsedObjects addObject:dictionary];
 		}
 		else
