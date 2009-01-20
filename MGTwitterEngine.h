@@ -28,6 +28,8 @@
 	BOOL _clearsCookies;
 }
 
+#pragma mark Class management
+
 // Constructors
 + (MGTwitterEngine *)twitterEngineWithDelegate:(NSObject *)delegate;
 - (MGTwitterEngine *)initWithDelegate:(NSObject *)delegate;
@@ -66,81 +68,127 @@
 // Retrieved images are sent to the delegate via the -imageReceived:forRequest: method.
 - (NSString *)getImageAtURL:(NSString *)urlString;
 
+#pragma mark REST API methods
+
 // ======================================================================================================
-// Twitter API methods
+// Twitter REST API methods
 // See Twitter API docs at: http://apiwiki.twitter.com/REST+API+Documentation
 // All methods below return a unique connection identifier.
 // ======================================================================================================
 
-// Account methods
-- (NSString *)checkUserCredentials;
-- (NSString *)endUserSession;
-- (NSString *)enableUpdatesFor:(NSString *)username;          // i.e. follow
-- (NSString *)disableUpdatesFor:(NSString *)username;         // i.e. no longer follow
-- (NSString *)isUser:(NSString *)username1 receivingUpdatesFor:(NSString *)username2;	// i.e. test if username1 follows username2 (not the reverse)
-- (NSString *)enableNotificationsFor:(NSString *)username;
-- (NSString *)disableNotificationsFor:(NSString *)username;
-- (NSString *)getRateLimitStatus;
-- (NSString *)setLocation:(NSString *)location;
-- (NSString *)setNotificationsDeliveryMethod:(NSString *)method;
-- (NSString *)block:(NSString *)username;
-- (NSString *)unblock:(NSString *)username;
-- (NSString *)testService;
-- (NSString *)getDowntimeSchedule;
+// Status methods - http://apiwiki.twitter.com/REST+API+Documentation#StatusMethods
 
-// Retrieving updates
-- (NSString *)getFollowedTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum;
-- (NSString *)getFollowedTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum count:(int)count;		// max 200
-- (NSString *)getFollowedTimelineFor:(NSString *)username sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count;		// max 200
-- (NSString *)getUserTimelineFor:(NSString *)username since:(NSDate *)date count:(int)numUpdates;									// max 200
-- (NSString *)getUserTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum count:(int)numUpdates;		// max 200
-- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)numUpdates;		// max 200
-- (NSString *)getUserUpdatesArchiveStartingAtPage:(int)pageNum;																		// 80 per page
-- (NSString *)getPublicTimelineSinceID:(int)updateID;
-- (NSString *)getRepliesStartingAtPage:(int)pageNum;                                          // sent TO this user
-- (NSString *)getFavoriteUpdatesFor:(NSString *)username startingAtPage:(int)pageNum;
-- (NSString *)getUpdate:(int)updateID;
+- (NSString *)getPublicTimelineSinceID:(int)updateID; // statuses/public_timeline
 
-// Retrieving direct messages
-- (NSString *)getDirectMessagesSince:(NSDate *)date startingAtPage:(int)pageNum;              // sent TO this user
-- (NSString *)getDirectMessagesSinceID:(int)updateID startingAtPage:(int)pageNum;             // sent TO this user
-- (NSString *)getSentDirectMessagesSince:(NSDate *)date startingAtPage:(int)pageNum;          // sent BY this user
-- (NSString *)getSentDirectMessagesSinceID:(int)updateID startingAtPage:(int)pageNum;         // sent BY this user
+- (NSString *)getFollowedTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum; // statuses/friends_timeline
+- (NSString *)getFollowedTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum count:(int)count; // statuses/friends_timeline
+- (NSString *)getFollowedTimelineFor:(NSString *)username sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count; // statuses/friends_timeline
 
-// Retrieving user information
-- (NSString *)getUserInformationFor:(NSString *)username;
-- (NSString *)getUserInformationForEmail:(NSString *)email;
-- (NSString *)getRecentlyUpdatedFriendsFor:(NSString *)username startingAtPage:(int)pageNum;
-- (NSString *)getFollowersIncludingCurrentStatus:(BOOL)flag;
-- (NSString *)getFeaturedUsers;
+- (NSString *)getUserTimelineFor:(NSString *)username since:(NSDate *)date count:(int)numUpdates; // statuses/user_timeline
+- (NSString *)getUserTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum count:(int)numUpdates; // statuses/user_timeline
+- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)numUpdates; // statuses/user_timeline
 
-// Sending and editing updates
-- (NSString *)sendUpdate:(NSString *)status;
-- (NSString *)sendUpdate:(NSString *)status inReplyTo:(int)updateID;
-- (NSString *)deleteUpdate:(int)updateID;                 // this user must be the AUTHOR
-- (NSString *)markUpdate:(int)updateID asFavorite:(BOOL)flag;
+- (NSString *)getUpdate:(int)updateID; // statuses/show
+- (NSString *)sendUpdate:(NSString *)status; // statuses/update
+- (NSString *)sendUpdate:(NSString *)status inReplyTo:(int)updateID; // statuses/update
 
-// Sending and editing direct messages
-- (NSString *)sendDirectMessage:(NSString *)message to:(NSString *)username;
-- (NSString *)deleteDirectMessage:(int)updateID;          // this user must be the RECIPIENT
+- (NSString *)getRepliesStartingAtPage:(int)pageNum; // statuses/replies
+
+- (NSString *)deleteUpdate:(int)updateID; // statuses/destroy
+
+- (NSString *)getFeaturedUsers; // statuses/features (undocumented)
+
+
+// User methods - http://apiwiki.twitter.com/REST+API+Documentation#UserMethods
+
+- (NSString *)getRecentlyUpdatedFriendsFor:(NSString *)username startingAtPage:(int)pageNum; // statuses/friends
+
+- (NSString *)getFollowersIncludingCurrentStatus:(BOOL)flag; // statuses/followers
+
+- (NSString *)getUserInformationFor:(NSString *)usernameOrID; // users/show
+- (NSString *)getUserInformationForEmail:(NSString *)email; // users/show
+
+
+// Direct Message methods - http://apiwiki.twitter.com/REST+API+Documentation#DirectMessageMethods
+
+- (NSString *)getDirectMessagesSince:(NSDate *)date startingAtPage:(int)pageNum; // direct_messages
+- (NSString *)getDirectMessagesSinceID:(int)updateID startingAtPage:(int)pageNum; // direct_messages
+
+- (NSString *)getSentDirectMessagesSince:(NSDate *)date startingAtPage:(int)pageNum; // direct_messages/sent
+- (NSString *)getSentDirectMessagesSinceID:(int)updateID startingAtPage:(int)pageNum; // direct_messages/sent
+
+- (NSString *)sendDirectMessage:(NSString *)message to:(NSString *)username; // direct_messages/new
+- (NSString *)deleteDirectMessage:(int)updateID;// direct_messages/destroy
+
+
+// Friendship methods - http://apiwiki.twitter.com/REST+API+Documentation#FriendshipMethods
+
+- (NSString *)enableUpdatesFor:(NSString *)username; // friendships/create (follow username)
+- (NSString *)disableUpdatesFor:(NSString *)username; // friendships/destroy (unfollow username)
+- (NSString *)isUser:(NSString *)username1 receivingUpdatesFor:(NSString *)username2; // friendships/exists (test if username1 follows username2)
+
+
+// Account methods - http://apiwiki.twitter.com/REST+API+Documentation#AccountMethods
+
+- (NSString *)checkUserCredentials; // account/verify_credentials
+- (NSString *)endUserSession; // account/end_session
+
+- (NSString *)setLocation:(NSString *)location; // account/update_location (deprecated, use account/update_profile instead)
+
+- (NSString *)setNotificationsDeliveryMethod:(NSString *)method; // account/update_delivery_device
+
+// TODO: Add: account/update_profile_colors
+// TODO: Add: account/update_profile_image
+// TODO: Add: account/update_profile_background_image
+
+- (NSString *)getRateLimitStatus; // account/rate_limit_status
+
+// TODO: Add: account/update_profile
+
+// - (NSString *)getUserUpdatesArchiveStartingAtPage:(int)pageNum; // account/archive (removed, use /statuses/user_timeline instead)
+
+
+// Favorite methods - http://apiwiki.twitter.com/REST+API+Documentation#FavoriteMethods
+
+- (NSString *)getFavoriteUpdatesFor:(NSString *)username startingAtPage:(int)pageNum; // favorites
+
+- (NSString *)markUpdate:(int)updateID asFavorite:(BOOL)flag; // favorites/create, favorites/destroy
+
+
+// Notification methods - http://apiwiki.twitter.com/REST+API+Documentation#NotificationMethods
+
+- (NSString *)enableNotificationsFor:(NSString *)username; // notifications/follow
+- (NSString *)disableNotificationsFor:(NSString *)username; // notifications/leave
+
+
+// Block methods - http://apiwiki.twitter.com/REST+API+Documentation#BlockMethods
+
+- (NSString *)block:(NSString *)username; // blocks/create
+- (NSString *)unblock:(NSString *)username; // blocks/destroy
+
+
+// Help methods - http://apiwiki.twitter.com/REST+API+Documentation#HelpMethods
+
+- (NSString *)testService; // help/test
+
+- (NSString *)getDowntimeSchedule; // help/downtime_schedule (undocumented)
+
+
+#pragma mark Search API methods
+
+// ======================================================================================================
+// Twitter Search API methods
+// See Twitter API docs at: http://apiwiki.twitter.com/Search+API+Documentation
+// All methods below return a unique connection identifier.
+// ======================================================================================================
 
 #if YAJL_AVAILABLE
 
-// Search
-- (NSString *)getSearchResultsForQuery:(NSString *)query;
-- (NSString *)getTrends;
+// Search methods
 
-/*
-lang: restricts tweets to the given language, given by an ISO 639-1 code. Ex: http://search.twitter.com/search.atom?lang=en&q=devo
+- (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count; // search
 
-rpp: the number of tweets to return per page, up to a max of 100. Ex: http://search.twitter.com/search.atom?lang=en&q=devo&rpp=15
-
-page: the page number (starting at 1) to return, up to a max of roughly 1500 results (based on rpp * page)
-
-since_id: returns tweets with status ids greater than the given id.
-
-geocode: returns tweets by users located within a given radius of the given latitude/longitude, where the user's location is taken from their Twitter profile. The parameter value is specified by "latitide,longitude,radius", where radius units must be specified as either "mi" (miles) or "km" (kilometers). Ex: http://search.twitter.com/search.atom?geocode=40.757929%2C-73.985506%2C25km. Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this geocode parameter to search near geocodes directly.
-*/
+- (NSString *)getTrends; // trends
 
 #endif
 

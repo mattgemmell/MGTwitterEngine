@@ -8,7 +8,7 @@
 
 #import "MGTwitterSearchYAJLParser.h"
 
-#define DEBUG_PARSING 1
+#define DEBUG_PARSING 0
 
 @implementation MGTwitterSearchYAJLParser
 
@@ -36,7 +36,7 @@
 	NSLog(@"search: dictionary start = %@", key);
 #endif
 
-	if (haveStartedArray)
+	if (insideArray)
 	{
 		if (! _results)
 		{
@@ -54,7 +54,7 @@
 
 - (void)endDictionary
 {
-	if (haveStartedArray)
+	if (insideArray)
 	{
 		if (_results)
 		{
@@ -87,7 +87,7 @@
 #if DEBUG_PARSING
 	NSLog(@"search: array start = %@", key);
 #endif
-	haveStartedArray = YES;
+	insideArray = YES;
 }
 
 - (void)endArray
@@ -95,7 +95,7 @@
 #if DEBUG_PARSING
 	NSLog(@"search: array end");
 #endif
-	haveStartedArray = NO;
+	insideArray = NO;
 }
 
 

@@ -12,7 +12,7 @@
 
 @interface MGTwitterSearchYAJLParser : MGTwitterYAJLParser {
 
-	BOOL haveStartedArray;
+	BOOL insideArray;
 	NSMutableDictionary *_results;
 	NSMutableDictionary *_status;
 }

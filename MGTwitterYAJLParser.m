@@ -195,12 +195,22 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		delegate = theDelegate;
 		parsedObjects = [[NSMutableArray alloc] initWithCapacity:0];
 
-		// this is a hack for the friendships/exists API method that just returns "true" or "false" and can't be parsed by YAJL
 		if ([json length] <= 5)
 		{
+			// this is a hack for API methods that return short JSON responses that can't be parsed by YAJL. These include:
+			//   friendships/exists: returns "true" or "false"
+			//   help/test: returns "ok"
 			NSString *result = [[[NSString alloc] initWithBytes:[json bytes] length:[json length] encoding:NSUTF8StringEncoding] autorelease];
 			NSMutableDictionary *dictionary = [[[NSMutableDictionary alloc] initWithCapacity:1] autorelease];
-			[dictionary setObject:[NSNumber numberWithBool:[result isEqualToString:@"true"]] forKey:@"friends"];
+
+			if ([result isEqualToString:@"ok"])
+			{
+				[dictionary setObject:[NSNumber numberWithBool:YES] forKey:@"ok"];
+			}
+			else
+			{
+				[dictionary setObject:[NSNumber numberWithBool:[result isEqualToString:@"true"]] forKey:@"friends"];
+			}
 			[parsedObjects addObject:dictionary];
 		}
 		else

@@ -441,6 +441,7 @@
         fullPath = [self _queryStringWithBase:fullPath parameters:params prefixed:YES];
     }
 
+#if YAJL_AVAILABLE
 	NSString *domain = nil;
 	NSString *connectionType = nil;
 	if (requestType == MGTwitterSearchRequest)
@@ -460,6 +461,18 @@
 			connectionType = @"http";
 		}
 	}
+#else
+	NSString *domain = _APIDomain;
+	NSString *connectionType = nil;
+	if (_secureConnection)
+	{
+		connectionType = @"https";
+	}
+	else
+	{
+		connectionType = @"http";
+	}
+#endif
 	
 #if SET_AUTHORIZATION_IN_HEADER
     NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@", 
@@ -850,7 +863,7 @@
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterAccountRequest 
-                           responseType:MGTwitterGeneric];
+                           responseType:MGTwitterUser];
 }
 
 
@@ -986,7 +999,7 @@
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:params body:nil 
                             requestType:MGTwitterAccountRequest
-                           responseType:MGTwitterGeneric];
+                           responseType:MGTwitterUser];
 }
 
 
@@ -1024,7 +1037,7 @@
 	
 	return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterAccountRequest
-                           responseType:MGTwitterGeneric];
+                           responseType:MGTwitterMiscellaneous];
 }
 
 
@@ -1154,7 +1167,8 @@
                            responseType:MGTwitterStatuses];
 }
 
-
+// The following API is deprecated. Use getUserTimelineFor: instead.
+/*
 - (NSString *)getUserUpdatesArchiveStartingAtPage:(int)pageNum
 {
     NSString *path = [NSString stringWithFormat:@"account/archive.%@", API_FORMAT];
@@ -1168,6 +1182,7 @@
                             requestType:MGTwitterStatusesRequest 
                            responseType:MGTwitterStatuses];
 }
+*/
 
 
 - (NSString *)getPublicTimelineSinceID:(int)updateID
@@ -1306,12 +1321,12 @@
 #pragma mark Retrieving user information
 
 
-- (NSString *)getUserInformationFor:(NSString *)username
+- (NSString *)getUserInformationFor:(NSString *)usernameOrID
 {
-    if (!username) {
+    if (!usernameOrID) {
         return nil;
     }
-    NSString *path = [NSString stringWithFormat:@"users/show/%@.%@", username, API_FORMAT];
+    NSString *path = [NSString stringWithFormat:@"users/show/%@.%@", usernameOrID, API_FORMAT];
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterUserInfoRequest 
@@ -1489,10 +1504,57 @@
                            responseType:MGTwitterSearchResults];
 }
 
+- (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count
+{
+    NSString *path = [NSString stringWithFormat:@"search.%@", API_FORMAT];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+	if (query) {
+		[params setObject:query forKey:@"q"];
+	}
+    if (updateID > 0) {
+        [params setObject:[NSString stringWithFormat:@"%d", updateID] forKey:@"since_id"];
+    }
+	if (pageNum > 0) {
+        [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
+    }
+    if (count > 0) {
+        [params setObject:[NSString stringWithFormat:@"%d", count] forKey:@"rpp"];
+    }
+	
+	/*
+	NOTE: These parameters are also available but not implemented yet:
+	
+		lang: restricts tweets to the given language, given by an ISO 639-1 code.
+
+			Ex: http://search.twitter.com/search.atom?lang=en&q=devo
+
+		geocode: returns tweets by users located within a given radius of the given latitude/longitude, where the user's
+			location is taken from their Twitter profile. The parameter value is specified by "latitide,longitude,radius",
+			where radius units must be specified as either "mi" (miles) or "km" (kilometers).
+
+			Note that you cannot use the near operator via the API to geocode arbitrary locations; however you can use this
+			geocode parameter to search near geocodes directly.
+
+			Ex: http://search.twitter.com/search.atom?geocode=40.757929%2C-73.985506%2C25km.
+	*/
+
+	
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterSearchRequest 
+                           responseType:MGTwitterSearchResults];
+}
+
 - (NSString *)getTrends
 {
-	return nil;
+    NSString *path = [NSString stringWithFormat:@"trends.%@", API_FORMAT];
+    
+    return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
+                            requestType:MGTwitterSearchRequest 
+                           responseType:MGTwitterSearchResults];
 }
+
+
 
 #endif
 
