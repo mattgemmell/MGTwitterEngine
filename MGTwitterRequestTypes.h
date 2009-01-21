@@ -17,7 +17,9 @@ typedef enum _MGTwitterRequestType {
     MGTwitterStatusSend             = 5, // sending a new status
     MGTwitterDirectMessageSend      = 6, // sending a new direct message
     MGTwitterImageRequest           = 7, // requesting an image
+#if YAJL_AVAILABLE
 	MGTwitterSearchRequest			= 9, // a search request
+#endif
 } MGTwitterRequestType;
 
 typedef enum _MGTwitterResponseType {
@@ -30,7 +32,9 @@ typedef enum _MGTwitterResponseType {
     MGTwitterGeneric            = 6,    // a generic response not requiring parsing
 	MGTwitterMiscellaneous		= 8,	// a miscellaneous response of key-value pairs
     MGTwitterImage              = 7,    // an image
+#if YAJL_AVAILABLE
 	MGTwitterSearchResults		= 9,	// search results
+#endif
 } MGTwitterResponseType;
 
 // This key is added to each tweet or direct message returned,

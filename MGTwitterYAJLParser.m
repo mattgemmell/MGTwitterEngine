@@ -218,7 +218,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 			// setup the yajl parser
 			yajl_parser_config cfg = {
 				0, // allowComments: if nonzero, javascript style comments will be allowed in the input (both /* */ and //)
-				1  // checkUTF8: if nonzero, invalid UTF8 strings will cause a parse error
+				0  // checkUTF8: if nonzero, invalid UTF8 strings will cause a parse error
 			};
 			_handle = yajl_alloc(&callbacks, &cfg, self);
 			if (! _handle)
@@ -234,6 +234,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 			{
 				unsigned char *errorMessage = yajl_get_error(_handle, 0, [json bytes], [json length]);
 				NSLog(@"MGTwitterYAJLParser: error = %s", errorMessage);
+				[self _parsingErrorOccurred:[NSError errorWithDomain:@"YAJL" code:status userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:(char *)errorMessage] forKey:@"errorMessage"]]];
 				yajl_free_error(errorMessage);
 			}
 
@@ -305,16 +306,30 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 
 #pragma mark Delegate callbacks
 
+- (BOOL) _isValidDelegateForSelector:(SEL)selector
+{
+	return ((delegate != nil) && [delegate respondsToSelector:selector]);
+}
+
 - (void)_parsingDidEnd
 {
-    //NSLog(@"Parsing complete: %@", parsedObjects);
-    [delegate parsingSucceededForRequest:identifier ofResponseType:responseType withParsedObjects:parsedObjects];
+	if ([self _isValidDelegateForSelector:@selector(parsingSucceededForRequest:ofResponseType:withParsedObjects:)])
+		[delegate parsingSucceededForRequest:identifier ofResponseType:responseType withParsedObjects:parsedObjects];
 }
 
 - (void)_parsingErrorOccurred:(NSError *)parseError
 {
-	//NSLog(@"Parsing error occurred: %@", parseError);
-	[delegate parsingFailedForRequest:identifier ofResponseType:responseType withError:parseError];
+	if ([self _isValidDelegateForSelector:@selector(parsingFailedForRequest:ofResponseType:withError:)])
+		[delegate parsingFailedForRequest:identifier ofResponseType:responseType withError:parseError];
 }
+
+- (void)_parsedObject:(NSDictionary *)dictionary
+{
+#if YAJL_AVAILABLE
+	if ([self _isValidDelegateForSelector:@selector(parsedObject:forRequest:ofResponseType:)])
+		[delegate parsedObject:(NSDictionary *)dictionary forRequest:identifier ofResponseType:responseType];
+#endif
+}
+
 
 @end

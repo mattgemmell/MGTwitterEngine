@@ -13,6 +13,10 @@
 - (void)requestSucceeded:(NSString *)connectionIdentifier;
 - (void)requestFailed:(NSString *)connectionIdentifier withError:(NSError *)error;
 
+#if YAJL_AVAILABLE
+- (void)receivedObject:(NSDictionary *)dictionary forRequest:(NSString *)connectionIdentifier;
+#endif
+
 - (void)statusesReceived:(NSArray *)statuses forRequest:(NSString *)connectionIdentifier;
 - (void)directMessagesReceived:(NSArray *)messages forRequest:(NSString *)connectionIdentifier;
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)connectionIdentifier;

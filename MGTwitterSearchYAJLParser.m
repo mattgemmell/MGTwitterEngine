@@ -60,6 +60,8 @@
 		{
 			[_results setObject:[NSNumber numberWithInt:requestType] forKey:TWITTER_SOURCE_REQUEST_TYPE];
 				
+			[self _parsedObject:_results];
+		
 			[parsedObjects addObject:_results];
 			[_results release];
 			_results = nil;

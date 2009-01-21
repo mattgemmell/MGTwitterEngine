@@ -7,7 +7,7 @@
 //
 
 #import "MGTwitterEngineGlobalHeader.h"
-//#include <libxml/xmlreader.h>
+
 #include <yajl/yajl_parse.h>
 
 #import "MGTwitterParserDelegate.h"
@@ -42,6 +42,7 @@ connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)re
 // delegate callbacks
 - (void)_parsingDidEnd;
 - (void)_parsingErrorOccurred:(NSError *)parseError;
+- (void)_parsedObject:(NSDictionary *)dictionary;
 
 
 @end

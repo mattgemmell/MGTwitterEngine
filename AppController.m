@@ -171,4 +171,13 @@
 	}
 }
 
+#if YAJL_AVAILABLE
+
+- (void)receivedObject:(NSDictionary *)dictionary forRequest:(NSString *)connectionIdentifier
+{
+    NSLog(@"Got an object for %@: %@", connectionIdentifier, dictionary);
+}
+
+#endif
+
 @end

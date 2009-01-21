@@ -61,6 +61,8 @@
 	{
 		[_user setObject:[NSNumber numberWithInt:requestType] forKey:TWITTER_SOURCE_REQUEST_TYPE];
 		
+		[self _parsedObject:_user];
+		
 		[parsedObjects addObject:_user];
 		[_user release];
 		_user = nil;

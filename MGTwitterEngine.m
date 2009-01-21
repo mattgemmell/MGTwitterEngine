@@ -681,7 +681,6 @@
 
 #pragma mark MGTwitterParserDelegate methods
 
-
 - (void)parsingSucceededForRequest:(NSString *)identifier 
                     ofResponseType:(MGTwitterResponseType)responseType 
                  withParsedObjects:(NSArray *)parsedObjects
@@ -718,7 +717,6 @@
     }
 }
 
-
 - (void)parsingFailedForRequest:(NSString *)requestIdentifier 
                  ofResponseType:(MGTwitterResponseType)responseType 
                       withError:(NSError *)error
@@ -727,6 +725,16 @@
 		[_delegate requestFailed:requestIdentifier withError:error];
 }
 
+#if YAJL_AVAILABLE
+
+- (void)parsedObject:(NSDictionary *)dictionary forRequest:(NSString *)requestIdentifier 
+                 ofResponseType:(MGTwitterResponseType)responseType
+{
+	if ([self _isValidDelegateForSelector:@selector(receivedObject:forRequest:)])
+		[_delegate receivedObject:dictionary forRequest:requestIdentifier];
+}
+
+#endif
 
 #pragma mark NSURLConnection delegate methods
 
