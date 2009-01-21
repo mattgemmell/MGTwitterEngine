@@ -21,7 +21,6 @@
 	NSData *json;
 	NSMutableArray *parsedObjects;
 	
-//	xmlTextReaderPtr _reader;
 	yajl_handle _handle;
 }
 
@@ -32,19 +31,7 @@ connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)re
 connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)reqType 
 	 responseType:(MGTwitterResponseType)respType URL:(NSURL *)URL;
 
-//- (void)parse;
-
 // subclass utilities
-/*
-- (xmlChar *)_nodeValue;
-- (NSString *)_nodeValueAsString;
-- (NSDate *)_nodeValueAsDate;
-- (NSNumber *)_nodeValueAsInt;
-- (NSNumber *)_nodeValueAsBool;
-- (NSDictionary *)_statusDictionaryForNodeWithName:(const xmlChar *)parentNodeName;
-- (NSDictionary *)_userDictionaryForNodeWithName:(const xmlChar *)parentNodeName;
-- (NSDictionary *)_hashDictionaryForNodeWithName:(const xmlChar *)parentNodeName;
-*/
 - (void)addValue:(id)value forKey:(NSString *)key;
 - (void)addValue:(id)value forKey:(NSString *)key;
 - (void)startDictionaryWithKey:(NSString *)key;

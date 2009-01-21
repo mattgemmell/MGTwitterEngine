@@ -43,7 +43,6 @@
 #endif
 #define HTTP_POST_METHOD        @"POST"
 #define MAX_MESSAGE_LENGTH      140 // Twitter recommends tweets of max 140 chars
-#define MAX_LOCATION_LENGTH		31
 
 #define DEFAULT_CLIENT_NAME     @"MGTwitterEngine"
 #define DEFAULT_CLIENT_VERSION  @"1.0"
@@ -967,19 +966,14 @@
     
     NSString *path = [NSString stringWithFormat:@"account/update_location.%@", API_FORMAT];
     
-    NSString *trimmedText = location;
-    if ([trimmedText length] > MAX_LOCATION_LENGTH) {
-        trimmedText = [trimmedText substringToIndex:MAX_LOCATION_LENGTH];
-    }
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-    [params setObject:trimmedText forKey:@"location"];
+    [params setObject:location forKey:@"location"];
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
                         queryParameters:params body:body 
                             requestType:MGTwitterAccountRequest 
-                           responseType:MGTwitterGeneric];
+                           responseType:MGTwitterUser];
 }
 
 
@@ -1435,7 +1429,7 @@
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:nil body:nil 
                             requestType:MGTwitterAccountRequest 
-                           responseType:MGTwitterGeneric];
+                           responseType:MGTwitterStatus];
 }
 
 
@@ -1485,7 +1479,7 @@
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:nil body:nil 
                             requestType:MGTwitterAccountRequest 
-                           responseType:MGTwitterGeneric];
+                           responseType:MGTwitterDirectMessage];
 }
 
 #if YAJL_AVAILABLE

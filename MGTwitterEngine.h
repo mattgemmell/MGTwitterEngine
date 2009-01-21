@@ -72,7 +72,7 @@
 
 // ======================================================================================================
 // Twitter REST API methods
-// See Twitter API docs at: http://apiwiki.twitter.com/REST+API+Documentation
+// See documentation at: http://apiwiki.twitter.com/REST+API+Documentation
 // All methods below return a unique connection identifier.
 // ======================================================================================================
 
@@ -96,7 +96,7 @@
 
 - (NSString *)deleteUpdate:(int)updateID; // statuses/destroy
 
-- (NSString *)getFeaturedUsers; // statuses/features (undocumented)
+- (NSString *)getFeaturedUsers; // statuses/features (undocumented, returns invalid JSON data)
 
 
 // User methods - http://apiwiki.twitter.com/REST+API+Documentation#UserMethods
@@ -178,15 +178,17 @@
 
 // ======================================================================================================
 // Twitter Search API methods
-// See Twitter API docs at: http://apiwiki.twitter.com/Search+API+Documentation
+// See documentation at: http://apiwiki.twitter.com/Search+API+Documentation
 // All methods below return a unique connection identifier.
 // ======================================================================================================
 
 #if YAJL_AVAILABLE
 
-// Search methods
+// Search method - http://apiwiki.twitter.com/Search+API+Documentation#Search
 
 - (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count; // search
+
+// Trends method - http://apiwiki.twitter.com/Search+API+Documentation#Trends
 
 - (NSString *)getTrends; // trends
 
