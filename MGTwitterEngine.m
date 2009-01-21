@@ -310,6 +310,8 @@
     if (connection) {
         [connection cancel];
         [_connections removeObjectForKey:identifier];
+		if ([self _isValidDelegateForSelector:@selector(connectionFinished)])
+			[_delegate connectionFinished];
     }
 }
 
@@ -760,6 +762,8 @@
         // Destroy the connection.
         [connection cancel];
         [_connections removeObjectForKey:[connection identifier]];
+		if ([self _isValidDelegateForSelector:@selector(connectionFinished)])
+			[_delegate connectionFinished];
         
     } else if (statusCode == 304 || [connection responseType] == MGTwitterGeneric) {
         // Not modified, or generic success.
@@ -774,6 +778,8 @@
         // Destroy the connection.
         [connection cancel];
         [_connections removeObjectForKey:[connection identifier]];
+		if ([self _isValidDelegateForSelector:@selector(connectionFinished)])
+			[_delegate connectionFinished];
     }
     
     if (NO) {
@@ -802,6 +808,8 @@
     
     // Release the connection.
     [_connections removeObjectForKey:[connection identifier]];
+	if ([self _isValidDelegateForSelector:@selector(connectionFinished)])
+		[_delegate connectionFinished];
 }
 
 
@@ -845,6 +853,8 @@
     
     // Release the connection.
     [_connections removeObjectForKey:[connection identifier]];
+	if ([self _isValidDelegateForSelector:@selector(connectionFinished)])
+		[_delegate connectionFinished];
 }
 
 
