@@ -1560,14 +1560,7 @@
 
 - (NSString *)getSearchResultsForQuery:(NSString *)query
 {
-    NSString *path = [NSString stringWithFormat:@"search.%@", API_FORMAT];
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:1];
-    [params setObject:query forKey:@"q"];
-
-    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
-                            requestType:MGTwitterSearchRequest 
-                           responseType:MGTwitterSearchResults];
+    return [self getSearchResultsForQuery:query sinceID:0 startingAtPage:0 count:0]; // zero means default
 }
 
 - (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count
