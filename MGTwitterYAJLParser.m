@@ -167,23 +167,26 @@ static yajl_callbacks callbacks = {
 
 
 + (id)parserWithJSON:(NSData *)theJSON delegate:(NSObject *)theDelegate 
-connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)reqType 
-	   responseType:(MGTwitterResponseType)respType URL:(NSURL *)URL
+	connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)reqType
+	responseType:(MGTwitterResponseType)respType URL:(NSURL *)URL
+	deliveryOptions:(MGTwitterEngineDeliveryOptions)deliveryOptions
 {
 	id parser = [[self alloc] initWithJSON:theJSON 
 			delegate:theDelegate 
 			connectionIdentifier:identifier 
 			requestType:reqType
 			responseType:respType
-			URL:URL];
+			URL:URL
+			deliveryOptions:deliveryOptions];
 
 	return [parser autorelease];
 }
 
 
 - (id)initWithJSON:(NSData *)theJSON delegate:(NSObject *)theDelegate 
-connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType)reqType 
-	 responseType:(MGTwitterResponseType)respType URL:(NSURL *)theURL
+	connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType)reqType 
+	responseType:(MGTwitterResponseType)respType URL:(NSURL *)theURL
+	deliveryOptions:(MGTwitterEngineDeliveryOptions)theDeliveryOptions
 {
 	if (self = [super init])
 	{
@@ -192,9 +195,18 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		requestType = reqType;
 		responseType = respType;
 		URL = [theURL retain];
+		deliveryOptions = theDeliveryOptions;
 		delegate = theDelegate;
-		parsedObjects = [[NSMutableArray alloc] initWithCapacity:0];
-
+		
+		if (deliveryOptions & MGTwitterEngineDeliveryAllResultsOption)
+		{
+			parsedObjects = [[NSMutableArray alloc] initWithCapacity:0];
+		}
+		else
+		{
+			parsedObjects = nil; // rely on nil target to discard addObject
+		}
+		
 		if ([json length] <= 5)
 		{
 			// this is a hack for API methods that return short JSON responses that can't be parsed by YAJL. These include:
@@ -226,9 +238,6 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 				return nil;
 			}
 			
-			// run the parser and create parsedObjects
-			//[self parse];
-
 			yajl_status status = yajl_parse(_handle, [json bytes], [json length]);
 			if (status != yajl_status_insufficient_data && status != yajl_status_ok)
 			{
@@ -325,10 +334,9 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 
 - (void)_parsedObject:(NSDictionary *)dictionary
 {
-#if YAJL_AVAILABLE
-	if ([self _isValidDelegateForSelector:@selector(parsedObject:forRequest:ofResponseType:)])
-		[delegate parsedObject:(NSDictionary *)dictionary forRequest:identifier ofResponseType:responseType];
-#endif
+	if (deliveryOptions & MGTwitterEngineDeliveryIndividualResultsOption)
+		if ([self _isValidDelegateForSelector:@selector(parsedObject:forRequest:ofResponseType:)])
+			[delegate parsedObject:(NSDictionary *)dictionary forRequest:identifier ofResponseType:responseType];
 }
 
 

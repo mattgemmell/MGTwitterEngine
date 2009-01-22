@@ -26,6 +26,9 @@
 #endif
     BOOL _secureConnection;
 	BOOL _clearsCookies;
+#if YAJL_AVAILABLE
+	MGTwitterEngineDeliveryOptions _deliveryOptions;
+#endif
 }
 
 #pragma mark Class management
@@ -54,6 +57,10 @@
 - (void)setUsesSecureConnection:(BOOL)flag;
 - (BOOL)clearsCookies; // YES = deletes twitter.com cookies when setting username/password, default is NO (see README.txt)
 - (void)setClearsCookies:(BOOL)flag;
+#if YAJL_AVAILABLE
+- (MGTwitterEngineDeliveryOptions)deliveryOptions;
+- (void)setDeliveryOptions:(MGTwitterEngineDeliveryOptions)deliveryOptions;
+#endif
 
 // Connection methods
 - (int)numberOfConnections;
@@ -93,6 +100,8 @@
 - (NSString *)sendUpdate:(NSString *)status inReplyTo:(int)updateID; // statuses/update
 
 - (NSString *)getRepliesStartingAtPage:(int)pageNum; // statuses/replies
+- (NSString *)getRepliesSince:(NSDate *)date startingAtPage:(int)pageNum count:(int)count; // statuses/replies
+- (NSString *)getRepliesSinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count; // statuses/replies
 
 - (NSString *)deleteUpdate:(int)updateID; // statuses/destroy
 

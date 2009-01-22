@@ -107,6 +107,9 @@
 
         _secureConnection = YES;
 		_clearsCookies = NO;
+#if YAJL_AVAILABLE
+		_deliveryOptions = MGTwitterEngineDeliveryAllResultsOption;
+#endif
     }
     
     return self;
@@ -288,6 +291,19 @@
 	_clearsCookies = flag;
 }
 
+#if YAJL_AVAILABLE
+
+- (MGTwitterEngineDeliveryOptions)deliveryOptions
+{
+	return _deliveryOptions;
+}
+
+- (void)setDeliveryOptions:(MGTwitterEngineDeliveryOptions)deliveryOptions
+{
+	_deliveryOptions = deliveryOptions;
+}
+
+#endif
 
 #pragma mark Connection methods
 
@@ -573,29 +589,29 @@
         case MGTwitterStatus:
             [MGTwitterStatusesYAJLParser parserWithJSON:jsonData delegate:self 
                               connectionIdentifier:identifier requestType:requestType 
-                                      responseType:responseType URL:URL];
+                                      responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
             break;
         case MGTwitterUsers:
         case MGTwitterUser:
             [MGTwitterUsersYAJLParser parserWithJSON:jsonData delegate:self 
                            connectionIdentifier:identifier requestType:requestType 
-                                   responseType:responseType URL:URL];
+                                   responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
             break;
         case MGTwitterDirectMessages:
         case MGTwitterDirectMessage:
             [MGTwitterMessagesYAJLParser parserWithJSON:jsonData delegate:self 
                               connectionIdentifier:identifier requestType:requestType 
-                                      responseType:responseType URL:URL];
+                                      responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
             break;
 		case MGTwitterMiscellaneous:
 			[MGTwitterMiscYAJLParser parserWithJSON:jsonData delegate:self 
 						  connectionIdentifier:identifier requestType:requestType 
-								  responseType:responseType URL:URL];
+								  responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
 			break;
         case MGTwitterSearchResults:
  			[MGTwitterSearchYAJLParser parserWithJSON:jsonData delegate:self 
 						  connectionIdentifier:identifier requestType:requestType 
-								  responseType:responseType URL:URL];
+								  responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
 			break;
        default:
             break;
@@ -1211,20 +1227,58 @@
                            responseType:MGTwitterStatuses];
 }
 
-
 - (NSString *)getRepliesStartingAtPage:(int)pageNum
 {
-    NSString *path = [NSString stringWithFormat:@"statuses/replies.%@", API_FORMAT];
+	// Included for backwards-compatibility.
+    return [self getRepliesSinceID:0 startingAtPage:pageNum count:0]; // zero means default
+}
+
+- (NSString *)getRepliesSince:(NSDate *)date startingAtPage:(int)pageNum count:(int)count
+{
+	NSString *path = [NSString stringWithFormat:@"statuses/replies.%@", API_FORMAT];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    if (date) {
+        [params setObject:[self _dateToHTTP:date] forKey:@"since"];
+    }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
     }
+	int tweetCount = DEFAULT_TWEET_COUNT;
+	if (count > 0) {
+		tweetCount = count;
+	}
+	[params setObject:[NSString stringWithFormat:@"%d", tweetCount] forKey:@"count"];
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
-                            requestType:MGTwitterRepliesRequest 
+                            requestType:MGTwitterStatusesRequest 
                            responseType:MGTwitterStatuses];
 }
+
+
+- (NSString *)getRepliesSinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count
+{
+	NSString *path = [NSString stringWithFormat:@"statuses/replies.%@", API_FORMAT];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    if (updateID > 0) {
+        [params setObject:[NSString stringWithFormat:@"%d", updateID] forKey:@"since_id"];
+    }
+    if (pageNum > 0) {
+        [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
+    }
+	int tweetCount = DEFAULT_TWEET_COUNT;
+	if (count > 0) {
+		tweetCount = count;
+	}
+	[params setObject:[NSString stringWithFormat:@"%d", tweetCount] forKey:@"count"];
+    
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterStatusesRequest 
+                           responseType:MGTwitterStatuses];
+}
+
+
 
 
 - (NSString *)getFavoriteUpdatesFor:(NSString *)username startingAtPage:(int)pageNum
