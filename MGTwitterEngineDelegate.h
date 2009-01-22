@@ -8,7 +8,7 @@
 
 #import "MGTwitterEngineGlobalHeader.h"
 
-#if YAJL_AVAILABLE
+
 typedef enum _MGTwitterEngineDeliveryOptions {
 	// all results will be delivered as an array via statusesReceived: and similar delegate methods
     MGTwitterEngineDeliveryAllResultsOption = 1 << 0,
@@ -18,7 +18,8 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 	
 	// these options can be combined with the | operator
 } MGTwitterEngineDeliveryOptions;
-#endif
+
+
 
 @protocol MGTwitterEngineDelegate
 

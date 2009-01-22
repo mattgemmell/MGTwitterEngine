@@ -32,6 +32,12 @@
  than the ones returned by XML. There is more type information in a JSON stream, so you may find
  that you get an NSNumber value instead of an NSString value for some keys in the dictionary.
  Make sure to test the new result sets in your application after switching from XML to JSON.
+ 
+ The event driven nature of the YAJL parser also allows delivery options to be specified. By
+ default, all results are returned as an array of dictionaries. In some environments, such as the
+ iPhone, the memory overhead of putting all the data into the array can be avoided by choosing
+ the individual results option. This allows your application to process and store results without
+ instantatiating a large collection and then enumerating over the items.
 */
 
 #define YAJL_AVAILABLE 0

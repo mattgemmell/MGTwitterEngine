@@ -28,6 +28,9 @@
     twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
     [twitterEngine setUsername:username password:password];
     
+	// Configure how the delegate methods are called to deliver results. See MGTwitterEngineDelegate.h for more info
+	//[twitterEngine setDeliveryOptions:MGTwitterEngineDeliveryIndividualResultsOption];
+	
     // Get updates from people the authenticated user follows.
     //NSLog(@"getFollowedTimelineFor: connectionIdentifier = %@", [twitterEngine getFollowedTimelineFor:nil since:nil startingAtPage:0]);
 	
