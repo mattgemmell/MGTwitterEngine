@@ -1542,26 +1542,6 @@
 }
 
 
-#pragma mark Deprecated methods
-
-// The following API is deprecated. Use getUserTimelineFor: instead.
-/*
-- (NSString *)getUserUpdatesArchiveStartingAtPage:(int)page
-{
-    NSString *path = [NSString stringWithFormat:@"account/archive.%@", API_FORMAT];
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-    if (page > 0) {
-        [params setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
-    }
-    
-    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
-                            requestType:MGTwitterStatusesRequest 
-                           responseType:MGTwitterStatuses];
-}
-*/
-
-
 #if YAJL_AVAILABLE
 
 #pragma mark -
