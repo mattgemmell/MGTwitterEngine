@@ -100,5 +100,13 @@
 	insideArray = NO;
 }
 
+- (void)dealloc
+{
+	[_results release];
+	[_status release];
+
+	[super dealloc];
+}
+
 
 @end

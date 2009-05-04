@@ -104,5 +104,13 @@
 #endif
 }
 
+- (void)dealloc
+{
+	[_status release];
+	[_sender release];
+	[_recipient release];
+
+	[super dealloc];
+}
 
 @end

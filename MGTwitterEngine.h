@@ -79,38 +79,36 @@
 
 // ======================================================================================================
 // Twitter REST API methods
-// See documentation at: http://apiwiki.twitter.com/REST+API+Documentation
+// See documentation at: http://apiwiki.twitter.com/Twitter-API-Documentation
 // All methods below return a unique connection identifier.
 // ======================================================================================================
 
-// Status methods - http://apiwiki.twitter.com/REST+API+Documentation#StatusMethods
+// Status methods
 
-- (NSString *)getPublicTimelineSinceID:(int)updateID; // statuses/public_timeline
+- (NSString *)getPublicTimeline; // statuses/public_timeline
 
-- (NSString *)getFollowedTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum; // statuses/friends_timeline
-- (NSString *)getFollowedTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum count:(int)count; // statuses/friends_timeline
-- (NSString *)getFollowedTimelineFor:(NSString *)username sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count; // statuses/friends_timeline
+- (NSString *)getFollowedTimelineSinceID:(int)sinceID startingAtPage:(int)pageNum count:(int)count; // statuses/friends_timeline
+- (NSString *)getFollowedTimelineSinceID:(int)sinceID withMaximumID:(int)maxID startingAtPage:(int)pageNum count:(int)count; // statuses/friends_timeline
 
-- (NSString *)getUserTimelineFor:(NSString *)username since:(NSDate *)date count:(int)numUpdates; // statuses/user_timeline
-- (NSString *)getUserTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum count:(int)numUpdates; // statuses/user_timeline
-- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)numUpdates; // statuses/user_timeline
+- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(int)sinceID startingAtPage:(int)pageNum count:(int)count; // statuses/user_timeline & statuses/user_timeline/user
+- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(int)sinceID withMaximumID:(int)maxID startingAtPage:(int)pageNum count:(int)count; // statuses/user_timeline & statuses/user_timeline/user
 
 - (NSString *)getUpdate:(int)updateID; // statuses/show
 - (NSString *)sendUpdate:(NSString *)status; // statuses/update
 - (NSString *)sendUpdate:(NSString *)status inReplyTo:(int)updateID; // statuses/update
 
-- (NSString *)getRepliesStartingAtPage:(int)pageNum; // statuses/replies
-- (NSString *)getRepliesSince:(NSDate *)date startingAtPage:(int)pageNum count:(int)count; // statuses/replies
-- (NSString *)getRepliesSinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count; // statuses/replies
+- (NSString *)getRepliesStartingAtPage:(int)pageNum; // statuses/mentions
+- (NSString *)getRepliesSinceID:(int)sinceID startingAtPage:(int)pageNum count:(int)count; // statuses/mentions
+- (NSString *)getRepliesSinceID:(int)sinceID withMaximumID:(int)maxID startingAtPage:(int)pageNum count:(int)count; // statuses/mentions
 
 - (NSString *)deleteUpdate:(int)updateID; // statuses/destroy
 
 - (NSString *)getFeaturedUsers; // statuses/features (undocumented, returns invalid JSON data)
 
 
-// User methods - http://apiwiki.twitter.com/REST+API+Documentation#UserMethods
+// User methods
 
-- (NSString *)getRecentlyUpdatedFriendsFor:(NSString *)username startingAtPage:(int)pageNum; // statuses/friends
+- (NSString *)getRecentlyUpdatedFriendsFor:(NSString *)username startingAtPage:(int)pageNum; // statuses/friends & statuses/friends/user
 
 - (NSString *)getFollowersIncludingCurrentStatus:(BOOL)flag; // statuses/followers
 
@@ -118,26 +116,26 @@
 - (NSString *)getUserInformationForEmail:(NSString *)email; // users/show
 
 
-// Direct Message methods - http://apiwiki.twitter.com/REST+API+Documentation#DirectMessageMethods
+// Direct Message methods
 
-- (NSString *)getDirectMessagesSince:(NSDate *)date startingAtPage:(int)pageNum; // direct_messages
-- (NSString *)getDirectMessagesSinceID:(int)updateID startingAtPage:(int)pageNum; // direct_messages
+- (NSString *)getDirectMessagesSinceID:(int)sinceID startingAtPage:(int)pageNum; // direct_messages
+- (NSString *)getDirectMessagesSinceID:(int)sinceID withMaximumID:(int)maxID startingAtPage:(int)pageNum count:(int)count; // direct_messages
 
-- (NSString *)getSentDirectMessagesSince:(NSDate *)date startingAtPage:(int)pageNum; // direct_messages/sent
-- (NSString *)getSentDirectMessagesSinceID:(int)updateID startingAtPage:(int)pageNum; // direct_messages/sent
+- (NSString *)getSentDirectMessagesSinceID:(int)sinceID startingAtPage:(int)pageNum; // direct_messages/sent
+- (NSString *)getSentDirectMessagesSinceID:(int)sinceID withMaximumID:(int)maxID startingAtPage:(int)pageNum count:(int)count; // direct_messages/sent
 
 - (NSString *)sendDirectMessage:(NSString *)message to:(NSString *)username; // direct_messages/new
 - (NSString *)deleteDirectMessage:(int)updateID;// direct_messages/destroy
 
 
-// Friendship methods - http://apiwiki.twitter.com/REST+API+Documentation#FriendshipMethods
+// Friendship methods
 
 - (NSString *)enableUpdatesFor:(NSString *)username; // friendships/create (follow username)
 - (NSString *)disableUpdatesFor:(NSString *)username; // friendships/destroy (unfollow username)
 - (NSString *)isUser:(NSString *)username1 receivingUpdatesFor:(NSString *)username2; // friendships/exists (test if username1 follows username2)
 
 
-// Account methods - http://apiwiki.twitter.com/REST+API+Documentation#AccountMethods
+// Account methods
 
 - (NSString *)checkUserCredentials; // account/verify_credentials
 - (NSString *)endUserSession; // account/end_session
@@ -157,26 +155,26 @@
 // - (NSString *)getUserUpdatesArchiveStartingAtPage:(int)pageNum; // account/archive (removed, use /statuses/user_timeline instead)
 
 
-// Favorite methods - http://apiwiki.twitter.com/REST+API+Documentation#FavoriteMethods
+// Favorite methods
 
 - (NSString *)getFavoriteUpdatesFor:(NSString *)username startingAtPage:(int)pageNum; // favorites
 
 - (NSString *)markUpdate:(int)updateID asFavorite:(BOOL)flag; // favorites/create, favorites/destroy
 
 
-// Notification methods - http://apiwiki.twitter.com/REST+API+Documentation#NotificationMethods
+// Notification methods
 
 - (NSString *)enableNotificationsFor:(NSString *)username; // notifications/follow
 - (NSString *)disableNotificationsFor:(NSString *)username; // notifications/leave
 
 
-// Block methods - http://apiwiki.twitter.com/REST+API+Documentation#BlockMethods
+// Block methods
 
 - (NSString *)block:(NSString *)username; // blocks/create
 - (NSString *)unblock:(NSString *)username; // blocks/destroy
 
 
-// Help methods - http://apiwiki.twitter.com/REST+API+Documentation#HelpMethods
+// Help methods
 
 - (NSString *)testService; // help/test
 
@@ -187,19 +185,21 @@
 
 // ======================================================================================================
 // Twitter Search API methods
-// See documentation at: http://apiwiki.twitter.com/Search+API+Documentation
+// See documentation at: http://apiwiki.twitter.com/Twitter-API-Documentation
 // All methods below return a unique connection identifier.
 // ======================================================================================================
 
 #if YAJL_AVAILABLE
 
-// Search method - http://apiwiki.twitter.com/Search+API+Documentation#Search
+// Search method
 
-- (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)count; // search
+- (NSString *)getSearchResultsForQuery:(NSString *)query;
+- (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(int)sinceID startingAtPage:(int)pageNum count:(int)count; // search
+- (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(int)sinceID startingAtPage:(int)pageNum count:(int)count geocode:(NSString *)geocode;
 
-// Trends method - http://apiwiki.twitter.com/Search+API+Documentation#Trends
+// Trends method
 
-- (NSString *)getTrends; // trends
+- (NSString *)getCurrentTrends; // current trends
 
 #endif
 

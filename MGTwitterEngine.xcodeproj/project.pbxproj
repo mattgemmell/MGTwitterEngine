@@ -7,13 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		440E60680F257C1300EF8874 /* MGTwitterSearchYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 440E60660F257C1300EF8874 /* MGTwitterSearchYAJLParser.m */; };
-		44AE00810F214F26004F5AE3 /* libyajl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44AE00800F214F26004F5AE3 /* libyajl.dylib */; };
-		44AEFFF10F2141AB004F5AE3 /* MGTwitterMessagesYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFE80F2141AB004F5AE3 /* MGTwitterMessagesYAJLParser.m */; };
-		44AEFFF20F2141AB004F5AE3 /* MGTwitterMiscYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFEA0F2141AB004F5AE3 /* MGTwitterMiscYAJLParser.m */; };
-		44AEFFF30F2141AB004F5AE3 /* MGTwitterStatusesYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFEC0F2141AB004F5AE3 /* MGTwitterStatusesYAJLParser.m */; };
-		44AEFFF40F2141AB004F5AE3 /* MGTwitterUsersYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFEE0F2141AB004F5AE3 /* MGTwitterUsersYAJLParser.m */; };
-		44AEFFF50F2141AB004F5AE3 /* MGTwitterYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFF00F2141AB004F5AE3 /* MGTwitterYAJLParser.m */; };
 		44F7517C0E47DBD600858A1B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44F7517B0E47DBD600858A1B /* libxml2.dylib */; };
 		44F7518F0E47DDD500858A1B /* MGTwitterUsersLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F751890E47DDD500858A1B /* MGTwitterUsersLibXMLParser.m */; };
 		44F751900E47DDD500858A1B /* MGTwitterMiscLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F7518A0E47DDD500858A1B /* MGTwitterMiscLibXMLParser.m */; };
@@ -46,7 +39,6 @@
 		32CA4F630368D1EE00C91783 /* MGTwitterEngine_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTwitterEngine_Prefix.pch; sourceTree = "<group>"; };
 		440E60660F257C1300EF8874 /* MGTwitterSearchYAJLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTwitterSearchYAJLParser.m; sourceTree = "<group>"; };
 		440E60670F257C1300EF8874 /* MGTwitterSearchYAJLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTwitterSearchYAJLParser.h; sourceTree = "<group>"; };
-		44AE00800F214F26004F5AE3 /* libyajl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyajl.dylib; path = "yajl/build/yajl-0.4.0/lib/libyajl.dylib"; sourceTree = "<group>"; };
 		44AEFFE70F2141AB004F5AE3 /* MGTwitterMessagesYAJLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTwitterMessagesYAJLParser.h; sourceTree = "<group>"; };
 		44AEFFE80F2141AB004F5AE3 /* MGTwitterMessagesYAJLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTwitterMessagesYAJLParser.m; sourceTree = "<group>"; };
 		44AEFFE90F2141AB004F5AE3 /* MGTwitterMiscYAJLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTwitterMiscYAJLParser.h; sourceTree = "<group>"; };
@@ -106,7 +98,6 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				44F7517C0E47DBD600858A1B /* libxml2.dylib in Frameworks */,
-				44AE00810F214F26004F5AE3 /* libyajl.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +124,6 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				44AE00800F214F26004F5AE3 /* libyajl.dylib */,
 				44F7517B0E47DBD600858A1B /* libxml2.dylib */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
@@ -355,12 +345,6 @@
 				44F751920E47DDD500858A1B /* MGTwitterLibXMLParser.m in Sources */,
 				44F751930E47DDD500858A1B /* MGTwitterStatusesLibXMLParser.m in Sources */,
 				44F751A70E47DEC400858A1B /* NSData+Base64.m in Sources */,
-				44AEFFF10F2141AB004F5AE3 /* MGTwitterMessagesYAJLParser.m in Sources */,
-				44AEFFF20F2141AB004F5AE3 /* MGTwitterMiscYAJLParser.m in Sources */,
-				44AEFFF30F2141AB004F5AE3 /* MGTwitterStatusesYAJLParser.m in Sources */,
-				44AEFFF40F2141AB004F5AE3 /* MGTwitterUsersYAJLParser.m in Sources */,
-				44AEFFF50F2141AB004F5AE3 /* MGTwitterYAJLParser.m in Sources */,
-				440E60680F257C1300EF8874 /* MGTwitterSearchYAJLParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

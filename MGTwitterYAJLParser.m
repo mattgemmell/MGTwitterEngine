@@ -77,15 +77,31 @@ int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int
 	
 	if (currentKey)
 	{
-		NSString *value = [[[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease];
+		NSMutableString *value = [[[NSMutableString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding] autorelease];
 		
+		[value replaceOccurrencesOfString:@"&gt;" withString:@">" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [value length])];
+		[value replaceOccurrencesOfString:@"&lt;" withString:@"<" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [value length])];
+		[value replaceOccurrencesOfString:@"&amp;" withString:@"&" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [value length])];
+		[value replaceOccurrencesOfString:@"&quot;" withString:@"\"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [value length])];
+
 		if ([currentKey isEqualToString:@"created_at"])
 		{
 			// we have a priori knowledge that the value for created_at is a date, not a string
 			struct tm theTime;
-			strptime([value UTF8String], "%a %b %d %H:%M:%S +0000 %Y", &theTime);
+			if ([value hasSuffix:@"+0000"])
+			{
+				// format for Search API: "Fri, 06 Feb 2009 07:28:06 +0000"
+				strptime([value UTF8String], "%a, %d %b %Y %H:%M:%S +0000", &theTime);
+			}
+			else
+			{
+				// format for REST API: "Thu Jan 15 02:04:38 +0000 2009"
+				strptime([value UTF8String], "%a %b %d %H:%M:%S +0000 %Y", &theTime);
+			}
 			time_t epochTime = timegm(&theTime);
-			[self addValue:[NSDate dateWithTimeIntervalSince1970:epochTime] forKey:currentKey];
+			// save the date as a long with the number of seconds since the epoch in 1970
+			[self addValue:[NSNumber numberWithLong:epochTime] forKey:currentKey];
+			// this value can be converted to a date with [NSDate dateWithTimeIntervalSince1970:epochTime]
 		}
 		else
 		{
@@ -209,21 +225,29 @@ static yajl_callbacks callbacks = {
 		
 		if ([json length] <= 5)
 		{
-			// this is a hack for API methods that return short JSON responses that can't be parsed by YAJL. These include:
+			// NOTE: this is a hack for API methods that return short JSON responses that can't be parsed by YAJL. These include:
 			//   friendships/exists: returns "true" or "false"
 			//   help/test: returns "ok"
+			// An empty response of "[]" is a special case.
 			NSString *result = [[[NSString alloc] initWithBytes:[json bytes] length:[json length] encoding:NSUTF8StringEncoding] autorelease];
-			NSMutableDictionary *dictionary = [[[NSMutableDictionary alloc] initWithCapacity:1] autorelease];
+			if (! [result isEqualToString:@"[]"])
+			{
+				NSMutableDictionary *dictionary = [[[NSMutableDictionary alloc] initWithCapacity:1] autorelease];
 
-			if ([result isEqualToString:@"\"ok\""])
-			{
-				[dictionary setObject:[NSNumber numberWithBool:YES] forKey:@"ok"];
+				if ([result isEqualToString:@"\"ok\""])
+				{
+					[dictionary setObject:[NSNumber numberWithBool:YES] forKey:@"ok"];
+				}
+				else
+				{
+					[dictionary setObject:[NSNumber numberWithBool:[result isEqualToString:@"true"]] forKey:@"friends"];
+				}
+				[dictionary setObject:[NSNumber numberWithInt:requestType] forKey:TWITTER_SOURCE_REQUEST_TYPE];
+			
+				[self _parsedObject:dictionary];
+
+				[parsedObjects addObject:dictionary];
 			}
-			else
-			{
-				[dictionary setObject:[NSNumber numberWithBool:[result isEqualToString:@"true"]] forKey:@"friends"];
-			}
-			[parsedObjects addObject:dictionary];
 		}
 		else
 		{

@@ -9,16 +9,42 @@
 #import "MGTwitterEngineGlobalHeader.h"
 
 typedef enum _MGTwitterRequestType {
-    MGTwitterStatusesRequest        = 0, // all status requests, excluding replies and direct messages
-    MGTwitterRepliesRequest         = 1, // status requests which are specifically for replies
-    MGTwitterDirectMessagesRequest  = 2, // all direct message requests, including sent messages
-    MGTwitterAccountRequest         = 3, // credentials, session, follow/leave, notifications, favorites, deletions
-    MGTwitterUserInfoRequest        = 4, // requests for one or more users' info, including featured users
-    MGTwitterStatusSend             = 5, // sending a new status
-    MGTwitterDirectMessageSend      = 6, // sending a new direct message
-    MGTwitterImageRequest           = 7, // requesting an image
+	MGTwitterPublicTimelineRequest = 0,  // latest statuses from the public timeline
+	MGTwitterFollowedTimelineRequest, // latest statuses from the people that the current users follows
+	MGTwitterUserTimelineRequest, // statuses archive for the current user
+	MGTwitterUserTimelineForUserRequest, // statuses archive for the specified user
+	MGTwitterUpdateGetRequest, // get a status update for the specified id
+	MGTwitterUpdateSendRequest, // send a new update for the current user
+	MGTwitterUpdateDeleteRequest, // delete an update for the current user using the specified id
+    MGTwitterRepliesRequest, // latest reply status for the current user
+    MGTwitterFeaturedUsersRequest, // latest status from featured users
+	MGTwitterFriendUpdatesRequest, // last status for the people that the current user follows
+	MGTwitterFriendUpdatesForUserRequest, // last status for the people that the specified user follows
+	MGTwitterFollowerUpdatesRequest, // last status for the people that follow the current user
+	MGTwitterUserInformationRequest, // user information using the specified id or email
+    MGTwitterDirectMessagesRequest, // latest direct messages to the current user
+    MGTwitterDirectMessagesSentRequest, // latest direct messages from the current user
+	MGTwitterDirectMessageSendRequest, // send a new direct message from the current user
+	MGTwitterDirectMessageDeleteRequest, // delete a direct message to/from the current user
+	MGTwitterUpdatesEnableRequest, // enable status updates for specified user (e.g. follow)
+	MGTwitterUpdatesDisableRequest, // disable status updates for specified user (e.g. unfollow)
+	MGTwitterUpdatesCheckRequest, // check if the specified user is following another user
+	MGTwitterAccountRequest, // changing account information for the current user
+ 	MGTwitterAccountLocationRequest, // change location in account information for the current user
+ 	MGTwitterAccountDeliveryRequest, // change notification delivery in account information for the current user
+ 	MGTwitterAccountStatusRequest, // get rate limiting status for the current user
+	MGTwitterFavoritesRequest, // latest favorites for the current user
+	MGTwitterFavoritesForUserRequest, // latest favorites for the specified user
+	MGTwitterFavoritesEnableRequest, // create a favorite for the current user using the specified id 
+	MGTwitterFavoritesDisableRequest, // remove a favorite for the current user using the specified id 
+	MGTwitterNotificationsEnableRequest, // enable notifications for the specified user
+	MGTwitterNotificationsDisableRequest, // disable notifications for the specified user
+	MGTwitterBlockEnableRequest, // enable block for the specified user
+	MGTwitterBlockDisableRequest, // disable block for the specified user
+    MGTwitterImageRequest, // requesting an image
 #if YAJL_AVAILABLE
-	MGTwitterSearchRequest			= 9, // a search request
+	MGTwitterSearchRequest, // performing a search
+	MGTwitterSearchCurrentTrendsRequest, // getting the current trends
 #endif
 } MGTwitterRequestType;
 

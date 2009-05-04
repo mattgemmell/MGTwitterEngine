@@ -27,6 +27,8 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 - (void)requestSucceeded:(NSString *)connectionIdentifier;
 - (void)requestFailed:(NSString *)connectionIdentifier withError:(NSError *)error;
 
+@optional
+
 #if YAJL_AVAILABLE
 // This delegate method is called each time a new result is parsed from the connection and
 // the deliveryOption is configured for MGTwitterEngineDeliveryIndividualResults.
@@ -51,6 +53,6 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 #endif
 
 // This delegate method is called whenever a connection has finished.
-- (void)connectionFinished;
+- (void)connectionFinished:(NSString *)connectionIdentifier;
 
 @end

@@ -15,13 +15,13 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Put your Twitter username and password here:
-    NSString *username = @"";
-    NSString *password = @"";
+    NSString *username = nil;
+    NSString *password = nil;
     
-    // Make sure you entered your login details before running this code... ;)
-    if ([username isEqualToString:@""] || [password isEqualToString:@""]) {
-        NSLog(@"You forgot to specify your username/password in AppController.m!");
-        [NSApp terminate:self];
+    // Most API calls require a name and password to be set...
+    if (! username || ! password) {
+        NSLog(@"You forgot to specify your username/password in AppController.m, things might not work!");
+		NSLog(@"And if things are mysteriously working without the username/password, it's because NSURLConnection is using a session cookie from another connection.");
     }
     
     // Create a TwitterEngine and set our login details.
@@ -30,10 +30,10 @@
     
 	// Configure how the delegate methods are called to deliver results. See MGTwitterEngineDelegate.h for more info
 	//[twitterEngine setDeliveryOptions:MGTwitterEngineDeliveryIndividualResultsOption];
-	
-    // Get updates from people the authenticated user follows.
-    //NSLog(@"getFollowedTimelineFor: connectionIdentifier = %@", [twitterEngine getFollowedTimelineFor:nil since:nil startingAtPage:0]);
-	
+
+	// Get the public timeline
+	NSLog(@"getPublicTimelineSinceID: connectionIdentifier = %@", [twitterEngine getPublicTimeline]);
+
 	// Other types of information available from the API:
 	
 	#define TESTING_ID 1131604824
@@ -42,9 +42,7 @@
 	#define TESTING_MESSAGE_ID 52182684
 	
 	// Status methods:
-
-	NSLog(@"getPublicTimelineSinceID: connectionIdentifier = %@", [twitterEngine getPublicTimelineSinceID:0]);
-	//NSLog(@"getUserTimelineFor: connectionIdentifier = %@", [twitterEngine getUserTimelineFor:TESTING_SECONDARY_USER sinceID:0 startingAtPage:0 count:20]);
+	//NSLog(@"getUserTimelineFor: connectionIdentifier = %@", [twitterEngine getUserTimelineFor:TESTING_SECONDARY_USER sinceID:0 startingAtPage:0 count:3]);
 	//NSLog(@"getUpdate: connectionIdentifier = %@", [twitterEngine getUpdate:TESTING_ID]);
 	//NSLog(@"sendUpdate: connectionIdentifier = %@", [twitterEngine sendUpdate:[@"This is a test on " stringByAppendingString:[[NSDate date] description]]]);
 	//NSLog(@"getRepliesStartingAtPage: connectionIdentifier = %@", [twitterEngine getRepliesStartingAtPage:0]);
@@ -166,8 +164,10 @@
     [[image TIFFRepresentation] writeToFile:path atomically:NO];
 }
 
-- (void)connectionFinished
+- (void)connectionFinished:(NSString *)connectionIdentifier
 {
+    NSLog(@"Connection finished %@", connectionIdentifier);
+
 	if ([twitterEngine numberOfConnections] == 0)
 	{
 		[NSApp terminate:self];

@@ -64,5 +64,11 @@
 #endif
 }
 
+- (void)dealloc
+{
+	[_results release];
+
+	[super dealloc];
+}
 
 @end

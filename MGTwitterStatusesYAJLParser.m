@@ -87,5 +87,12 @@
 #endif
 }
 
+- (void)dealloc
+{
+	[_status release];
+	[_user release];
+
+	[super dealloc];
+}
 
 @end
