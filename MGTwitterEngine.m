@@ -1056,7 +1056,7 @@
 
 - (NSString *)getRepliesSinceID:(int)sinceID withMaximumID:(int)maxID startingAtPage:(int)page count:(int)count
 {
-	NSString *path = [NSString stringWithFormat:@"statuses/replies.%@", API_FORMAT];
+	NSString *path = [NSString stringWithFormat:@"statuses/mentions.%@", API_FORMAT];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (sinceID > 0) {
