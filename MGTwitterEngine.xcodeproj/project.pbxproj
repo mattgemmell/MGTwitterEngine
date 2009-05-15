@@ -421,6 +421,7 @@
 					/usr/include/libxml2,
 					"\"$(SRCROOT)/yajl/build/yajl-0.4.0/include\"",
 				);
+				OTHER_CFLAGS = "-DDEBUG";
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};

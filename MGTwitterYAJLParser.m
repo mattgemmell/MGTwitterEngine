@@ -47,8 +47,21 @@ int process_yajl_integer(void *ctx, long integerVal)
 	
  	if (currentKey)
 	{
-		[self addValue:[NSNumber numberWithLong:integerVal] forKey:currentKey];
-
+#if LARGE_ID_TEST
+		if ([currentKey isEqualToString:@"id"] || [currentKey isEqualToString:@"in_reply_to_status_id"])
+		{
+			unsigned long adjustedIntegerVal = (unsigned long)integerVal + 0x7fffffff;
+			[self addValue:[NSNumber numberWithUnsignedLong:adjustedIntegerVal] forKey:currentKey];
+		}
+		else
+		{
+			unsigned long coercedLongVal = (unsigned long)integerVal;
+			[self addValue:[NSNumber numberWithUnsignedLong:coercedLongVal] forKey:currentKey];
+		}
+#else
+		unsigned long coercedLongVal = (unsigned long)integerVal;
+		[self addValue:[NSNumber numberWithUnsignedLong:coercedLongVal] forKey:currentKey];
+#endif
 		[currentKey release];
 		currentKey = nil;
 	}
