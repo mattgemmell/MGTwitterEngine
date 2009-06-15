@@ -41,47 +41,24 @@ int process_yajl_boolean(void * ctx, int boolVal)
     return 1;
 }
 
-int process_yajl_integer(void *ctx, long integerVal)
+int process_yajl_number(void *ctx, const char *numberVal, unsigned int numberLen)
 {
 	id self = ctx;
-	
- 	if (currentKey)
+  
+	if (currentKey)
 	{
-#if LARGE_ID_TEST
-		if ([currentKey isEqualToString:@"id"] || [currentKey isEqualToString:@"in_reply_to_status_id"])
-		{
-			unsigned long adjustedIntegerVal = (unsigned long)integerVal + 0x7fffffff;
-			[self addValue:[NSNumber numberWithUnsignedLong:adjustedIntegerVal] forKey:currentKey];
-		}
-		else
-		{
-			unsigned long coercedLongVal = (unsigned long)integerVal;
-			[self addValue:[NSNumber numberWithUnsignedLong:coercedLongVal] forKey:currentKey];
-		}
-#else
-		unsigned long coercedLongVal = (unsigned long)integerVal;
-		[self addValue:[NSNumber numberWithUnsignedLong:coercedLongVal] forKey:currentKey];
-#endif
-		[currentKey release];
-		currentKey = nil;
-	}
+		NSString *stringValue = [[NSString alloc] initWithBytesNoCopy:(void *)numberVal length:numberLen encoding:NSUTF8StringEncoding freeWhenDone:NO];
 
-    return 1;
-}
+		NSNumber *longLongValue = [NSNumber numberWithLongLong:[stringValue longLongValue]];
+		[self addValue:longLongValue forKey:currentKey];
 
-int process_yajl_double(void *ctx, double doubleVal)
-{
-	id self = ctx;
-	
- 	if (currentKey)
-	{
-		[self addValue:[NSNumber numberWithDouble:doubleVal] forKey:currentKey];
+		[stringValue release];
 
 		[currentKey release];
-		currentKey = nil;
+		currentKey = nil;    
 	}
 
-   return 1;
+	return 1;
 }
 
 int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int stringLen)
@@ -179,17 +156,17 @@ int process_yajl_end_array(void *ctx)
 }
 
 static yajl_callbacks callbacks = {
-    process_yajl_null,
-    process_yajl_boolean,
-    process_yajl_integer,
-    process_yajl_double,
-    NULL,
-    process_yajl_string,
-    process_yajl_start_map,
-    process_yajl_map_key,
-    process_yajl_end_map,
-    process_yajl_start_array,
-    process_yajl_end_array
+	process_yajl_null,
+	process_yajl_boolean,
+	NULL,
+	NULL,
+	process_yajl_number,
+	process_yajl_string,
+	process_yajl_start_map,
+	process_yajl_map_key,
+	process_yajl_end_map,
+	process_yajl_start_array,
+	process_yajl_end_array
 };
 
 #pragma mark Creation and Destruction

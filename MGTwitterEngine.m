@@ -936,11 +936,6 @@
 
 - (NSString *)getFollowedTimelineSinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
 {
-#if LARGE_ID_TEST
-	if (sinceID > 0) sinceID -= 0x7fffffff;
-	if (maxID > 0) maxID -= 0x7fffffff;
-#endif
-
 	NSString *path = [NSString stringWithFormat:@"statuses/friends_timeline.%@", API_FORMAT];
 
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
@@ -973,11 +968,6 @@
 
 - (NSString *)getUserTimelineFor:(NSString *)username sinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
 {
-#if LARGE_ID_TEST
-	if (sinceID > 0) sinceID -= 0x7fffffff;
-	if (maxID > 0) maxID -= 0x7fffffff;
-#endif
-	
 	NSString *path = [NSString stringWithFormat:@"statuses/user_timeline.%@", API_FORMAT];
     MGTwitterRequestType requestType = MGTwitterUserTimelineRequest;
     
@@ -1010,10 +1000,6 @@
 
 - (NSString *)getUpdate:(unsigned long)updateID
 {
-#if LARGE_ID_TEST
-	if (updateID > 0) updateID -= 0x7fffffff;
-#endif
-
     NSString *path = [NSString stringWithFormat:@"statuses/show/%u.%@", updateID, API_FORMAT];
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
@@ -1030,10 +1016,6 @@
 
 - (NSString *)sendUpdate:(NSString *)status inReplyTo:(unsigned long)updateID
 {
-#if LARGE_ID_TEST
-	if (updateID > 0) updateID -= 0x7fffffff;
-#endif
-
     if (!status) {
         return nil;
     }
@@ -1074,11 +1056,6 @@
 
 - (NSString *)getRepliesSinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
 {
-#if LARGE_ID_TEST
-	if (sinceID > 0) sinceID -= 0x7fffffff;
-	if (maxID > 0) maxID -= 0x7fffffff;
-#endif
-
 // NOTE: identi.ca can't handle mentions URL yet...
 //	NSString *path = [NSString stringWithFormat:@"statuses/mentions.%@", API_FORMAT];
 	NSString *path = [NSString stringWithFormat:@"statuses/replies.%@", API_FORMAT];
@@ -1108,10 +1085,6 @@
 
 - (NSString *)deleteUpdate:(unsigned long)updateID
 {
-#if LARGE_ID_TEST
-	if (updateID > 0) updateID -= 0x7fffffff;
-#endif
-
     NSString *path = [NSString stringWithFormat:@"statuses/destroy/%u.%@", updateID, API_FORMAT];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:nil body:nil 
@@ -1216,11 +1189,6 @@
 
 - (NSString *)getDirectMessagesSinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
 {
-#if LARGE_ID_TEST
-	if (sinceID > 0) sinceID -= 0x7fffffff;
-	if (maxID > 0) maxID -= 0x7fffffff;
-#endif
-
     NSString *path = [NSString stringWithFormat:@"direct_messages.%@", API_FORMAT];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
@@ -1252,11 +1220,6 @@
 
 - (NSString *)getSentDirectMessagesSinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
 {
-#if LARGE_ID_TEST
-	if (sinceID > 0) sinceID -= 0x7fffffff;
-	if (maxID > 0) maxID -= 0x7fffffff;
-#endif
-
     NSString *path = [NSString stringWithFormat:@"direct_messages/sent.%@", API_FORMAT];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
@@ -1309,10 +1272,6 @@
 
 - (NSString *)deleteDirectMessage:(unsigned long)updateID
 {
-#if LARGE_ID_TEST
-	if (updateID > 0) updateID -= 0x7fffffff;
-#endif
-
     NSString *path = [NSString stringWithFormat:@"direct_messages/destroy/%u.%@", updateID, API_FORMAT];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:nil body:nil 
@@ -1484,10 +1443,6 @@
 
 - (NSString *)markUpdate:(unsigned long)updateID asFavorite:(BOOL)flag
 {
-#if LARGE_ID_TEST
-	if (updateID > 0) updateID -= 0x7fffffff;
-#endif
-
 	NSString *path = nil;
 	MGTwitterRequestType requestType;
 	if (flag)
@@ -1611,10 +1566,6 @@
 
 - (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(unsigned long)sinceID startingAtPage:(int)page count:(int)count geocode:(NSString *)geocode
 {
-#if LARGE_ID_TEST
-	if (sinceID > 0) sinceID -= 0x7fffffff;
-#endif
-
     NSString *path = [NSString stringWithFormat:@"search.%@", API_FORMAT];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
