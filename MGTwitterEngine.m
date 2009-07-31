@@ -8,6 +8,8 @@
 
 #import "MGTwitterEngine.h"
 #import "MGTwitterHTTPURLConnection.h"
+@class TCOAuthDownload;
+@class OAToken;
 
 #import "NSData+Base64.h"
 
@@ -56,6 +58,7 @@
 
 #define URL_REQUEST_TIMEOUT     25.0 // Twitter usually fails quickly if it's going to fail at all.
 
+//#import "TCOAuthDownload.h"
 
 @interface MGTwitterEngine (PrivateMethods)
 
@@ -91,7 +94,7 @@
 
 + (MGTwitterEngine *)twitterEngineWithDelegate:(NSObject *)theDelegate
 {
-    return [[[MGTwitterEngine alloc] initWithDelegate:theDelegate] autorelease];
+    return [[[self alloc] initWithDelegate:theDelegate] autorelease];
 }
 
 
@@ -565,7 +568,33 @@
         }
     }
     
+#if kUseTCDownloadInMGTwitterEngine
+	
+#if kBirdUsesOAuth
+	TCOAuthDownload *download = [[TCOAuthDownload alloc] initWithRequest:theRequest];
+
+	[download setConsumer:[[BirdCore commonCore] consumer]];
+	[download setAccessToken:(OAToken *)[self password]];
+#else
+	TCDownload *download = [[TCDownload alloc] initWithRequest:theRequest];
+#endif
+	[download setDelegate:self];
+	[download setUserInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+						   [NSNumber numberWithInt: requestType],  @"requestType",
+						   [NSNumber numberWithInt:responseType], @"responseType",
+						   [NSString stringWithNewUUID], @"identifier",
+						   nil]];
     
+    if (!download) {
+        return nil;
+    } else {
+        [_connections setObject:download forKey:[[download userInfo] objectForKey:@"identifier"]];
+		[download send:YES];
+        [download release];
+    }
+	
+    return [[download userInfo] objectForKey:@"identifier"];
+#else
     // Create a connection using this request, with the default timeout and caching policy, 
     // and appropriate Twitter request and response types for parsing and error reporting.
     MGTwitterHTTPURLConnection *connection;
@@ -573,15 +602,17 @@
                                                             delegate:self 
                                                          requestType:requestType 
                                                         responseType:responseType];
-    
-    if (!connection) {
+
+	if (!connection) {
         return nil;
     } else {
         [_connections setObject:connection forKey:[connection identifier]];
         [connection release];
     }
-    
+	
     return [connection identifier];
+	
+#endif
 }
 
 
@@ -590,12 +621,20 @@
 #if YAJL_AVAILABLE
 - (void)_parseDataForConnection:(MGTwitterHTTPURLConnection *)connection
 {
-    NSString *identifier = [[[connection identifier] copy] autorelease];
     NSData *jsonData = [[[connection data] copy] autorelease];
+#if kUseTCDownloadInMGTwitterEngine
+    NSString *identifier = [[[[connection userInfo] objectForKey:@"identifier"] copy] autorelease];
+    MGTwitterRequestType requestType = [[[connection userInfo] objectForKey:@"requestType"] intValue];
+    MGTwitterResponseType responseType = [[[connection userInfo] objectForKey:@"responseType"] intValue];
+	
+	NSURL *URL = [connection url];	
+#else
+    NSString *identifier = [[[connection identifier] copy] autorelease];
     MGTwitterRequestType requestType = [connection requestType];
     MGTwitterResponseType responseType = [connection responseType];
 
 	NSURL *URL = [connection URL];
+#endif
 
 #if DEBUG
 	if (NO) {
@@ -771,6 +810,16 @@
 
 #endif
 
+#pragma mark TCDownload delegate methods
+		
+-(void)downloadFinished:(TCDownload *)download{
+	[self connectionDidFinishLoading:(MGTwitterHTTPURLConnection*)download];
+}
+
+-(void)download:(TCDownload *)download hadError:(NSError *)error{
+	[self connection:(MGTwitterHTTPURLConnection*)download didFailWithError:error];
+}
+
 #pragma mark NSURLConnection delegate methods
 
 
@@ -849,12 +898,21 @@
 
 - (void)connection:(MGTwitterHTTPURLConnection *)connection didFailWithError:(NSError *)error
 {
+	NSString *connectionIdentifier = 
+#if kUseTCDownloadInMGTwitterEngine
+	[[(TCDownload *)connection userInfo] objectForKey:@"identifier"]
+#else
+	[connection identifier]	
+#endif
+	;
+	
     // Inform delegate.
-	if ([self _isValidDelegateForSelector:@selector(requestFailed:withError:)])
-		[_delegate requestFailed:[connection identifier] withError:error];
+	if ([self _isValidDelegateForSelector:@selector(requestFailed:withError:)]){
+		[_delegate requestFailed:connectionIdentifier
+					   withError:error];
+	}
     
     // Release the connection.
-	NSString *connectionIdentifier = [connection identifier];
     [_connections removeObjectForKey:connectionIdentifier];
 	if ([self _isValidDelegateForSelector:@selector(connectionFinished:)])
 		[_delegate connectionFinished:connectionIdentifier];
@@ -863,9 +921,20 @@
 
 - (void)connectionDidFinishLoading:(MGTwitterHTTPURLConnection *)connection
 {
+	NSString *connID = nil;
+	MGTwitterResponseType responseType = 0;
+#if kUseTCDownloadInMGTwitterEngine
+	TCDownload *download = (TCDownload *)connection;
+	connID = [[download userInfo] objectForKey:@"identifier"];
+	responseType = (MGTwitterResponseType)[[[download userInfo] objectForKey:@"responseType"] intValue];
+#else
+	connID = [connection identifier];
+	responseType = [connection responseType];
+#endif
+	
     // Inform delegate.
 	if ([self _isValidDelegateForSelector:@selector(requestSucceeded:)])
-		[_delegate requestSucceeded:[connection identifier]];
+		[_delegate requestSucceeded:connID];
     
     NSData *receivedData = [connection data];
     if (receivedData) {
@@ -891,21 +960,15 @@
 #else
             NSImage *image = [[[NSImage alloc] initWithData:[connection data]] autorelease];
 #endif
-            
-            // Inform delegate.
-			if ([self _isValidDelegateForSelector:@selector(imageReceived:forRequest:)])
-				[_delegate imageReceived:image forRequest:[connection identifier]];
-        } else {
-            // Parse data from the connection (either XML or JSON.)
-            [self _parseDataForConnection:connection];
-        }
+    
+        // Parse data from the connection (either XML or JSON.)
+        [self _parseDataForConnection:connection];
     }
     
     // Release the connection.
-	NSString *connectionIdentifier = [connection identifier];
-    [_connections removeObjectForKey:connectionIdentifier];
+    [_connections removeObjectForKey:connID];
 	if ([self _isValidDelegateForSelector:@selector(connectionFinished:)])
-		[_delegate connectionFinished:connectionIdentifier];
+		[_delegate connectionFinished:connID];
 }
 
 
@@ -929,12 +992,12 @@
 #pragma mark -
 
 
-- (NSString *)getFollowedTimelineSinceID:(unsigned long)sinceID startingAtPage:(int)page count:(int)count
+- (NSString *)getFollowedTimelineSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count
 {
     return [self getFollowedTimelineSinceID:sinceID withMaximumID:0 startingAtPage:page count:count];
 }
 
-- (NSString *)getFollowedTimelineSinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
+- (NSString *)getFollowedTimelineSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page count:(int)count
 {
 	NSString *path = [NSString stringWithFormat:@"statuses/friends_timeline.%@", API_FORMAT];
 
@@ -961,12 +1024,12 @@
 #pragma mark -
 
 
-- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(unsigned long)sinceID startingAtPage:(int)page count:(int)count
+- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count
 {
     return [self getUserTimelineFor:username sinceID:sinceID withMaximumID:0 startingAtPage:0 count:count];
 }
 
-- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
+- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page count:(int)count
 {
 	NSString *path = [NSString stringWithFormat:@"statuses/user_timeline.%@", API_FORMAT];
     MGTwitterRequestType requestType = MGTwitterUserTimelineRequest;
@@ -998,7 +1061,7 @@
 #pragma mark -
 
 
-- (NSString *)getUpdate:(unsigned long)updateID
+- (NSString *)getUpdate:(MGTwitterEngineID)updateID
 {
     NSString *path = [NSString stringWithFormat:@"statuses/show/%u.%@", updateID, API_FORMAT];
     
@@ -1014,7 +1077,7 @@
 }
 
 
-- (NSString *)sendUpdate:(NSString *)status inReplyTo:(unsigned long)updateID
+- (NSString *)sendUpdate:(NSString *)status inReplyTo:(MGTwitterEngineID)updateID
 {
     if (!status) {
         return nil;
@@ -1049,12 +1112,12 @@
     return [self getRepliesSinceID:0 startingAtPage:page count:0]; // zero means default
 }
 
-- (NSString *)getRepliesSinceID:(unsigned long)sinceID startingAtPage:(int)page count:(int)count
+- (NSString *)getRepliesSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count
 {
     return [self getRepliesSinceID:sinceID withMaximumID:0 startingAtPage:page count:count];
 }
 
-- (NSString *)getRepliesSinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
+- (NSString *)getRepliesSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page count:(int)count
 {
 // NOTE: identi.ca can't handle mentions URL yet...
 //	NSString *path = [NSString stringWithFormat:@"statuses/mentions.%@", API_FORMAT];
@@ -1083,7 +1146,7 @@
 #pragma mark -
 
 
-- (NSString *)deleteUpdate:(unsigned long)updateID
+- (NSString *)deleteUpdate:(MGTwitterEngineID)updateID
 {
     NSString *path = [NSString stringWithFormat:@"statuses/destroy/%u.%@", updateID, API_FORMAT];
     
@@ -1172,6 +1235,7 @@
     } else {
         return nil;
     }
+    NSString *path = [NSString stringWithFormat:@"users/show/%@.%@", usernameOrID, API_FORMAT];
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
                             requestType:MGTwitterUserInformationRequest 
@@ -1182,12 +1246,12 @@
 #pragma mark Direct Message methods
 
 
-- (NSString *)getDirectMessagesSinceID:(unsigned long)sinceID startingAtPage:(int)page
+- (NSString *)getDirectMessagesSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page
 {
     return [self getDirectMessagesSinceID:sinceID withMaximumID:0 startingAtPage:page count:0];
 }
 
-- (NSString *)getDirectMessagesSinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
+- (NSString *)getDirectMessagesSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page count:(int)count
 {
     NSString *path = [NSString stringWithFormat:@"direct_messages.%@", API_FORMAT];
     
@@ -1213,12 +1277,12 @@
 
 #pragma mark -
 
-- (NSString *)getSentDirectMessagesSinceID:(unsigned long)sinceID startingAtPage:(int)page
+- (NSString *)getSentDirectMessagesSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page
 {
     return [self getSentDirectMessagesSinceID:sinceID withMaximumID:0 startingAtPage:page count:0];
 }
 
-- (NSString *)getSentDirectMessagesSinceID:(unsigned long)sinceID withMaximumID:(unsigned long)maxID startingAtPage:(int)page count:(int)count
+- (NSString *)getSentDirectMessagesSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page count:(int)count
 {
     NSString *path = [NSString stringWithFormat:@"direct_messages/sent.%@", API_FORMAT];
     
@@ -1270,7 +1334,7 @@
 }
 
 
-- (NSString *)deleteDirectMessage:(unsigned long)updateID
+- (NSString *)deleteDirectMessage:(MGTwitterEngineID)updateID
 {
     NSString *path = [NSString stringWithFormat:@"direct_messages/destroy/%u.%@", updateID, API_FORMAT];
     
@@ -1441,7 +1505,7 @@
 #pragma mark -
 
 
-- (NSString *)markUpdate:(unsigned long)updateID asFavorite:(BOOL)flag
+- (NSString *)markUpdate:(MGTwitterEngineID)updateID asFavorite:(BOOL)flag
 {
 	NSString *path = nil;
 	MGTwitterRequestType requestType;
@@ -1559,12 +1623,12 @@
 }
 
 
-- (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(unsigned long)sinceID startingAtPage:(int)page count:(int)count
+- (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count
 {
     return [self getSearchResultsForQuery:query sinceID:sinceID startingAtPage:0 count:0 geocode:nil]; // zero means default
 }
 
-- (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(unsigned long)sinceID startingAtPage:(int)page count:(int)count geocode:(NSString *)geocode
+- (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count geocode:(NSString *)geocode
 {
     NSString *path = [NSString stringWithFormat:@"search.%@", API_FORMAT];
     
