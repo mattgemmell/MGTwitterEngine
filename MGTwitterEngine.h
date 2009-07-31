@@ -10,10 +10,9 @@
 
 #import "MGTwitterEngineDelegate.h"
 #import "MGTwitterParserDelegate.h"
+#import "TCDownload.h"
 
-
-@interface MGTwitterEngine : NSObject <MGTwitterParserDelegate>
-{
+@interface MGTwitterEngine : NSObject <MGTwitterParserDelegate, TCDownloadDelegate> {
     __weak NSObject <MGTwitterEngineDelegate> *_delegate;
     NSString *_username;
     NSString *_password;
@@ -104,7 +103,6 @@
 - (NSString *)getRepliesSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)pageNum count:(int)count; // statuses/mentions
 
 - (NSString *)deleteUpdate:(MGTwitterEngineID)updateID; // statuses/destroy
->>>>>>> Added my MGTwitterEngine changes for 64-bit integers
 
 - (NSString *)getFeaturedUsers; // statuses/features (undocumented, returns invalid JSON data)
 
