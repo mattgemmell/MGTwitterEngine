@@ -8,7 +8,8 @@
 
 #import "MGTwitterEngineGlobalHeader.h"
 
-#include <yajl/yajl_parse.h>
+//#include <yajl/yajl_parse.h>
+#import "yajl_parse.h"
 
 #import "MGTwitterParserDelegate.h"
 #import "MGTwitterEngineDelegate.h"
