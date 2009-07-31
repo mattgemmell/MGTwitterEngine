@@ -566,13 +566,33 @@
         }
     }
     
-	return [self _sendRequest:theRequest withRequestType:requestType responseType:responseType];
-}
+#if kUseTCDownloadInMGTwitterEngine
+	
+#if kBirdUsesOAuth
+	TCOAuthDownload *download = [[TCOAuthDownload alloc] initWithRequest:theRequest];
 
--(NSString *)_sendRequest:(NSURLRequest *)theRequest 
-		  withRequestType:(MGTwitterRequestType)requestType
-			 responseType:(MGTwitterResponseType)responseType
-{
+	[download setConsumer:[[BirdCore commonCore] consumer]];
+	[download setAccessToken:(OAToken *)[self password]];
+#else
+	TCDownload *download = [[TCDownload alloc] initWithRequest:theRequest];
+#endif
+	[download setDelegate:self];
+	[download setUserInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+						   [NSNumber numberWithInt: requestType],  @"requestType",
+						   [NSNumber numberWithInt:responseType], @"responseType",
+						   [NSString stringWithNewUUID], @"identifier",
+						   nil]];
+    
+    if (!download) {
+        return nil;
+    } else {
+        [_connections setObject:download forKey:[[download userInfo] objectForKey:@"identifier"]];
+		[download send:YES];
+        [download release];
+    }
+	
+    return [[download userInfo] objectForKey:@"identifier"];
+#else
     // Create a connection using this request, with the default timeout and caching policy, 
     // and appropriate Twitter request and response types for parsing and error reporting.
     MGTwitterHTTPURLConnection *connection;
@@ -580,7 +600,7 @@
                                                             delegate:self 
                                                          requestType:requestType 
                                                         responseType:responseType];
-	
+
 	if (!connection) {
         return nil;
     } else {
@@ -588,7 +608,9 @@
         [connection release];
     }
 	
-    return [connection identifier];	
+    return [connection identifier];
+	
+#endif
 }
 
 #pragma mark Parsing methods
@@ -777,6 +799,15 @@
 
 #endif
 
+#pragma mark TCDownload delegate methods
+		
+-(void)downloadFinished:(TCDownload *)download{
+	[self connectionDidFinishLoading:(MGTwitterHTTPURLConnection*)download];
+}
+
+-(void)download:(TCDownload *)download hadError:(NSError *)error{
+	[self connection:(MGTwitterHTTPURLConnection*)download didFailWithError:error];
+}
 
 #pragma mark NSURLConnection delegate methods
 
@@ -1579,6 +1610,10 @@
 
 - (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count geocode:(NSString *)geocode
 {
+#if LARGE_ID_TEST
+	if (sinceID > 0) sinceID -= 0x7fffffff;
+#endif
+
     NSString *path = [NSString stringWithFormat:@"search.%@", API_FORMAT];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
