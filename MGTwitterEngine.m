@@ -940,10 +940,10 @@
 
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (sinceID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", sinceID] forKey:@"since_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", sinceID] forKey:@"since_id"];
     }
     if (maxID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", maxID] forKey:@"max_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", maxID] forKey:@"max_id"];
     }
     if (page > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
@@ -973,10 +973,10 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (sinceID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", sinceID] forKey:@"since_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", sinceID] forKey:@"since_id"];
     }
     if (maxID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", maxID] forKey:@"max_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", maxID] forKey:@"max_id"];
     }
 	if (page > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
@@ -1062,10 +1062,10 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (sinceID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", sinceID] forKey:@"since_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", sinceID] forKey:@"since_id"];
     }
     if (maxID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", maxID] forKey:@"max_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", maxID] forKey:@"max_id"];
     }
     if (page > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
@@ -1193,10 +1193,10 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (sinceID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", sinceID] forKey:@"since_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", sinceID] forKey:@"since_id"];
     }
     if (maxID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", maxID] forKey:@"max_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", maxID] forKey:@"max_id"];
     }
     if (page > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
@@ -1224,10 +1224,10 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (sinceID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", sinceID] forKey:@"since_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", sinceID] forKey:@"since_id"];
     }
     if (maxID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", maxID] forKey:@"max_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", maxID] forKey:@"max_id"];
     }
     if (page > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
@@ -1573,7 +1573,7 @@
 		[params setObject:query forKey:@"q"];
 	}
     if (sinceID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", sinceID] forKey:@"since_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", sinceID] forKey:@"since_id"];
     }
 	if (page > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
