@@ -572,33 +572,12 @@
         }
     }
     
-#if kUseTCDownloadInMGTwitterEngine
-	
-#if kBirdUsesOAuth
-	TCOAuthDownload *download = [[TCOAuthDownload alloc] initWithRequest:theRequest];
+	return [self _sendRequest:theRequest withRequestType:requestType responseType:responseType];
+}
 
-	[download setConsumer:[[BirdCore commonCore] consumer]];
-	[download setAccessToken:(OAToken *)[self password]];
-#else
-	TCDownload *download = [[TCDownload alloc] initWithRequest:theRequest];
-#endif
-	[download setDelegate:self];
-	[download setUserInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-						   [NSNumber numberWithInt: requestType],  @"requestType",
-						   [NSNumber numberWithInt:responseType], @"responseType",
-						   [NSString stringWithNewUUID], @"identifier",
-						   nil]];
-    
-    if (!download) {
-        return nil;
-    } else {
-        [_connections setObject:download forKey:[[download userInfo] objectForKey:@"identifier"]];
-		[download send:YES];
-        [download release];
-    }
-	
-    return [[download userInfo] objectForKey:@"identifier"];
-#else
+-(NSString *)_sendRequest:(NSURLRequest *)theRequest 
+		  withRequestType:(MGTwitterRequestType)requestType
+			 responseType:(MGTwitterResponseType)responseType{
     // Create a connection using this request, with the default timeout and caching policy, 
     // and appropriate Twitter request and response types for parsing and error reporting.
     MGTwitterHTTPURLConnection *connection;
@@ -606,7 +585,7 @@
                                                             delegate:self 
                                                          requestType:requestType 
                                                         responseType:responseType];
-
+	
 	if (!connection) {
         return nil;
     } else {
@@ -614,9 +593,7 @@
         [connection release];
     }
 	
-    return [connection identifier];
-	
-#endif
+    return [connection identifier];	
 }
 
 #pragma mark Parsing methods
