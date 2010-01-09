@@ -51,23 +51,24 @@
 
 - (void)endDictionary
 {
-	if (_user)
-	{
-		[_status setObject:_user forKey:@"user"];
-		[_user release];
-		_user = nil;
+	if (_status){
+		if (_user)
+		{
+			[_status setObject:_user forKey:@"user"];
+			[_user release];
+			_user = nil;
+		}
+		else
+		{
+			[_status setObject:[NSNumber numberWithInt:requestType] forKey:TWITTER_SOURCE_REQUEST_TYPE];
+			
+			[self _parsedObject:_status];
+			
+			[parsedObjects addObject:_status];
+			[_status release];
+			_status = nil;
+		}
 	}
-	else
-	{
-		[_status setObject:[NSNumber numberWithInt:requestType] forKey:TWITTER_SOURCE_REQUEST_TYPE];
-		
-		[self _parsedObject:_status];
-		
-		[parsedObjects addObject:_status];
-		[_status release];
-		_status = nil;
-	}
-	
 #if DEBUG_PARSING
 	NSLog(@"status: dictionary end");
 #endif
