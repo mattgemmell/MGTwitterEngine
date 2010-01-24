@@ -41,7 +41,10 @@
 		
 	[self _parsedObject:_results];
 		
-	[parsedObjects addObject:_results];
+	if(_results){
+		[parsedObjects addObject:_results];
+	}
+
 	[_results release];
 	_results = nil;
 	
