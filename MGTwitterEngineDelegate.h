@@ -47,6 +47,7 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 #endif
 
 // This delegate method is called whenever a connection has finished.
+- (void)connectionStarted:(NSString *)connectionIdentifier;
 - (void)connectionFinished:(NSString *)connectionIdentifier;
 
 @end

@@ -788,6 +788,11 @@
 
 #pragma mark TCDownload delegate methods
 		
+-(void)downloadDidBegin:(TCDownload *)download{
+	if ([self _isValidDelegateForSelector:@selector(connectionStarted:)])
+		[_delegate connectionStarted:[[download userInfo] objectForKey:@"identifier"]];
+}
+
 -(void)downloadFinished:(TCDownload *)download{
 	[self connectionDidFinishLoading:(MGTwitterHTTPURLConnection*)download];
 }
@@ -946,7 +951,6 @@
 	if ([self _isValidDelegateForSelector:@selector(connectionFinished:)])
 		[_delegate connectionFinished:connID];
 }
-
 
 #pragma mark -
 #pragma mark REST API methods
