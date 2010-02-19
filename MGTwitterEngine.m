@@ -77,6 +77,10 @@
                          requestType:(MGTwitterRequestType)requestType 
                         responseType:(MGTwitterResponseType)responseType;
 
+-(NSString *)_sendRequest:(NSURLRequest *)theRequest 
+		  withRequestType:(MGTwitterRequestType)requestType
+			 responseType:(MGTwitterResponseType)responseType;
+
 // Parsing methods
 - (void)_parseDataForConnection:(MGTwitterHTTPURLConnection *)connection;
 
@@ -573,7 +577,8 @@
 
 -(NSString *)_sendRequest:(NSURLRequest *)theRequest 
 		  withRequestType:(MGTwitterRequestType)requestType
-			 responseType:(MGTwitterResponseType)responseType{
+			 responseType:(MGTwitterResponseType)responseType
+{
     // Create a connection using this request, with the default timeout and caching policy, 
     // and appropriate Twitter request and response types for parsing and error reporting.
     MGTwitterHTTPURLConnection *connection;
@@ -786,20 +791,6 @@
 
 #endif
 
-#pragma mark TCDownload delegate methods
-		
--(void)downloadDidBegin:(TCDownload *)download{
-	if ([self _isValidDelegateForSelector:@selector(connectionStarted:)])
-		[_delegate connectionStarted:[[download userInfo] objectForKey:@"identifier"]];
-}
-
--(void)downloadFinished:(TCDownload *)download{
-	[self connectionDidFinishLoading:(MGTwitterHTTPURLConnection*)download];
-}
-
--(void)download:(TCDownload *)download hadError:(NSError *)error{
-	[self connection:(MGTwitterHTTPURLConnection*)download didFailWithError:error];
-}
 
 #pragma mark NSURLConnection delegate methods
 

@@ -10,16 +10,14 @@
 
 #import "MGTwitterRequestTypes.h"
 
-#import "TCDownload.h"
 
-@interface MGTwitterHTTPURLConnection : NSURLConnection {
+@interface MGTwitterHTTPURLConnection : NSURLConnection
+{
     NSMutableData *_data;                   // accumulated data received on this connection
     MGTwitterRequestType _requestType;      // general type of this request, mostly for error handling
     MGTwitterResponseType _responseType;    // type of response data expected (if successful)
     NSString *_identifier;
 	NSURL *_URL;							// the URL used for the connection (needed as a base URL when parsing with libxml)
-	
-	TCDownload *_download;
 }
 
 // Initializer
@@ -37,6 +35,5 @@
 - (MGTwitterRequestType)requestType;
 - (MGTwitterResponseType)responseType;
 - (NSString *)description;
-- (TCDownload *)download;
 
 @end
