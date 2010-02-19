@@ -25,8 +25,6 @@
         _requestType = requestType;
         _responseType = responseType;
 		_URL = [[request URL] retain];
-		
-		_download = [[TCDownload alloc] initWithURL:_URL];
     }
     
     return self;
@@ -96,10 +94,5 @@
     
     return [description stringByAppendingFormat:@" (requestType = %d, identifier = %@)", _requestType, _identifier];
 }
-
-- (TCDownload *)download{
-	return _download;
-}
-
 
 @end
