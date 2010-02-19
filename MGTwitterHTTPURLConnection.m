@@ -25,8 +25,6 @@
         _requestType = requestType;
         _responseType = responseType;
 		_URL = [[request URL] retain];
-		
-		_download = [[TCDownload alloc] initWithURL:_URL];
     }
     
     return self;
