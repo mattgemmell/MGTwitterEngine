@@ -8,7 +8,6 @@
 
 #import "MGTwitterEngine.h"
 #import "MGTwitterHTTPURLConnection.h"
-@class TCOAuthDownload;
 @class OAToken;
 
 #import "NSData+Base64.h"
@@ -58,7 +57,6 @@
 
 #define URL_REQUEST_TIMEOUT     25.0 // Twitter usually fails quickly if it's going to fail at all.
 
-//#import "TCOAuthDownload.h"
 
 @interface MGTwitterEngine (PrivateMethods)
 
@@ -599,19 +597,11 @@
 - (void)_parseDataForConnection:(MGTwitterHTTPURLConnection *)connection
 {
     NSData *jsonData = [[[connection data] copy] autorelease];
-#if kUseTCDownloadInMGTwitterEngine
-    NSString *identifier = [[[[connection userInfo] objectForKey:@"identifier"] copy] autorelease];
-    MGTwitterRequestType requestType = [[[connection userInfo] objectForKey:@"requestType"] intValue];
-    MGTwitterResponseType responseType = [[[connection userInfo] objectForKey:@"responseType"] intValue];
-	
-	NSURL *URL = [connection url];	
-#else
     NSString *identifier = [[[connection identifier] copy] autorelease];
     MGTwitterRequestType requestType = [connection requestType];
     MGTwitterResponseType responseType = [connection responseType];
 
 	NSURL *URL = [connection URL];
-#endif
 
 #if DEBUG
 	if (NO) {
@@ -866,13 +856,7 @@
 
 - (void)connection:(MGTwitterHTTPURLConnection *)connection didFailWithError:(NSError *)error
 {
-	NSString *connectionIdentifier = 
-#if kUseTCDownloadInMGTwitterEngine
-	[[(TCDownload *)connection userInfo] objectForKey:@"identifier"]
-#else
-	[connection identifier]	
-#endif
-	;
+	NSString *connectionIdentifier = [connection identifier];
 	
     // Inform delegate.
 	if ([self _isValidDelegateForSelector:@selector(requestFailed:withError:)]){
@@ -891,14 +875,8 @@
 {
 	NSString *connID = nil;
 	MGTwitterResponseType responseType = 0;
-#if kUseTCDownloadInMGTwitterEngine
-	TCDownload *download = (TCDownload *)connection;
-	connID = [[download userInfo] objectForKey:@"identifier"];
-	responseType = (MGTwitterResponseType)[[[download userInfo] objectForKey:@"responseType"] intValue];
-#else
 	connID = [connection identifier];
 	responseType = [connection responseType];
-#endif
 	
     // Inform delegate.
 	if ([self _isValidDelegateForSelector:@selector(requestSucceeded:)])
