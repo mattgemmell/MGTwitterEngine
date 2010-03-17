@@ -906,9 +906,14 @@
 #else
             NSImage *image = [[[NSImage alloc] initWithData:[connection data]] autorelease];
 #endif
-    
-        // Parse data from the connection (either XML or JSON.)
-        [self _parseDataForConnection:connection];
+            
+            // Inform delegate.
+			if ([self _isValidDelegateForSelector:@selector(imageReceived:forRequest:)])
+				[_delegate imageReceived:image forRequest:[connection identifier]];
+        } else {
+            // Parse data from the connection (either XML or JSON.)
+            [self _parseDataForConnection:connection];
+        }
     }
     
     // Release the connection.
@@ -1180,8 +1185,7 @@
     } else {
         return nil;
     }
-    NSString *path = [NSString stringWithFormat:@"users/show/%@.%@", usernameOrID, API_FORMAT];
-    
+
     return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
                             requestType:MGTwitterUserInformationRequest 
                            responseType:MGTwitterUser];
