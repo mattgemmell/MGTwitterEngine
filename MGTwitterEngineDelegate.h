@@ -46,6 +46,12 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 - (void)searchResultsReceived:(NSArray *)searchResults forRequest:(NSString *)connectionIdentifier;
 #endif
 
+#if TARGET_OS_IPHONE
+- (void)imageReceived:(UIImage *)image forRequest:(NSString *)connectionIdentifier;
+#else
+- (void)imageReceived:(NSImage *)image forRequest:(NSString *)connectionIdentifier;
+#endif
+
 // This delegate method is called whenever a connection has finished.
 - (void)connectionStarted:(NSString *)connectionIdentifier;
 - (void)connectionFinished:(NSString *)connectionIdentifier;
