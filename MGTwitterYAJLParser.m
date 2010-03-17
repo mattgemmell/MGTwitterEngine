@@ -41,41 +41,23 @@ int process_yajl_boolean(void * ctx, int boolVal)
     return 1;
 }
 
-int process_yajl_integer(void *ctx, unsigned long long integerVal)
+int process_yajl_number(void *ctx, const char *numberVal, unsigned int numberLen)
 {
 	id self = ctx;
-  
+	
 	if (currentKey)
 	{
 		NSString *stringValue = [[NSString alloc] initWithBytesNoCopy:(void *)numberVal length:numberLen encoding:NSUTF8StringEncoding freeWhenDone:NO];
-#if LARGE_ID_TEST
-		if ([currentKey isEqualToString:@"id"] || [currentKey isEqualToString:@"in_reply_to_status_id"])
-		{
-			unsigned long adjustedIntegerVal = (unsigned long)integerVal + 0x7fffffff;
-			[self addValue:[NSNumber numberWithUnsignedLongLong:adjustedIntegerVal] forKey:currentKey];
-		}
-		else
-		{
-			unsigned long coercedLongVal = (unsigned long)integerVal;
-			[self addValue:[NSNumber numberWithUnsignedLongLong:coercedLongVal] forKey:currentKey];
-		}
-#else
-		unsigned long coercedLongVal = (unsigned long)integerVal;
-		[self addValue:[NSNumber numberWithUnsignedLongLong:coercedLongVal] forKey:currentKey];
-#endif
-		[currentKey release];
-		currentKey = nil;
-	}
-
+		
 		NSNumber *longLongValue = [NSNumber numberWithLongLong:[stringValue longLongValue]];
 		[self addValue:longLongValue forKey:currentKey];
-
+		
 		[stringValue release];
-
+		
 		[currentKey release];
 		currentKey = nil;    
 	}
-
+	
 	return 1;
 }
 
