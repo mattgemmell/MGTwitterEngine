@@ -37,7 +37,8 @@
 	#endif
 #endif
 
-#define TWITTER_DOMAIN          @"twitter.com"
+#define TWITTER_API_VERSION     1
+#define TWITTER_DOMAIN          @"api.twitter.com"
 #if YAJL_AVAILABLE
 	#define TWITTER_SEARCH_DOMAIN	@"search.twitter.com"
 #endif
@@ -74,6 +75,19 @@
                          requestType:(MGTwitterRequestType)requestType 
                         responseType:(MGTwitterResponseType)responseType;
 
+- (NSString *)_sendDataRequestWithMethod:(NSString *)method 
+                                    path:(NSString *)path 
+                         queryParameters:(NSDictionary *)params 
+                                filePath:(NSString *)filePath
+                                    body:(NSString *)body 
+                             requestType:(MGTwitterRequestType)requestType 
+                            responseType:(MGTwitterResponseType)responseType;
+
+- (NSMutableURLRequest *)_baseRequestWithMethod:(NSString *)method 
+                                           path:(NSString *)path 
+                                    requestType:(MGTwitterRequestType)requestType 
+                                queryParameters:(NSDictionary *)params;
+
 // Parsing methods
 - (void)_parseDataForConnection:(MGTwitterHTTPURLConnection *)connection;
 
@@ -104,7 +118,7 @@
         _clientVersion = [DEFAULT_CLIENT_VERSION retain];
         _clientURL = [DEFAULT_CLIENT_URL retain];
 		_clientSourceToken = [DEFAULT_CLIENT_TOKEN retain];
-		_APIDomain = [TWITTER_DOMAIN retain];
+		_APIDomain = [[TWITTER_DOMAIN stringByAppendingFormat:@"/%d", TWITTER_API_VERSION] retain];
 #if YAJL_AVAILABLE
 		_searchDomain = [TWITTER_SEARCH_DOMAIN retain];
 #endif
@@ -244,7 +258,7 @@
 {
 	[_APIDomain release];
 	if (!domain || [domain length] == 0) {
-		_APIDomain = [TWITTER_DOMAIN retain];
+		_APIDomain = [[TWITTER_DOMAIN stringByAppendingFormat:@"/%d", TWITTER_API_VERSION] retain];
 	} else {
 		_APIDomain = [domain retain];
 	}
@@ -456,12 +470,128 @@
                          requestType:(MGTwitterRequestType)requestType 
                         responseType:(MGTwitterResponseType)responseType
 {
+
+    NSMutableURLRequest *theRequest = [self _baseRequestWithMethod:method 
+                                                              path:path
+                                                       requestType:requestType 
+                                                   queryParameters:params];
+    
+    // Set the request body if this is a POST request.
+    BOOL isPOST = (method && [method isEqualToString:HTTP_POST_METHOD]);
+    if (isPOST) {
+        // Set request body, if specified (hopefully so), with 'source' parameter if appropriate.
+        NSString *finalBody = @"";
+		if (body) {
+			finalBody = [finalBody stringByAppendingString:body];
+		}
+        if (_clientSourceToken) {
+            finalBody = [finalBody stringByAppendingString:[NSString stringWithFormat:@"%@source=%@", 
+                                                            (body) ? @"&" : @"?" , 
+                                                            _clientSourceToken]];
+        }
+        
+        if (finalBody) {
+            [theRequest setHTTPBody:[finalBody dataUsingEncoding:NSUTF8StringEncoding]];
+#if DEBUG
+			if (YES) {
+				NSLog(@"MGTwitterEngine: finalBody = %@", finalBody);
+			}
+#endif
+        }
+    }
+    
+    
+    // Create a connection using this request, with the default timeout and caching policy, 
+    // and appropriate Twitter request and response types for parsing and error reporting.
+    MGTwitterHTTPURLConnection *connection;
+    connection = [[MGTwitterHTTPURLConnection alloc] initWithRequest:theRequest 
+                                                            delegate:self 
+                                                         requestType:requestType 
+                                                        responseType:responseType];
+    
+    if (!connection) {
+        return nil;
+    } else {
+        [_connections setObject:connection forKey:[connection identifier]];
+        [connection release];
+    }
+    
+    return [connection identifier];
+}
+
+
+- (NSString *)_sendDataRequestWithMethod:(NSString *)method 
+                                    path:(NSString *)path 
+                         queryParameters:(NSDictionary *)params 
+                                filePath:(NSString *)filePath
+                                    body:(NSString *)body 
+                             requestType:(MGTwitterRequestType)requestType 
+                            responseType:(MGTwitterResponseType)responseType
+{
+    
+    NSMutableURLRequest *theRequest = [self _baseRequestWithMethod:method 
+                                                              path:path
+                                                       requestType:requestType
+                                                   queryParameters:params];
+
+    BOOL isPOST = (method && [method isEqualToString:HTTP_POST_METHOD]);
+    if (isPOST) {
+        NSString *boundary = @"0xKhTmLbOuNdArY";  
+        NSString *filename = [filePath lastPathComponent];
+        NSData *imageData = [NSData dataWithContentsOfFile:filePath];
+        
+        NSString *bodyPrefixString   = [NSString stringWithFormat:@"--%@\r\n", boundary];
+        NSString *bodySuffixString   = [NSString stringWithFormat:@"\r\n--%@--\r\n", boundary];
+        NSString *contentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"image\"; filename=\"%@\"\r\n", filename];
+        NSString *contentImageType   = [NSString stringWithFormat:@"Content-Type: image/%@\r\n", [filename pathExtension]];
+        NSString *contentTransfer    = @"Content-Transfer-Encoding: binary\r\n\r\n";
+        
+        
+        NSMutableData *postBody = [NSMutableData data];
+        
+        [postBody appendData:[bodyPrefixString dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO]];
+        [postBody appendData:[contentDisposition dataUsingEncoding:NSUTF8StringEncoding ]];
+        [postBody appendData:[contentImageType dataUsingEncoding:NSUTF8StringEncoding ]];
+        [postBody appendData:[contentTransfer dataUsingEncoding:NSUTF8StringEncoding]];
+        [postBody appendData:imageData];
+        [postBody appendData:[bodySuffixString dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO]];
+        
+        [theRequest setHTTPBody:postBody];
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary, nil];
+        [theRequest setValue:contentType forHTTPHeaderField:@"Content-Type"];
+    }
+    
+    MGTwitterHTTPURLConnection *connection;
+    
+    connection = [[MGTwitterHTTPURLConnection alloc] initWithRequest:theRequest 
+                                                            delegate:self 
+                                                         requestType:requestType 
+                                                        responseType:responseType];
+    
+    if (!connection) {
+        return nil;
+    } else {
+        [_connections setObject:connection forKey:[connection identifier]];
+        [connection release];
+    }
+    
+	NSLog(@"\nsending request...\t%@", [connection identifier]);
+    return [connection identifier];
+    
+}
+
+#pragma mark Base Request 
+- (NSMutableURLRequest *)_baseRequestWithMethod:(NSString *)method 
+                                           path:(NSString *)path 
+                                    requestType:(MGTwitterRequestType)requestType 
+                                queryParameters:(NSDictionary *)params 
+{
     // Construct appropriate URL string.
     NSString *fullPath = path;
     if (params) {
         fullPath = [self _queryStringWithBase:fullPath parameters:params prefixed:YES];
     }
-
+    
 #if YAJL_AVAILABLE
 	NSString *domain = nil;
 	NSString *connectionType = nil;
@@ -510,13 +640,13 @@
     if (!finalURL) {
         return nil;
     }
-
+    
 #if DEBUG
     if (YES) {
 		NSLog(@"MGTwitterEngine: finalURL = %@", finalURL);
 	}
 #endif
-
+    
     // Construct an NSMutableURLRequest for the URL and set appropriate request method.
     NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:finalURL 
                                                               cachePolicy:NSURLRequestReloadIgnoringCacheData 
@@ -524,6 +654,7 @@
     if (method) {
         [theRequest setHTTPMethod:method];
     }
+    
     [theRequest setHTTPShouldHandleCookies:NO];
     
     // Set headers for client information, for tracking purposes at Twitter.
@@ -540,50 +671,9 @@
 		[theRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
 	}
 #endif
-
-    // Set the request body if this is a POST request.
-    BOOL isPOST = (method && [method isEqualToString:HTTP_POST_METHOD]);
-    if (isPOST) {
-        // Set request body, if specified (hopefully so), with 'source' parameter if appropriate.
-        NSString *finalBody = @"";
-		if (body) {
-			finalBody = [finalBody stringByAppendingString:body];
-		}
-        if (_clientSourceToken) {
-            finalBody = [finalBody stringByAppendingString:[NSString stringWithFormat:@"%@source=%@", 
-                                                            (body) ? @"&" : @"?" , 
-                                                            _clientSourceToken]];
-        }
-        
-        if (finalBody) {
-            [theRequest setHTTPBody:[finalBody dataUsingEncoding:NSUTF8StringEncoding]];
-#if DEBUG
-			if (YES) {
-				NSLog(@"MGTwitterEngine: finalBody = %@", finalBody);
-			}
-#endif
-        }
-    }
     
-    
-    // Create a connection using this request, with the default timeout and caching policy, 
-    // and appropriate Twitter request and response types for parsing and error reporting.
-    MGTwitterHTTPURLConnection *connection;
-    connection = [[MGTwitterHTTPURLConnection alloc] initWithRequest:theRequest 
-                                                            delegate:self 
-                                                         requestType:requestType 
-                                                        responseType:responseType];
-    
-    if (!connection) {
-        return nil;
-    } else {
-        [_connections setObject:connection forKey:[connection identifier]];
-        [connection release];
-    }
-    
-    return [connection identifier];
+    return theRequest;
 }
-
 
 #pragma mark Parsing methods
 
@@ -1351,6 +1441,40 @@
 }
 
 
+- (NSString *)setProfileImageWithImageAtPath:(NSString *)pathToFile
+{
+    NSString *path = [NSString stringWithFormat:@"account/update_profile_image.%@", API_FORMAT];
+    
+    return [self _sendDataRequestWithMethod:HTTP_POST_METHOD 
+                                       path:path 
+                            queryParameters:nil
+                                   filePath:pathToFile
+                                       body:nil 
+                                requestType:MGTwitterAccountRequest 
+                               responseType:MGTwitterGeneric];
+}
+
+
+- (NSString *)setProfileBackgroundImageWithImageAtPath:(NSString *)pathToFile andTitle:(NSString *)title
+{
+    NSString *path = [NSString stringWithFormat:@"account/update_profile_background_image.%@", API_FORMAT];
+ 
+    NSMutableDictionary *params = nil;
+    if (title) {
+        params = [NSMutableDictionary dictionaryWithCapacity:0];
+        [params setObject:title forKey:@"title"];
+    }
+    
+    
+    return [self _sendDataRequestWithMethod:HTTP_POST_METHOD 
+                                       path:path 
+                            queryParameters:params
+                                   filePath:pathToFile
+                                       body:nil 
+                                requestType:MGTwitterAccountRequest 
+                               responseType:MGTwitterGeneric];
+}
+
 #pragma mark -
 
 
@@ -1377,6 +1501,7 @@
                             requestType:MGTwitterAccountLocationRequest 
                            responseType:MGTwitterUser];
 }
+
 
 
 #pragma mark -

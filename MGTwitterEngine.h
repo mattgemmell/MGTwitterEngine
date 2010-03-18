@@ -145,8 +145,8 @@
 - (NSString *)setNotificationsDeliveryMethod:(NSString *)method; // account/update_delivery_device
 
 // TODO: Add: account/update_profile_colors
-// TODO: Add: account/update_profile_image
-// TODO: Add: account/update_profile_background_image
+- (NSString *)setProfileImageWithImageAtPath:(NSString *)pathToFile;
+- (NSString *)setProfileBackgroundImageWithImageAtPath:(NSString *)pathToFile andTitle:(NSString *)title;
 
 - (NSString *)getRateLimitStatus; // account/rate_limit_status
 
