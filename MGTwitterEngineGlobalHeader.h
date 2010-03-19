@@ -49,3 +49,28 @@
 */
 
 #define YAJL_AVAILABLE 0
+
+#if YAJL_AVAILABLE
+	/*
+	 When enabled, this definition artificially adds 0x7ffffff to each tweet ID that is read from the API. It
+	 also subtracts 0x7fffffff from anything it sends back to the API. This allows you to test your application
+	 code and make sure it works well with large unsigned longs. This is important because tweet IDs that are
+	 treated as signed integers will become negative after 2^32 - 1 (0x7fffffff). This will happen sometime
+	 around the end of May 2009.
+	 
+	 A future release of MGTwitterEngine will use 64-bit integers for the tweet IDs. The current change is
+	 meant as a stopgap measure that will affect existing applications as little as possible.
+	*/
+
+	#define LARGE_ID_TEST 0
+#else
+	/*
+	 This option is only available when you are using the YAJL parser. Do not change the following definition.
+	*/
+	#define LARGE_ID_TEST 0
+#endif
+
+#ifndef __MGTWITTERENGINEID__
+#define __MGTWITTERENGINEID__
+typedef unsigned long long MGTwitterEngineID;
+#endif 

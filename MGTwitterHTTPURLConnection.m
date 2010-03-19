@@ -95,5 +95,4 @@
     return [description stringByAppendingFormat:@" (requestType = %d, identifier = %@)", _requestType, _identifier];
 }
 
-
 @end

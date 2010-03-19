@@ -10,7 +10,9 @@
 
 #import "MGTwitterRequestTypes.h"
 
-@interface MGTwitterHTTPURLConnection : NSURLConnection {
+
+@interface MGTwitterHTTPURLConnection : NSURLConnection
+{
     NSMutableData *_data;                   // accumulated data received on this connection
     MGTwitterRequestType _requestType;      // general type of this request, mostly for error handling
     MGTwitterResponseType _responseType;    // type of response data expected (if successful)
