@@ -576,7 +576,6 @@
         [connection release];
     }
     
-	NSLog(@"\nsending request...\t%@", [connection identifier]);
     return [connection identifier];
     
 }
