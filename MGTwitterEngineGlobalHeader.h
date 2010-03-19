@@ -73,4 +73,9 @@
 #ifndef __MGTWITTERENGINEID__
 #define __MGTWITTERENGINEID__
 typedef unsigned long long MGTwitterEngineID;
-#endif 
+#endif
+
+#ifndef __MGTWITTERENGINELOCATIONDEGREES__
+#define __MGTWITTERENGINELOCATIONDEGREES__
+typedef double MGTwitterEngineLocationDegrees;
+#endif
