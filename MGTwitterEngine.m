@@ -1013,7 +1013,7 @@
 
 - (NSString *)getUpdate:(MGTwitterEngineID)updateID
 {
-    NSString *path = [NSString stringWithFormat:@"statuses/show/%u.%@", updateID, API_FORMAT];
+    NSString *path = [NSString stringWithFormat:@"statuses/show/%llu.%@", updateID, API_FORMAT];
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterUpdateGetRequest
@@ -1043,7 +1043,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     [params setObject:trimmedText forKey:@"status"];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%u", updateID] forKey:@"in_reply_to_status_id"];
+        [params setObject:[NSString stringWithFormat:@"%llu", updateID] forKey:@"in_reply_to_status_id"];
     }
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
@@ -1098,7 +1098,7 @@
 
 - (NSString *)deleteUpdate:(MGTwitterEngineID)updateID
 {
-    NSString *path = [NSString stringWithFormat:@"statuses/destroy/%u.%@", updateID, API_FORMAT];
+    NSString *path = [NSString stringWithFormat:@"statuses/destroy/%llu.%@", updateID, API_FORMAT];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:nil body:nil 
                             requestType:MGTwitterUpdateDeleteRequest
@@ -1285,7 +1285,7 @@
 
 - (NSString *)deleteDirectMessage:(MGTwitterEngineID)updateID
 {
-    NSString *path = [NSString stringWithFormat:@"direct_messages/destroy/%u.%@", updateID, API_FORMAT];
+    NSString *path = [NSString stringWithFormat:@"direct_messages/destroy/%llu.%@", updateID, API_FORMAT];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:nil body:nil 
                             requestType:MGTwitterDirectMessageDeleteRequest 
@@ -1460,11 +1460,11 @@
 	MGTwitterRequestType requestType;
 	if (flag)
 	{
-		path = [NSString stringWithFormat:@"favorites/create/%u.%@", updateID, API_FORMAT];
+		path = [NSString stringWithFormat:@"favorites/create/%llu.%@", updateID, API_FORMAT];
 		requestType = MGTwitterFavoritesEnableRequest;
     }
 	else {
-		path = [NSString stringWithFormat:@"favorites/destroy/%u.%@", updateID, API_FORMAT];
+		path = [NSString stringWithFormat:@"favorites/destroy/%llu.%@", updateID, API_FORMAT];
 		requestType = MGTwitterFavoritesDisableRequest;
 	}
 	
