@@ -1030,8 +1030,17 @@
     return [self sendUpdate:status inReplyTo:0];
 }
 
+- (NSString *)sendUpdate:(NSString *)status withLatitude:(MGTwitterEngineLocationDegrees)latitude longitude:(MGTwitterEngineLocationDegrees)longitude
+{
+    return [self sendUpdate:status inReplyTo:0 withLatitude:latitude longitude:longitude];
+}
 
 - (NSString *)sendUpdate:(NSString *)status inReplyTo:(MGTwitterEngineID)updateID
+{
+	return [self sendUpdate:status inReplyTo:updateID withLatitude:DBL_MAX longitude:DBL_MAX]; // DBL_MAX denotes invalid/unused location
+}
+
+- (NSString *)sendUpdate:(NSString *)status inReplyTo:(MGTwitterEngineID)updateID withLatitude:(MGTwitterEngineLocationDegrees)latitude longitude:(MGTwitterEngineLocationDegrees)longitude
 {
     if (!status) {
         return nil;
@@ -1049,6 +1058,12 @@
     if (updateID > 0) {
         [params setObject:[NSString stringWithFormat:@"%llu", updateID] forKey:@"in_reply_to_status_id"];
     }
+	if (latitude >= -90.0 && latitude <= 90.0 &&
+		longitude >= -180.0 && longitude <= 180.0) {
+		[params setObject:[NSString stringWithFormat:@"%.8f", latitude] forKey:@"lat"];
+		[params setObject:[NSString stringWithFormat:@"%.8f", longitude] forKey:@"long"];
+	}
+	
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
