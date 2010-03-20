@@ -34,6 +34,7 @@
 		#import "MGTwitterUsersParser.h"
 		#import "MGTwitterMessagesParser.h"
 		#import "MGTwitterMiscParser.h"
+		#import "MGTwitterSocialGraphParser.h"
 	#endif
 #endif
 
@@ -700,6 +701,10 @@
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType];
 			break;
+		case MGTwitterSocialGraph:
+			[MGTwitterSocialGraphParser parserWithXML:xmlData delegate:self 
+						  connectionIdentifier:identifier requestType:requestType 
+								  responseType:responseType];
         default:
             break;
     }
@@ -747,6 +752,10 @@
 				[_delegate searchResultsReceived:parsedObjects forRequest:identifier];
 			break;
 #endif
+		case MGTwitterSocialGraph:
+			if ([self _isValidDelegateForSelector:@selector(socialGraphInfoReceived:forRequest:)])
+				[_delegate socialGraphInfoReceived: parsedObjects forRequest:identifier];
+			break;
         default:
             break;
     }
@@ -1108,6 +1117,40 @@
 
 #pragma mark User methods
 
+- (NSString *)getFriendIDsFor:(NSString *)username startingFromCursor:(int)cursor
+{
+	NSLog(@"getFriendIDsFor:%@ atCursor:%d", username, cursor);
+    NSString *path = [NSString stringWithFormat:@"friends/ids.%@", API_FORMAT];
+	
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    if (username != nil) {
+        [params setObject:username forKey:@"screen_name"];
+    }
+	if (cursor >= -1) {
+		[params setObject:[NSString stringWithFormat:@"%ld", cursor] forKey:@"cursor"];
+	}
+    
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterFriendIDsRequest 
+                           responseType:MGTwitterSocialGraph];	
+}
+
+- (NSString *)getFollowerIDsFor:(NSString *)username startingFromCursor:(int)cursor
+{
+    NSString *path = [NSString stringWithFormat:@"followers/ids.%@", API_FORMAT];
+
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    if (username != nil) {
+        [params setObject:username forKey:@"screen_name"];
+    }
+	if (cursor >= -1) {
+		[params setObject:[NSString stringWithFormat:@"%ld", cursor] forKey:@"cursor"];
+	}
+	
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterFollowerIDsRequest 
+                           responseType:MGTwitterSocialGraph];	
+}
 
 - (NSString *)getRecentlyUpdatedFriendsFor:(NSString *)username startingAtPage:(int)page
 {

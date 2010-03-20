@@ -52,7 +52,9 @@
 	//NSLog(@"getRecentlyUpdatedFriendsFor: connectionIdentifier = %@", [twitterEngine getRecentlyUpdatedFriendsFor:nil startingAtPage:0]);
 	//NSLog(@"getFollowersIncludingCurrentStatus: connectionIdentifier = %@", [twitterEngine getFollowersIncludingCurrentStatus:YES]);
 	//NSLog(@"getUserInformationFor: connectionIdentifier = %@", [twitterEngine getUserInformationFor:TESTING_PRIMARY_USER]);
-
+	//NSLog(@"getFriendIDsFor: connectionIdentifier = %@", [twitterEngine getFriendIDsFor:@"duemoko" startingFromCursor:-1]);
+	//NSLog(@"getFollowerIDsFor: connectionIdentifier = %@", [twitterEngine getFollowerIDsFor:username startingFromCursor:-1]);
+														  
 	// Direct Message methods:
 	//NSLog(@"getDirectMessagesSinceID: connectionIdentifier = %@", [twitterEngine getDirectMessagesSinceID:0 startingAtPage:0]);
 	//NSLog(@"getSentDirectMessagesSinceID: connectionIdentifier = %@", [twitterEngine getSentDirectMessagesSinceID:0 startingAtPage:0]);
@@ -149,9 +151,21 @@
 	NSLog(@"Got misc info for %@:\r%@", connectionIdentifier, miscInfo);
 }
 
+
 - (void)searchResultsReceived:(NSArray *)searchResults forRequest:(NSString *)connectionIdentifier
 {
 	NSLog(@"Got search results for %@:\r%@", connectionIdentifier, searchResults);
+}
+
+
+- (void)socialGraphInfoReceived:(NSArray *)socialGraphInfo forRequest:(NSString *)connectionIdentifier
+{
+	NSLog(@"Got social graph results for %@:\r%@", connectionIdentifier, socialGraphInfo);
+	
+//	NSLog(@"IDs: %@", [socialGraphInfo valueForKey:@"ids"]);
+//	NSLog(@"previous_cursor: %@", [socialGraphInfo valueForKey:@"previous_cursor"]);
+//	NSLog(@"next_cursor: %@", [socialGraphInfo valueForKey:@"next_cursor"]);
+//	NSLog(@"source_api_request_type: %@", [socialGraphInfo valueForKey:@"source_api_request_type"]);
 }
 
 

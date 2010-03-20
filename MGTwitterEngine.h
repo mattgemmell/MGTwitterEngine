@@ -181,6 +181,11 @@
 - (NSString *)getDowntimeSchedule; // help/downtime_schedule (undocumented)
 
 
+// Social Graph methods
+- (NSString *)getFriendIDsFor:(NSString *)username startingFromCursor:(int)cursor; // friends/ids
+- (NSString *)getFollowerIDsFor:(NSString *)username startingFromCursor:(int)cursor; // followers/ids
+
+
 #pragma mark Search API methods
 
 // ======================================================================================================
