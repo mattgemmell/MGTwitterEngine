@@ -44,20 +44,20 @@ int process_yajl_boolean(void * ctx, int boolVal)
 int process_yajl_number(void *ctx, const char *numberVal, unsigned int numberLen)
 {
 	id self = ctx;
-  
+	
 	if (currentKey)
 	{
 		NSString *stringValue = [[NSString alloc] initWithBytesNoCopy:(void *)numberVal length:numberLen encoding:NSUTF8StringEncoding freeWhenDone:NO];
-
+		
 		NSNumber *longLongValue = [NSNumber numberWithLongLong:[stringValue longLongValue]];
 		[self addValue:longLongValue forKey:currentKey];
-
+		
 		[stringValue release];
-
+		
 		[currentKey release];
 		currentKey = nil;    
 	}
-
+	
 	return 1;
 }
 
@@ -246,7 +246,7 @@ static yajl_callbacks callbacks = {
 				0, // allowComments: if nonzero, javascript style comments will be allowed in the input (both /* */ and //)
 				0  // checkUTF8: if nonzero, invalid UTF8 strings will cause a parse error
 			};
-			_handle = yajl_alloc(&callbacks, &cfg, self);
+			_handle = yajl_alloc(&callbacks, &cfg, NULL, self);
 			if (! _handle)
 			{
 				return nil;
@@ -258,7 +258,7 @@ static yajl_callbacks callbacks = {
 				unsigned char *errorMessage = yajl_get_error(_handle, 0, [json bytes], [json length]);
 				NSLog(@"MGTwitterYAJLParser: error = %s", errorMessage);
 				[self _parsingErrorOccurred:[NSError errorWithDomain:@"YAJL" code:status userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:(char *)errorMessage] forKey:@"errorMessage"]]];
-				yajl_free_error(errorMessage);
+				yajl_free_error(_handle, errorMessage);
 			}
 
 			// free the yajl parser
