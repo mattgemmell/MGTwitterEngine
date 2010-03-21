@@ -1580,7 +1580,7 @@
 
 - (NSString *)getFriendIDsFor:(NSString *)username startingFromCursor:(int)cursor
 {
-	NSLog(@"getFriendIDsFor:%@ atCursor:%d", username, cursor);
+	//NSLog(@"getFriendIDsFor:%@ atCursor:%d", username, cursor);
     NSString *path = [NSString stringWithFormat:@"friends/ids.%@", API_FORMAT];
 	
 	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
@@ -1599,7 +1599,8 @@
 
 - (NSString *)getFollowerIDsFor:(NSString *)username startingFromCursor:(int)cursor
 {
-    NSString *path = [NSString stringWithFormat:@"followers/ids.%@", API_FORMAT];
+	//NSLog(@"getFollowerIDsFor:%@ atCursor:%d", username, cursor);
+	NSString *path = [NSString stringWithFormat:@"followers/ids.%@", API_FORMAT];
 	
 	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (username != nil) {
