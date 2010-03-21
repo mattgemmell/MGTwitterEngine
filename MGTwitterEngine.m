@@ -30,6 +30,7 @@
 		#import "MGTwitterMessagesLibXMLParser.h"
 		#import "MGTwitterUsersLibXMLParser.h"
 		#import "MGTwitterMiscLibXMLParser.h"
+		#import "MGTwitterSocialGraphLibXMLParser.h"
 	#else
 		#import "MGTwitterStatusesParser.h"
 		#import "MGTwitterUsersParser.h"
@@ -681,6 +682,11 @@
 			[MGTwitterMiscLibXMLParser parserWithXML:xmlData delegate:self 
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType URL:URL];
+			break;
+		case MGTwitterSocialGraph:
+			[MGTwitterSocialGraphLibXMLParser parserWithXML:xmlData delegate:self 
+							connectionIdentifier:identifier requestType:requestType 
+								responseType:responseType URL:URL];
 			break;
         default:
             break;
