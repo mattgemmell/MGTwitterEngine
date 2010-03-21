@@ -1578,18 +1578,20 @@
 #pragma mark Social Graph methods
 
 
-- (NSString *)getFriendIDsFor:(NSString *)username startingFromCursor:(int)cursor
+- (NSString *)getFriendIDsFor:(NSString *)username startingFromCursor:(long long)cursor
 {
-	//NSLog(@"getFriendIDsFor:%@ atCursor:%d", username, cursor);
+	//NSLog(@"getFriendIDsFor:%@ atCursor:%lld", username, cursor);
+	if (cursor == 0 || [username isEqualToString:@""])
+		return nil;
+
     NSString *path = [NSString stringWithFormat:@"friends/ids.%@", API_FORMAT];
 	
 	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-    if (username != nil) {
-        [params setObject:username forKey:@"screen_name"];
+    if (username) {
+        path = [NSString stringWithFormat:@"friends/ids/%@.%@", username, API_FORMAT];
     }
-	if (cursor >= -1) {
-		[params setObject:[NSString stringWithFormat:@"%ld", cursor] forKey:@"cursor"];
-	}
+	
+	[params setObject:[NSString stringWithFormat:@"%lld", cursor] forKey:@"cursor"];
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
                             requestType:MGTwitterFriendIDsRequest 
@@ -1597,18 +1599,20 @@
 }
 
 
-- (NSString *)getFollowerIDsFor:(NSString *)username startingFromCursor:(int)cursor
+- (NSString *)getFollowerIDsFor:(NSString *)username startingFromCursor:(long long)cursor
 {
-	//NSLog(@"getFollowerIDsFor:%@ atCursor:%d", username, cursor);
+	//NSLog(@"getFollowerIDsFor:%@ atCursor:%lld", username, cursor);
+	if (cursor == 0 || [username isEqualToString:@""])
+		return nil;
+	
 	NSString *path = [NSString stringWithFormat:@"followers/ids.%@", API_FORMAT];
 	
 	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-    if (username != nil) {
-        [params setObject:username forKey:@"screen_name"];
+    if (username) {		
+        path = [NSString stringWithFormat:@"followers/ids/%@.%@", username, API_FORMAT];
     }
-	if (cursor >= -1) {
-		[params setObject:[NSString stringWithFormat:@"%ld", cursor] forKey:@"cursor"];
-	}
+	
+	[params setObject:[NSString stringWithFormat:@"%lld", cursor] forKey:@"cursor"];
 	
     return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
                             requestType:MGTwitterFollowerIDsRequest 

@@ -93,8 +93,8 @@
 	//NSLog(@"testService: connectionIdentifier = %@", [twitterEngine testService]);
 	
 	// Social Graph methods
-	//NSLog(@"getFriendIDsFor: connectionIdentifier = %@", [twitterEngine getFriendIDsFor:@"duemoko" startingFromCursor:-1]);
-	//NSLog(@"getFollowerIDsFor: connectionIdentifier = %@", [twitterEngine getFollowerIDsFor:username startingFromCursor:-1]);
+	//NSLog(@"getFriendIDsFor: connectionIdentifier = %@", [twitterEngine getFriendIDsFor:TESTING_SECONDARY_USER startingFromCursor:-1]);
+	//NSLog(@"getFollowerIDsFor: connectionIdentifier = %@", [twitterEngine getFollowerIDsFor:TESTING_SECONDARY_USER startingFromCursor:-1]);
 
 #if YAJL_AVAILABLE
 	// Search method
@@ -163,11 +163,6 @@
 - (void)socialGraphInfoReceived:(NSArray *)socialGraphInfo forRequest:(NSString *)connectionIdentifier
 {
 	NSLog(@"Got social graph results for %@:\r%@", connectionIdentifier, socialGraphInfo);
-	
-//	NSLog(@"IDs: %@", [socialGraphInfo valueForKey:@"ids"]);
-//	NSLog(@"previous_cursor: %@", [socialGraphInfo valueForKey:@"previous_cursor"]);
-//	NSLog(@"next_cursor: %@", [socialGraphInfo valueForKey:@"next_cursor"]);
-//	NSLog(@"source_api_request_type: %@", [socialGraphInfo valueForKey:@"source_api_request_type"]);
 }
 
 
