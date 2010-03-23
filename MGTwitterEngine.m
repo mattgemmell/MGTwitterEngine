@@ -121,7 +121,7 @@
         _clientVersion = [DEFAULT_CLIENT_VERSION retain];
         _clientURL = [DEFAULT_CLIENT_URL retain];
 		_clientSourceToken = [DEFAULT_CLIENT_TOKEN retain];
-		_APIDomain = [[TWITTER_DOMAIN stringByAppendingFormat:@"/%d", TWITTER_API_VERSION] retain];
+		_APIDomain = [TWITTER_DOMAIN retain];
 #if YAJL_AVAILABLE
 		_searchDomain = [TWITTER_SEARCH_DOMAIN retain];
 #endif
@@ -261,7 +261,7 @@
 {
 	[_APIDomain release];
 	if (!domain || [domain length] == 0) {
-		_APIDomain = [[TWITTER_DOMAIN stringByAppendingFormat:@"/%d", TWITTER_API_VERSION] retain];
+		_APIDomain = [TWITTER_DOMAIN retain];
 	} else {
 		_APIDomain = [domain retain];
 	}
