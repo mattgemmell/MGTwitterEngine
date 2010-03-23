@@ -97,7 +97,11 @@
 
 - (NSString *)getUpdate:(MGTwitterEngineID)updateID; // statuses/show
 - (NSString *)sendUpdate:(NSString *)status; // statuses/update
+
+- (NSString *)sendUpdate:(NSString *)status withLatitude:(MGTwitterEngineLocationDegrees)latitude longitude:(MGTwitterEngineLocationDegrees)longitude; // statuses/update
 - (NSString *)sendUpdate:(NSString *)status inReplyTo:(MGTwitterEngineID)updateID; // statuses/update
+- (NSString *)sendUpdate:(NSString *)status inReplyTo:(MGTwitterEngineID)updateID withLatitude:(MGTwitterEngineLocationDegrees)latitude longitude:(MGTwitterEngineLocationDegrees)longitude; // statuses/update
+
 
 - (NSString *)getRepliesStartingAtPage:(int)pageNum; // statuses/mentions
 - (NSString *)getRepliesSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)pageNum count:(int)count; // statuses/mentions
