@@ -52,7 +52,7 @@
 	//NSLog(@"getRecentlyUpdatedFriendsFor: connectionIdentifier = %@", [twitterEngine getRecentlyUpdatedFriendsFor:nil startingAtPage:0]);
 	//NSLog(@"getFollowersIncludingCurrentStatus: connectionIdentifier = %@", [twitterEngine getFollowersIncludingCurrentStatus:YES]);
 	//NSLog(@"getUserInformationFor: connectionIdentifier = %@", [twitterEngine getUserInformationFor:TESTING_PRIMARY_USER]);
-
+														  
 	// Direct Message methods:
 	//NSLog(@"getDirectMessagesSinceID: connectionIdentifier = %@", [twitterEngine getDirectMessagesSinceID:0 startingAtPage:0]);
 	//NSLog(@"getSentDirectMessagesSinceID: connectionIdentifier = %@", [twitterEngine getSentDirectMessagesSinceID:0 startingAtPage:0]);
@@ -91,6 +91,10 @@
 
 	// Help methods:
 	//NSLog(@"testService: connectionIdentifier = %@", [twitterEngine testService]);
+	
+	// Social Graph methods
+	//NSLog(@"getFriendIDsFor: connectionIdentifier = %@", [twitterEngine getFriendIDsFor:TESTING_SECONDARY_USER startingFromCursor:-1]);
+	//NSLog(@"getFollowerIDsFor: connectionIdentifier = %@", [twitterEngine getFollowerIDsFor:TESTING_SECONDARY_USER startingFromCursor:-1]);
 
 #if YAJL_AVAILABLE
 	// Search method
@@ -149,9 +153,16 @@
 	NSLog(@"Got misc info for %@:\r%@", connectionIdentifier, miscInfo);
 }
 
+
 - (void)searchResultsReceived:(NSArray *)searchResults forRequest:(NSString *)connectionIdentifier
 {
 	NSLog(@"Got search results for %@:\r%@", connectionIdentifier, searchResults);
+}
+
+
+- (void)socialGraphInfoReceived:(NSArray *)socialGraphInfo forRequest:(NSString *)connectionIdentifier
+{
+	NSLog(@"Got social graph results for %@:\r%@", connectionIdentifier, socialGraphInfo);
 }
 
 

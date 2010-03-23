@@ -30,16 +30,18 @@
 		#import "MGTwitterMessagesLibXMLParser.h"
 		#import "MGTwitterUsersLibXMLParser.h"
 		#import "MGTwitterMiscLibXMLParser.h"
+		#import "MGTwitterSocialGraphLibXMLParser.h"
 	#else
 		#import "MGTwitterStatusesParser.h"
 		#import "MGTwitterUsersParser.h"
 		#import "MGTwitterMessagesParser.h"
 		#import "MGTwitterMiscParser.h"
+		#import "MGTwitterSocialGraphParser.h"
 	#endif
 #endif
 
-#define TWITTER_API_VERSION     1
-#define TWITTER_DOMAIN          @"api.twitter.com"
+#define TWITTER_DOMAIN          @"api.twitter.com/1"
+
 #if YAJL_AVAILABLE
 	#define TWITTER_SEARCH_DOMAIN	@"search.twitter.com"
 #endif
@@ -761,6 +763,11 @@
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType URL:URL];
 			break;
+		case MGTwitterSocialGraph:
+			[MGTwitterSocialGraphLibXMLParser parserWithXML:xmlData delegate:self 
+							connectionIdentifier:identifier requestType:requestType 
+								responseType:responseType URL:URL];
+			break;
         default:
             break;
     }
@@ -790,6 +797,10 @@
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType];
 			break;
+		case MGTwitterSocialGraph:
+			[MGTwitterSocialGraphParser parserWithXML:xmlData delegate:self 
+						  connectionIdentifier:identifier requestType:requestType 
+								  responseType:responseType];
         default:
             break;
     }
@@ -837,6 +848,10 @@
 				[_delegate searchResultsReceived:parsedObjects forRequest:identifier];
 			break;
 #endif
+		case MGTwitterSocialGraph:
+			if ([self _isValidDelegateForSelector:@selector(socialGraphInfoReceived:forRequest:)])
+				[_delegate socialGraphInfoReceived: parsedObjects forRequest:identifier];
+			break;
         default:
             break;
     }
@@ -1673,6 +1688,50 @@
 	return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterAccountRequest
                            responseType:MGTwitterMiscellaneous];
+}
+
+#pragma mark Social Graph methods
+
+
+- (NSString *)getFriendIDsFor:(NSString *)username startingFromCursor:(long long)cursor
+{
+	//NSLog(@"getFriendIDsFor:%@ atCursor:%lld", username, cursor);
+	if (cursor == 0 || [username isEqualToString:@""])
+		return nil;
+
+    NSString *path = [NSString stringWithFormat:@"friends/ids.%@", API_FORMAT];
+	
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    if (username) {
+        path = [NSString stringWithFormat:@"friends/ids/%@.%@", username, API_FORMAT];
+    }
+	
+	[params setObject:[NSString stringWithFormat:@"%lld", cursor] forKey:@"cursor"];
+    
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterFriendIDsRequest 
+                           responseType:MGTwitterSocialGraph];	
+}
+
+
+- (NSString *)getFollowerIDsFor:(NSString *)username startingFromCursor:(long long)cursor
+{
+	//NSLog(@"getFollowerIDsFor:%@ atCursor:%lld", username, cursor);
+	if (cursor == 0 || [username isEqualToString:@""])
+		return nil;
+	
+	NSString *path = [NSString stringWithFormat:@"followers/ids.%@", API_FORMAT];
+	
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    if (username) {		
+        path = [NSString stringWithFormat:@"followers/ids/%@.%@", username, API_FORMAT];
+    }
+	
+	[params setObject:[NSString stringWithFormat:@"%lld", cursor] forKey:@"cursor"];
+	
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterFollowerIDsRequest 
+                           responseType:MGTwitterSocialGraph];	
 }
 
 

@@ -45,6 +45,7 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 #if YAJL_AVAILABLE
 - (void)searchResultsReceived:(NSArray *)searchResults forRequest:(NSString *)connectionIdentifier;
 #endif
+- (void)socialGraphInfoReceived:(NSArray *)socialGraphInfo forRequest:(NSString *)connectionIdentifier;
 
 #if TARGET_OS_IPHONE
 - (void)imageReceived:(UIImage *)image forRequest:(NSString *)connectionIdentifier;
