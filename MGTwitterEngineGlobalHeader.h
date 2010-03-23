@@ -73,4 +73,5 @@
 #ifndef __MGTWITTERENGINEID__
 #define __MGTWITTERENGINEID__
 typedef unsigned long long MGTwitterEngineID;
+typedef long long MGTwitterEngineCursorID;
 #endif 
