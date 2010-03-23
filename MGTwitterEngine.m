@@ -1709,7 +1709,7 @@
 #pragma mark Social Graph methods
 
 
-- (NSString *)getFriendIDsFor:(NSString *)username startingFromCursor:(long long)cursor
+- (NSString *)getFriendIDsFor:(NSString *)username startingFromCursor:(MGTwitterEngineCursorID)cursor
 {
 	//NSLog(@"getFriendIDsFor:%@ atCursor:%lld", username, cursor);
 	if (cursor == 0 || [username isEqualToString:@""])
@@ -1730,7 +1730,7 @@
 }
 
 
-- (NSString *)getFollowerIDsFor:(NSString *)username startingFromCursor:(long long)cursor
+- (NSString *)getFollowerIDsFor:(NSString *)username startingFromCursor:(MGTwitterEngineCursorID)cursor
 {
 	//NSLog(@"getFollowerIDsFor:%@ atCursor:%lld", username, cursor);
 	if (cursor == 0 || [username isEqualToString:@""])
