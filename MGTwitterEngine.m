@@ -22,6 +22,10 @@
 	#import "MGTwitterUsersYAJLParser.h"
 	#import "MGTwitterMiscYAJLParser.h"
 	#import "MGTwitterSearchYAJLParser.h"
+#elif TOUCHJSON_AVAILABLE
+	#define API_FORMAT @"json"
+
+	#import "MGTwitterTouchJSONParser.h"
 #else
 	#define API_FORMAT @"xml"
 
@@ -42,7 +46,7 @@
 
 #define TWITTER_DOMAIN          @"api.twitter.com/1"
 
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 	#define TWITTER_SEARCH_DOMAIN	@"search.twitter.com"
 #endif
 #define HTTP_POST_METHOD        @"POST"
@@ -123,13 +127,13 @@
         _clientURL = [DEFAULT_CLIENT_URL retain];
 		_clientSourceToken = [DEFAULT_CLIENT_TOKEN retain];
 		_APIDomain = [TWITTER_DOMAIN retain];
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 		_searchDomain = [TWITTER_SEARCH_DOMAIN retain];
 #endif
 
         _secureConnection = YES;
 		_clearsCookies = NO;
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 		_deliveryOptions = MGTwitterEngineDeliveryAllResultsOption;
 #endif
     }
@@ -152,7 +156,7 @@
     [_clientURL release];
     [_clientSourceToken release];
 	[_APIDomain release];
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 	[_searchDomain release];
 #endif
     
@@ -269,7 +273,7 @@
 }
 
 
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 
 - (NSString *)searchDomain
 {
@@ -313,7 +317,7 @@
 	_clearsCookies = flag;
 }
 
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 
 - (MGTwitterEngineDeliveryOptions)deliveryOptions
 {
@@ -595,7 +599,7 @@
         fullPath = [self _queryStringWithBase:fullPath parameters:params prefixed:YES];
     }
     
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 	NSString *domain = nil;
 	NSString *connectionType = nil;
 	if (requestType == MGTwitterSearchRequest || requestType == MGTwitterSearchCurrentTrendsRequest)
@@ -680,7 +684,7 @@
 
 #pragma mark Parsing methods
 
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 - (void)_parseDataForConnection:(MGTwitterHTTPURLConnection *)connection
 {
     NSData *jsonData = [[[connection data] copy] autorelease];
@@ -696,6 +700,7 @@
 	}
 #endif
 
+#if YAJL_AVAILABLE
     switch (responseType) {
         case MGTwitterStatuses:
         case MGTwitterStatus:
@@ -728,6 +733,12 @@
        default:
             break;
     }
+#elif TOUCHJSON_AVAILABLE
+	[MGTwitterTouchJSONParser parserWithJSON:jsonData delegate:self
+						connectionIdentifier:identifier requestType:requestType
+								responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
+#endif
+	
 }
 #else
 - (void)_parseDataForConnection:(MGTwitterHTTPURLConnection *)connection
@@ -843,7 +854,7 @@
 			if ([self _isValidDelegateForSelector:@selector(miscInfoReceived:forRequest:)])
 				[_delegate miscInfoReceived:parsedObjects forRequest:identifier];
 			break;
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 		case MGTwitterSearchResults:
 			if ([self _isValidDelegateForSelector:@selector(searchResultsReceived:forRequest:)])
 				[_delegate searchResultsReceived:parsedObjects forRequest:identifier];
@@ -866,7 +877,7 @@
 		[_delegate requestFailed:requestIdentifier withError:error];
 }
 
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 
 - (void)parsedObject:(NSDictionary *)dictionary forRequest:(NSString *)requestIdentifier 
                  ofResponseType:(MGTwitterResponseType)responseType
@@ -1751,7 +1762,7 @@
 }
 
 
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 
 #pragma mark -
 #pragma mark Search API methods
