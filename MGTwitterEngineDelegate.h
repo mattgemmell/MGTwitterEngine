@@ -29,7 +29,7 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 
 @optional
 
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 // This delegate method is called each time a new result is parsed from the connection and
 // the deliveryOption is configured for MGTwitterEngineDeliveryIndividualResults.
 - (void)receivedObject:(NSDictionary *)dictionary forRequest:(NSString *)connectionIdentifier;
@@ -42,7 +42,7 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 - (void)directMessagesReceived:(NSArray *)messages forRequest:(NSString *)connectionIdentifier;
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)connectionIdentifier;
 - (void)miscInfoReceived:(NSArray *)miscInfo forRequest:(NSString *)connectionIdentifier;
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 - (void)searchResultsReceived:(NSArray *)searchResults forRequest:(NSString *)connectionIdentifier;
 #endif
 - (void)socialGraphInfoReceived:(NSArray *)socialGraphInfo forRequest:(NSString *)connectionIdentifier;
