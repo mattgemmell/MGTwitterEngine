@@ -97,7 +97,11 @@
 
 - (NSString *)getUpdate:(MGTwitterEngineID)updateID; // statuses/show
 - (NSString *)sendUpdate:(NSString *)status; // statuses/update
+
+- (NSString *)sendUpdate:(NSString *)status withLatitude:(MGTwitterEngineLocationDegrees)latitude longitude:(MGTwitterEngineLocationDegrees)longitude; // statuses/update
 - (NSString *)sendUpdate:(NSString *)status inReplyTo:(MGTwitterEngineID)updateID; // statuses/update
+- (NSString *)sendUpdate:(NSString *)status inReplyTo:(MGTwitterEngineID)updateID withLatitude:(MGTwitterEngineLocationDegrees)latitude longitude:(MGTwitterEngineLocationDegrees)longitude; // statuses/update
+
 
 - (NSString *)getRepliesStartingAtPage:(int)pageNum; // statuses/mentions
 - (NSString *)getRepliesSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)pageNum count:(int)count; // statuses/mentions
@@ -147,8 +151,8 @@
 - (NSString *)setNotificationsDeliveryMethod:(NSString *)method; // account/update_delivery_device
 
 // TODO: Add: account/update_profile_colors
-// TODO: Add: account/update_profile_image
-// TODO: Add: account/update_profile_background_image
+- (NSString *)setProfileImageWithImageAtPath:(NSString *)pathToFile;
+- (NSString *)setProfileBackgroundImageWithImageAtPath:(NSString *)pathToFile andTitle:(NSString *)title;
 
 - (NSString *)getRateLimitStatus; // account/rate_limit_status
 
