@@ -65,7 +65,7 @@
 #endif
 
 // Connection methods
-- (int)numberOfConnections;
+- (NSUInteger)numberOfConnections;
 - (NSArray *)connectionIdentifiers;
 - (void)closeConnection:(NSString *)identifier;
 - (void)closeAllConnections;

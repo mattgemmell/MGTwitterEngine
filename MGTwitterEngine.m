@@ -330,7 +330,7 @@
 #pragma mark Connection methods
 
 
-- (int)numberOfConnections
+- (NSUInteger)numberOfConnections
 {
     return [_connections count];
 }
