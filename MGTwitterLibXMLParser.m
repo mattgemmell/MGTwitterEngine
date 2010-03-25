@@ -47,7 +47,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		parsedObjects = [[NSMutableArray alloc] initWithCapacity:0];
 
 		// setup the xml reader
-		_reader = xmlReaderForMemory([xml bytes], [xml length], [[URL absoluteString] UTF8String], nil, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA | XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
+		_reader = xmlReaderForMemory([xml bytes], (int)[xml length], [[URL absoluteString] UTF8String], nil, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA | XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
 		if (! _reader)
 		{
 			return nil;
