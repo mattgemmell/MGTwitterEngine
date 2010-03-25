@@ -386,7 +386,7 @@
     
     // Append each name-value pair.
     if (params) {
-        int i;
+        NSUInteger i;
         NSArray *names = [params allKeys];
         for (i = 0; i < [names count]; i++) {
             if (i == 0 && prefixed) {
@@ -901,7 +901,7 @@
     
     // Get response code.
     NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
-    int statusCode = [resp statusCode];
+    NSInteger statusCode = [resp statusCode];
     
     if (statusCode >= 400) {
         // Assume failure, and report to delegate.
