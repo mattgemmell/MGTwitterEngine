@@ -12,7 +12,10 @@
 
 #import "NSData+Base64.h"
 
-#define USE_LIBXML 0
+#ifndef USE_LIBXML
+//  if you wish to use LibXML, add USE_LIBXML=1 to "Precompiler Macros" in Project Info for all targets
+#   define USE_LIBXML 0
+#endif
 
 #if YAJL_AVAILABLE
 	#define API_FORMAT @"json"
