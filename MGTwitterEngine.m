@@ -999,7 +999,7 @@
         }
 #endif
         
-        if ([connection responseType] == MGTwitterImage) {
+        if (responseType == MGTwitterImage) {
 			// Create image from data.
 #if TARGET_OS_IPHONE
             UIImage *image = [[[UIImage alloc] initWithData:[connection data]] autorelease];
