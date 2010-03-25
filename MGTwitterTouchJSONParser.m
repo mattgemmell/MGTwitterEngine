@@ -7,7 +7,7 @@
 //
 
 #import "MGTwitterTouchJSONParser.h"
-
+#import "CJSONDeserializer.h"
 
 @implementation MGTwitterTouchJSONParser
 
@@ -44,6 +44,58 @@ connectionIdentifier:(NSString *)theIdentifier
 		URL = [theURL retain];
 		deliveryOptions = theDeliveryOptions;
 		delegate = theDelegate;
+		
+		if (deliveryOptions & MGTwitterEngineDeliveryAllResultsOption)
+		{
+			parsedObjects = [[NSMutableArray alloc] initWithCapacity:0];
+		}
+		else
+		{
+			parsedObjects = nil; // rely on nil target to discard addObject
+		}
+		
+		if ([json length] <= 5)
+		{
+			// NOTE: this is a hack for API methods that return short JSON responses that can't be parsed by YAJL. These include:
+			//   friendships/exists: returns "true" or "false"
+			//   help/test: returns "ok"
+			// An empty response of "[]" is a special case.
+			NSString *result = [[[NSString alloc] initWithBytes:[json bytes] length:[json length] encoding:NSUTF8StringEncoding] autorelease];
+			if (! [result isEqualToString:@"[]"])
+			{
+				NSMutableDictionary *dictionary = [[[NSMutableDictionary alloc] initWithCapacity:1] autorelease];
+				
+				if ([result isEqualToString:@"\"ok\""])
+				{
+					[dictionary setObject:[NSNumber numberWithBool:YES] forKey:@"ok"];
+				}
+				else
+				{
+					[dictionary setObject:[NSNumber numberWithBool:[result isEqualToString:@"true"]] forKey:@"friends"];
+				}
+				[dictionary setObject:[NSNumber numberWithInt:requestType] forKey:TWITTER_SOURCE_REQUEST_TYPE];
+				
+				[self _parsedObject:dictionary];
+				
+				[parsedObjects addObject:dictionary];
+			}
+		}
+		else
+		{
+			id results = [[CJSONDeserializer deserializer] deserialize:json
+																 error:nil];
+			if([results isKindOfClass:[NSArray class]]){
+				for(NSDictionary *result in results){
+					[self _parsedObject:result];
+				}
+			}else{
+				[self _parsedObject:results];
+			}
+			
+		}
+		
+		// notify the delegate that parsing completed
+		[self _parsingDidEnd];
 	}
 	return self;
 }
@@ -80,6 +132,7 @@ connectionIdentifier:(NSString *)theIdentifier
 
 - (void)_parsedObject:(NSDictionary *)dictionary
 {
+	[parsedObjects addObject:dictionary];
 	if (deliveryOptions & MGTwitterEngineDeliveryIndividualResultsOption)
 		if ([self _isValidDelegateForSelector:@selector(parsedObject:forRequest:ofResponseType:)])
 			[delegate parsedObject:(NSDictionary *)dictionary forRequest:identifier ofResponseType:responseType];
