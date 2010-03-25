@@ -235,7 +235,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		}
 
 		// advance reader
-		int readerResult = xmlTextReaderRead(_reader);
+		readerResult = xmlTextReaderRead(_reader);
 		if (readerResult != 1)
 			break;
 		nodeType = xmlTextReaderNodeType(_reader);
@@ -295,7 +295,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		}
 
 		// advance reader
-		int readerResult = xmlTextReaderRead(_reader);
+		readerResult = xmlTextReaderRead(_reader);
 		if (readerResult != 1)
 			break;
 		nodeType = xmlTextReaderNodeType(_reader);
@@ -342,7 +342,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		}
 
 		// advance reader
-		int readerResult = xmlTextReaderRead(_reader);
+		readerResult = xmlTextReaderRead(_reader);
 		if (readerResult != 1)
 			break;
 		nodeType = xmlTextReaderNodeType(_reader);

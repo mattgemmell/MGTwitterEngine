@@ -29,7 +29,7 @@
 		}
 
 		// advance reader
-		int readerResult = xmlTextReaderRead(_reader);
+		readerResult = xmlTextReaderRead(_reader);
 		if (readerResult != 1)
 		{
 			break;
