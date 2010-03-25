@@ -36,7 +36,7 @@ connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)re
 connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType)reqType 
 	 responseType:(MGTwitterResponseType)respType URL:(NSURL *)theURL
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		xml = [theXML retain];
 		identifier = [theIdentifier retain];

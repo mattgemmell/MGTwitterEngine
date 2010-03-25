@@ -115,7 +115,7 @@
 
 - (MGTwitterEngine *)initWithDelegate:(NSObject *)newDelegate
 {
-    if (self = [super init]) {
+    if ((self = [super init])) {
         _delegate = newDelegate; // deliberately weak reference
         _connections = [[NSMutableDictionary alloc] initWithCapacity:0];
         _clientName = [DEFAULT_CLIENT_NAME retain];
@@ -208,7 +208,7 @@
 		NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 		NSEnumerator *enumerator = [[cookieStorage cookiesForURL:url] objectEnumerator];
 		NSHTTPCookie *cookie = nil;
-		while (cookie = [enumerator nextObject]) {
+		while ((cookie = [enumerator nextObject])) {
 			[cookieStorage deleteCookie:cookie];
 		}
 	}
