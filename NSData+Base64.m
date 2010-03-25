@@ -99,7 +99,8 @@ static char encodingTable[64] = {
 	long ctremaining = 0;
 	unsigned char inbuf[3], outbuf[4];
 	short i = 0;
-	short charsonline = 0, ctcopy = 0;
+	unsigned int charsonline = 0;
+    short ctcopy = 0;
 	unsigned long ix = 0;
 
 	while( YES ) {
