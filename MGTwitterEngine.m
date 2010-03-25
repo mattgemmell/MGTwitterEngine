@@ -940,11 +940,11 @@
 #if DEBUG
     if (NO) {
         // Display headers for debugging.
-        NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
+        NSHTTPURLResponse *respDebug = (NSHTTPURLResponse *)response;
         NSLog(@"MGTwitterEngine: (%d) [%@]:\r%@", 
               [resp statusCode], 
-              [NSHTTPURLResponse localizedStringForStatusCode:[resp statusCode]], 
-              [resp allHeaderFields]);
+              [NSHTTPURLResponse localizedStringForStatusCode:[respDebug statusCode]], 
+              [respDebug allHeaderFields]);
     }
 #endif
 }
