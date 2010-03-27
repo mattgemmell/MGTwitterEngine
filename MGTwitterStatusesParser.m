@@ -32,6 +32,11 @@
         NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
         [currentNode setObject:newNode forKey:elementName];
         currentNode = newNode;
+    } else if ([elementName isEqualToString:@"retweeted_status"]) {
+      // Add a 'retweet_status' dictionary to current node.
+      NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
+      [currentNode setObject:newNode forKey:elementName];
+      currentNode = newNode;
     } else if (currentNode) {
         // Create relevant name-value pair.
         [currentNode setObject:[NSMutableString string] forKey:elementName];
@@ -59,6 +64,8 @@
     } else if ([elementName isEqualToString:@"status"]) {
         [self addSource];
         currentNode = nil;
+    } else if ([elementName isEqualToString:@"retweeted_status"]){
+        currentNode = [parsedObjects lastObject];
     }
 }
 
