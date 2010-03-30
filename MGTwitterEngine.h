@@ -119,6 +119,8 @@
 - (NSString *)getFollowersIncludingCurrentStatus:(BOOL)flag; // statuses/followers
 
 - (NSString *)getUserInformationFor:(NSString *)usernameOrID; // users/show
+- (NSString *)getBulkUserInformationFor:(NSString *)userIDs;
+
 - (NSString *)getUserInformationForEmail:(NSString *)email; // users/show
 
 

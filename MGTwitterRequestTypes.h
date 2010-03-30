@@ -22,6 +22,7 @@ typedef enum _MGTwitterRequestType {
 	MGTwitterFriendUpdatesForUserRequest, // last status for the people that the specified user follows
 	MGTwitterFollowerUpdatesRequest, // last status for the people that follow the current user
 	MGTwitterUserInformationRequest, // user information using the specified id or email
+	MGTwitterBulkUserInformationRequest, // user information using the specified id or email
     MGTwitterDirectMessagesRequest, // latest direct messages to the current user
     MGTwitterDirectMessagesSentRequest, // latest direct messages from the current user
 	MGTwitterDirectMessageSendRequest, // send a new direct message from the current user

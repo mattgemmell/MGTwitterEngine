@@ -1290,6 +1290,20 @@
                            responseType:MGTwitterUser];
 }
 
+- (NSString *)getBulkUserInformationFor:(NSString *)userIDs
+{
+    if (!userIDs) {
+        return nil;
+    }
+    NSString *path = [NSString stringWithFormat:@"users/lookup.%@?user_id=%@", API_FORMAT, userIDs];
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+
+
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterBulkUserInformationRequest 
+                           responseType:MGTwitterUsers];
+}
+
 
 - (NSString *)getUserInformationForEmail:(NSString *)email
 {
