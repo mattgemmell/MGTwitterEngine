@@ -35,6 +35,10 @@
 #if DEBUG_PARSING
 	NSLog(@"search: dictionary start = %@", key);
 #endif
+	if ([key isEqualToString:@"metadata"]
+	{
+		insideMetadata = YES;
+	}
 
 	if (insideArray)
 	{
@@ -54,6 +58,12 @@
 
 - (void)endDictionary
 {
+	if (insideMetadata)
+	{
+		insideMetadata = NO;
+		return;
+	}
+
 	if (insideArray)
 	{
 		if (_results)
