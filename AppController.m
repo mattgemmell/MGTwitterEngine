@@ -38,7 +38,7 @@
 	
 	#define TESTING_ID 1131604824
 	#define TESTING_PRIMARY_USER @"gnitset"
-	#define TESTING_SECONDARY_USER @"justin"
+	#define TESTING_SECONDARY_USER @"chockenberry"
 	#define TESTING_MESSAGE_ID 52182684
 	
 	// Status methods:

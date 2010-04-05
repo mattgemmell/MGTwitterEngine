@@ -32,11 +32,16 @@
         NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
         [currentNode setObject:newNode forKey:elementName];
         currentNode = newNode;
+    } else if ([elementName isEqualToString:@"place"]) {
+        // Add a 'place' dictionary to current node.
+        NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
+        [currentNode setObject:newNode forKey:elementName];
+        currentNode = newNode;
     } else if ([elementName isEqualToString:@"retweeted_status"]) {
-      // Add a 'retweet_status' dictionary to current node.
-      NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
-      [currentNode setObject:newNode forKey:elementName];
-      currentNode = newNode;
+        // Add a 'retweet_status' dictionary to current node.
+        NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
+        [currentNode setObject:newNode forKey:elementName];
+        currentNode = newNode;
     } else if (currentNode) {
         // Create relevant name-value pair.
         [currentNode setObject:[NSMutableString string] forKey:elementName];
@@ -61,11 +66,13 @@
     
     if ([elementName isEqualToString:@"user"]) {
         currentNode = [parsedObjects lastObject];
+    } else if ([elementName isEqualToString:@"place"]) {
+        currentNode = [parsedObjects lastObject];
+    } else if ([elementName isEqualToString:@"retweeted_status"]) {
+        currentNode = [parsedObjects lastObject];
     } else if ([elementName isEqualToString:@"status"]) {
         [self addSource];
         currentNode = nil;
-    } else if ([elementName isEqualToString:@"retweeted_status"]){
-        currentNode = [parsedObjects lastObject];
     }
 }
 
