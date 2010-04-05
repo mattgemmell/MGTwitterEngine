@@ -12,7 +12,10 @@
 
 #import "NSData+Base64.h"
 
-#define USE_LIBXML 0
+#ifndef USE_LIBXML
+//  if you wish to use LibXML, add USE_LIBXML=1 to "Precompiler Macros" in Project Info for all targets
+#   define USE_LIBXML 0
+#endif
 
 #if YAJL_AVAILABLE
 	#define API_FORMAT @"json"
@@ -115,7 +118,7 @@
 
 - (MGTwitterEngine *)initWithDelegate:(NSObject *)newDelegate
 {
-    if (self = [super init]) {
+    if ((self = [super init])) {
         _delegate = newDelegate; // deliberately weak reference
         _connections = [[NSMutableDictionary alloc] initWithCapacity:0];
         _clientName = [DEFAULT_CLIENT_NAME retain];
@@ -208,7 +211,7 @@
 		NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 		NSEnumerator *enumerator = [[cookieStorage cookiesForURL:url] objectEnumerator];
 		NSHTTPCookie *cookie = nil;
-		while (cookie = [enumerator nextObject]) {
+		while ((cookie = [enumerator nextObject])) {
 			[cookieStorage deleteCookie:cookie];
 		}
 	}
@@ -330,7 +333,7 @@
 #pragma mark Connection methods
 
 
-- (int)numberOfConnections
+- (NSUInteger)numberOfConnections
 {
     return [_connections count];
 }
@@ -386,7 +389,7 @@
     
     // Append each name-value pair.
     if (params) {
-        int i;
+        NSUInteger i;
         NSArray *names = [params allKeys];
         for (i = 0; i < [names count]; i++) {
             if (i == 0 && prefixed) {
@@ -669,7 +672,7 @@
 	if ([self username] && [self password]) {
 		// Set header for HTTP Basic authentication explicitly, to avoid problems with proxies and other intermediaries
 		NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self username], [self password]];
-		NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+		NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
 		NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
 		[theRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
 	}
@@ -901,7 +904,7 @@
     
     // Get response code.
     NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
-    int statusCode = [resp statusCode];
+    NSInteger statusCode = [resp statusCode];
     
     if (statusCode >= 400) {
         // Assume failure, and report to delegate.
@@ -937,11 +940,11 @@
 #if DEBUG
     if (NO) {
         // Display headers for debugging.
-        NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
+        NSHTTPURLResponse *respDebug = (NSHTTPURLResponse *)response;
         NSLog(@"MGTwitterEngine: (%d) [%@]:\r%@", 
               [resp statusCode], 
-              [NSHTTPURLResponse localizedStringForStatusCode:[resp statusCode]], 
-              [resp allHeaderFields]);
+              [NSHTTPURLResponse localizedStringForStatusCode:[respDebug statusCode]], 
+              [respDebug allHeaderFields]);
     }
 #endif
 }
@@ -999,7 +1002,7 @@
         }
 #endif
         
-        if ([connection responseType] == MGTwitterImage) {
+        if (responseType == MGTwitterImage) {
 			// Create image from data.
 #if TARGET_OS_IPHONE
             UIImage *image = [[[UIImage alloc] initWithData:[connection data]] autorelease];
@@ -1041,6 +1044,36 @@
 
 #pragma mark -
 
+- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count; // statuses/home_timeline
+{
+  return [self getHomeTimelineSinceID:sinceID withMaximumID:0 startingAtPage:page count:count];
+}
+
+- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page count:(int)count; // statuses/home_timeline
+{
+  NSString *path = [NSString stringWithFormat:@"statuses/home_timeline.%@", API_FORMAT];
+  
+  NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+  if (sinceID > 0) {
+    [params setObject:[NSString stringWithFormat:@"%llu", sinceID] forKey:@"since_id"];
+  }
+  if (maxID > 0) {
+    [params setObject:[NSString stringWithFormat:@"%llu", maxID] forKey:@"max_id"];
+  }
+  if (page > 0) {
+    [params setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
+  }
+  if (count > 0) {
+    [params setObject:[NSString stringWithFormat:@"%d", count] forKey:@"count"];
+  }
+  
+  return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                          requestType:MGTwitterHomeTimelineRequest 
+                         responseType:MGTwitterStatuses];
+  
+}
+
+#pragma mark -
 
 - (NSString *)getFollowedTimelineSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count
 {
@@ -1288,6 +1321,20 @@
     return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterUserInformationRequest 
                            responseType:MGTwitterUser];
+}
+
+- (NSString *)getBulkUserInformationFor:(NSString *)userIDs
+{
+    if (!userIDs) {
+        return nil;
+    }
+    NSString *path = [NSString stringWithFormat:@"users/lookup.%@?user_id=%@", API_FORMAT, userIDs];
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+
+
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterBulkUserInformationRequest 
+                           responseType:MGTwitterUsers];
 }
 
 

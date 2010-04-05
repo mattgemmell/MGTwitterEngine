@@ -36,7 +36,7 @@ connectionIdentifier:(NSString *)identifier requestType:(MGTwitterRequestType)re
 connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType)reqType 
 	 responseType:(MGTwitterResponseType)respType URL:(NSURL *)theURL
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		xml = [theXML retain];
 		identifier = [theIdentifier retain];
@@ -47,7 +47,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		parsedObjects = [[NSMutableArray alloc] initWithCapacity:0];
 
 		// setup the xml reader
-		_reader = xmlReaderForMemory([xml bytes], [xml length], [[URL absoluteString] UTF8String], nil, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA | XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
+		_reader = xmlReaderForMemory([xml bytes], (int)[xml length], [[URL absoluteString] UTF8String], nil, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA | XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
 		if (! _reader)
 		{
 			return nil;
@@ -160,7 +160,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 
 	NSString *intString = [NSString stringWithUTF8String:(const char *)nodeValue];
 	xmlFree(nodeValue);
-	return [NSNumber numberWithInt:[intString intValue]];
+    return [NSNumber numberWithLongLong:[intString longLongValue]];
 }
 
 - (NSNumber *)_nodeValueAsBool
@@ -223,6 +223,10 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 					[dictionary setObject:number forKey:[NSString stringWithUTF8String:(const char *)name]];
 				}
 			}
+      else if (xmlStrEqual(name, BAD_CAST "retweeted_status"))
+      {
+        [dictionary setObject:[self _statusDictionaryForNodeWithName:name] forKey:[NSString stringWithUTF8String:(const char *)name]];
+      }
 			else
 			{
 				// process element as a string
@@ -235,7 +239,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		}
 
 		// advance reader
-		int readerResult = xmlTextReaderRead(_reader);
+		readerResult = xmlTextReaderRead(_reader);
 		if (readerResult != 1)
 			break;
 		nodeType = xmlTextReaderNodeType(_reader);
@@ -295,7 +299,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		}
 
 		// advance reader
-		int readerResult = xmlTextReaderRead(_reader);
+		readerResult = xmlTextReaderRead(_reader);
 		if (readerResult != 1)
 			break;
 		nodeType = xmlTextReaderNodeType(_reader);
@@ -342,7 +346,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 		}
 
 		// advance reader
-		int readerResult = xmlTextReaderRead(_reader);
+		readerResult = xmlTextReaderRead(_reader);
 		if (readerResult != 1)
 			break;
 		nodeType = xmlTextReaderNodeType(_reader);

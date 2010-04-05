@@ -10,6 +10,7 @@
 
 typedef enum _MGTwitterRequestType {
 	MGTwitterPublicTimelineRequest = 0,  // latest statuses from the public timeline
+  MGTwitterHomeTimelineRequest, // latest statuses from the home timeline
 	MGTwitterFollowedTimelineRequest, // latest statuses from the people that the current users follows
 	MGTwitterUserTimelineRequest, // statuses archive for the current user
 	MGTwitterUserTimelineForUserRequest, // statuses archive for the specified user
@@ -22,6 +23,7 @@ typedef enum _MGTwitterRequestType {
 	MGTwitterFriendUpdatesForUserRequest, // last status for the people that the specified user follows
 	MGTwitterFollowerUpdatesRequest, // last status for the people that follow the current user
 	MGTwitterUserInformationRequest, // user information using the specified id or email
+	MGTwitterBulkUserInformationRequest, // user information using the specified id or email
     MGTwitterDirectMessagesRequest, // latest direct messages to the current user
     MGTwitterDirectMessagesSentRequest, // latest direct messages from the current user
 	MGTwitterDirectMessageSendRequest, // send a new direct message from the current user
