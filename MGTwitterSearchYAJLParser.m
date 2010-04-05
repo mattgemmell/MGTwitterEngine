@@ -35,7 +35,7 @@
 #if DEBUG_PARSING
 	NSLog(@"search: dictionary start = %@", key);
 #endif
-	if ([key isEqualToString:@"metadata"]
+	if ([key isEqualToString:@"metadata"])
 	{
 		insideMetadata = YES;
 	}
