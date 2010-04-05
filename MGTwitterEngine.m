@@ -1801,7 +1801,7 @@
 
 - (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count
 {
-    return [self getSearchResultsForQuery:query sinceID:sinceID startingAtPage:0 count:0 geocode:nil]; // zero means default
+    return [self getSearchResultsForQuery:query sinceID:sinceID startingAtPage:page count:count geocode:nil]; // zero means default
 }
 
 - (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count geocode:(NSString *)geocode
