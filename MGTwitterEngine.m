@@ -593,7 +593,7 @@
                                 queryParameters:(NSDictionary *)params 
 {
     // Construct appropriate URL string.
-    NSString *fullPath = path;
+    NSString *fullPath = [path stringByAddingPercentEscapesUsingEncoding:NSNonLossyASCIIStringEncoding];
     if (params) {
         fullPath = [self _queryStringWithBase:fullPath parameters:params prefixed:YES];
     }
