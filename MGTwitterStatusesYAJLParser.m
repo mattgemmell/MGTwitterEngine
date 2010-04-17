@@ -20,7 +20,6 @@
 		return;
 	}
 	
-	//add the item to its dictionary
 	NSMutableDictionary *lastDictionary = [_dictionaries lastObject];
 	[lastDictionary setObject:value forKey:key];
 	
@@ -35,13 +34,11 @@
 	NSLog(@"status: dictionary start = %@", key);
 #endif
 	
-	//initialize the array that will hold all of the dictionaries if it doesn't exist yet
 	if (!_dictionaries) 
 	{
 		_dictionaries = [[NSMutableArray alloc] init];
 	}
 	
-	//initialize the array that will hold all of the dictionary keys if it doesn't exist yet
 	if (!_dictionaryKeys) 
 	{
 		_dictionaryKeys = [[NSMutableArray alloc] init];
