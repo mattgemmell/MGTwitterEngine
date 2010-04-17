@@ -52,12 +52,8 @@
 	[_dictionaries addObject:newDictionary];
 	[newDictionary release];
 	
-	//convert the key to camel case
-	NSString *camelKey = [[key capitalizedString] stringByReplacingOccurrencesOfString:@"_" withString:@""];
-	camelKey = [NSString stringWithFormat:@"%@%@", [[camelKey substringToIndex:1] lowercaseString], [camelKey substringFromIndex:1]];
-	
 	//add a key for the above dictionary to the array
-	[_dictionaryKeys addObject:(key) ? camelKey : @""];
+	[_dictionaryKeys addObject:(key) ? key : @""];
 }
 
 - (void)endDictionary
