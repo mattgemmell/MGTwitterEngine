@@ -11,10 +11,10 @@
 #import "MGTwitterYAJLParser.h"
 
 @interface MGTwitterSearchYAJLParser : MGTwitterYAJLParser {
-	BOOL insideMetadata;
 	BOOL insideArray;
-	NSMutableDictionary *_results;
 	NSMutableDictionary *_status;
+	NSMutableArray *_dictionaries; // effectively a stack for parsing nested dictionaries
+	NSMutableArray *_dictionaryKeys;
 }
 
 @end
