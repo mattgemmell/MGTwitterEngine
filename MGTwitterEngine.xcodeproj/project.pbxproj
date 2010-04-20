@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E874648115AD8D80076FC51 /* MGTwitterTouchJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E874647115AD8D80076FC51 /* MGTwitterTouchJSONParser.m */; };
 		44F7517C0E47DBD600858A1B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44F7517B0E47DBD600858A1B /* libxml2.dylib */; };
 		44F7518F0E47DDD500858A1B /* MGTwitterUsersLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F751890E47DDD500858A1B /* MGTwitterUsersLibXMLParser.m */; };
 		44F751900E47DDD500858A1B /* MGTwitterMiscLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F7518A0E47DDD500858A1B /* MGTwitterMiscLibXMLParser.m */; };
@@ -370,7 +369,6 @@
 				44F751A70E47DEC400858A1B /* NSData+Base64.m in Sources */,
 				D47CF9B511541D0A00E07931 /* MGTwitterSocialGraphParser.m in Sources */,
 				D47CFCA9115567ED00E07931 /* MGTwitterSocialGraphLibXMLParser.m in Sources */,
-				1E874648115AD8D80076FC51 /* MGTwitterTouchJSONParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
