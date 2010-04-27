@@ -11,12 +11,12 @@
 #import "MGTwitterEngineDelegate.h"
 #import "MGTwitterParserDelegate.h"
 
+#import "OAToken.h"
+
 
 @interface MGTwitterEngine : NSObject <MGTwitterParserDelegate>
 {
     __weak NSObject <MGTwitterEngineDelegate> *_delegate;
-    NSString *_username;
-    NSString *_password;
     NSMutableDictionary *_connections;   // MGTwitterHTTPURLConnection objects
     NSString *_clientName;
     NSString *_clientVersion;
@@ -31,6 +31,15 @@
 #if YAJL_AVAILABLE
 	MGTwitterEngineDeliveryOptions _deliveryOptions;
 #endif
+	
+	// OAuth
+	NSString *_consumerKey;
+	NSString *_consumerSecret;
+	OAToken  *_accessToken;
+	
+	// basic auth - deprecated
+	NSString *_username;
+    NSString *_password;
 }
 
 #pragma mark Class management
@@ -41,9 +50,6 @@
 
 // Configuration and Accessors
 + (NSString *)version; // returns the version of MGTwitterEngine
-- (NSString *)username;
-- (NSString *)password;
-- (void)setUsername:(NSString *)username password:(NSString *)password;
 - (NSString *)clientName; // see README.txt for info on clientName/Version/URL/SourceToken
 - (NSString *)clientVersion;
 - (NSString *)clientURL;
@@ -220,3 +226,29 @@
 #endif
 
 @end
+
+@interface MGTwitterEngine (BasicAuth)
+
+- (NSString *)username DEPRECATED_ATTRIBUTE;
+- (NSString *)password DEPRECATED_ATTRIBUTE;
+- (void)setUsername:(NSString *)username password:(NSString *)password DEPRECATED_ATTRIBUTE;
+
+@end
+
+@interface MGTwitterEngine (OAuth)
+
+- (void)setConsumerKey:(NSString *)key secret:(NSString *)secret;
+- (NSString *)consumerKey;
+- (NSString *)consumerSecret;
+
+- (void)setAccessToken: (OAToken *)token;
+- (OAToken *)accessToken;
+
+// XAuth login - NOTE: You MUST email Twitter with your application's OAuth key/secret to
+// get OAuth access. This will not work if you don't do this.
+- (NSString *)getXAuthAccessTokenForUsername:(NSString *)username 
+									password:(NSString *)password;
+
+@end
+
+

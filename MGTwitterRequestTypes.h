@@ -50,6 +50,7 @@ typedef enum _MGTwitterRequestType {
 	MGTwitterSearchRequest, // performing a search
 	MGTwitterSearchCurrentTrendsRequest, // getting the current trends
 #endif
+	MGTwitterOAuthTokenRequest,
 } MGTwitterRequestType;
 
 typedef enum _MGTwitterResponseType {
@@ -66,6 +67,7 @@ typedef enum _MGTwitterResponseType {
 	MGTwitterSearchResults		= 9,	// search results
 #endif
 	MGTwitterSocialGraph		= 10,
+	MGTwitterOAuthToken         = 11,
 } MGTwitterResponseType;
 
 // This key is added to each tweet or direct message returned,

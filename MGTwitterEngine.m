@@ -180,44 +180,6 @@
     return @"1.0.8";
 }
 
-
-- (NSString *)username
-{
-    return [[_username retain] autorelease];
-}
-
-
-- (NSString *)password
-{
-    return [[_password retain] autorelease];
-}
-
-
-- (void)setUsername:(NSString *)newUsername password:(NSString *)newPassword
-{
-    // Set new credentials.
-    [_username release];
-    _username = [newUsername retain];
-    [_password release];
-    _password = [newPassword retain];
-    
-	if ([self clearsCookies]) {
-		// Remove all cookies for twitter, to ensure next connection uses new credentials.
-		NSString *urlString = [NSString stringWithFormat:@"%@://%@", 
-							   (_secureConnection) ? @"https" : @"http", 
-							   _APIDomain];
-		NSURL *url = [NSURL URLWithString:urlString];
-		
-		NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-		NSEnumerator *enumerator = [[cookieStorage cookiesForURL:url] objectEnumerator];
-		NSHTTPCookie *cookie = nil;
-		while ((cookie = [enumerator nextObject])) {
-			[cookieStorage deleteCookie:cookie];
-		}
-	}
-}
-
-
 - (NSString *)clientName
 {
     return [[_clientName retain] autorelease];
@@ -727,6 +689,8 @@
  			[MGTwitterSearchYAJLParser parserWithJSON:jsonData delegate:self 
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
+			break;
+		case MGTwitterOAuthTokenRequest:
 			break;
        default:
             break;
@@ -1880,3 +1844,82 @@
 #endif
 
 @end
+
+@implementation MGTwitterEngine (BasicAuth)
+
+- (NSString *)username
+{
+    return [[_username retain] autorelease];
+}
+
+
+- (NSString *)password
+{
+    return [[_password retain] autorelease];
+}
+
+
+- (void)setUsername:(NSString *)newUsername password:(NSString *)newPassword
+{
+    // Set new credentials.
+    [_username release];
+    _username = [newUsername retain];
+    [_password release];
+    _password = [newPassword retain];
+    
+	if ([self clearsCookies]) {
+		// Remove all cookies for twitter, to ensure next connection uses new credentials.
+		NSString *urlString = [NSString stringWithFormat:@"%@://%@", 
+							   (_secureConnection) ? @"https" : @"http", 
+							   _APIDomain];
+		NSURL *url = [NSURL URLWithString:urlString];
+		
+		NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+		NSEnumerator *enumerator = [[cookieStorage cookiesForURL:url] objectEnumerator];
+		NSHTTPCookie *cookie = nil;
+		while ((cookie = [enumerator nextObject])) {
+			[cookieStorage deleteCookie:cookie];
+		}
+	}
+}
+
+@end
+
+@implementation MGTwitterEngine (OAuth)
+
+- (void)setConsumerKey:(NSString *)key secret:(NSString *)secret{
+	[_consumerKey autorelease];
+	_consumerKey = [key copy];
+	
+	[_consumerSecret autorelease];
+	_consumerSecret = [secret copy];
+}
+
+- (NSString *)consumerKey{
+	return _consumerKey;
+}
+
+- (NSString *)consumerSecret{
+	return _consumerSecret;
+}
+
+- (void)setAccessToken: (OAToken *)token{
+	[_accessToken autorelease];
+	_accessToken = [token retain];
+}
+
+- (OAToken *)accessToken{
+	return _accessToken;
+}
+
+- (NSString *)getXAuthAccessTokenForUsername:(NSString *)username 
+									password:(NSString *)password{
+	return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+							requestType:MGTwitterOAuthGetXAuthAccessToken 
+						   responseType:MGTwitterOAuthToken];
+	
+}
+
+@end
+
+

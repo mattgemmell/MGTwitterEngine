@@ -7,6 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E4C01691186A3780092F9AD /* MGTwitterMiscYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFEA0F2141AB004F5AE3 /* MGTwitterMiscYAJLParser.m */; };
+		1E4C016A1186A3780092F9AD /* MGTwitterStatusesYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFEC0F2141AB004F5AE3 /* MGTwitterStatusesYAJLParser.m */; };
+		1E4C016B1186A3780092F9AD /* MGTwitterMessagesYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFE80F2141AB004F5AE3 /* MGTwitterMessagesYAJLParser.m */; };
+		1E4C016C1186A3780092F9AD /* MGTwitterYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFF00F2141AB004F5AE3 /* MGTwitterYAJLParser.m */; };
+		1E4C016D1186A3780092F9AD /* MGTwitterUsersYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44AEFFEE0F2141AB004F5AE3 /* MGTwitterUsersYAJLParser.m */; };
+		1E4C016E1186A3780092F9AD /* MGTwitterSearchYAJLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 440E60660F257C1300EF8874 /* MGTwitterSearchYAJLParser.m */; };
+		1E4C01951186A47C0092F9AD /* yajl_alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01881186A47C0092F9AD /* yajl_alloc.c */; };
+		1E4C01961186A47C0092F9AD /* yajl_buf.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C018A1186A47C0092F9AD /* yajl_buf.c */; };
+		1E4C01971186A47C0092F9AD /* yajl_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C018D1186A47C0092F9AD /* yajl_encode.c */; };
+		1E4C01981186A47C0092F9AD /* yajl_gen.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C018F1186A47C0092F9AD /* yajl_gen.c */; };
+		1E4C01991186A47C0092F9AD /* yajl_lex.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01901186A47C0092F9AD /* yajl_lex.c */; };
+		1E4C019A1186A47C0092F9AD /* yajl_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01921186A47C0092F9AD /* yajl_parser.c */; };
+		1E4C019B1186A47C0092F9AD /* yajl.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01941186A47C0092F9AD /* yajl.c */; };
+		1E4C01C81186A49C0092F9AD /* NSMutableURLRequest+Parameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A11186A49C0092F9AD /* NSMutableURLRequest+Parameters.m */; };
+		1E4C01C91186A49C0092F9AD /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A31186A49C0092F9AD /* NSString+URLEncoding.m */; };
+		1E4C01CA1186A49C0092F9AD /* NSURL+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A51186A49C0092F9AD /* NSURL+Base.m */; };
+		1E4C01CB1186A49C0092F9AD /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A71186A49C0092F9AD /* Base64Transcoder.c */; };
+		1E4C01CC1186A49C0092F9AD /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A91186A49C0092F9AD /* hmac.c */; };
+		1E4C01CD1186A49C0092F9AD /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AB1186A49C0092F9AD /* sha1.c */; };
+		1E4C01CE1186A49C0092F9AD /* OACall.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AE1186A49C0092F9AD /* OACall.m */; };
+		1E4C01CF1186A49C0092F9AD /* OAConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B01186A49C0092F9AD /* OAConsumer.m */; };
+		1E4C01D01186A49C0092F9AD /* OADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B21186A49C0092F9AD /* OADataFetcher.m */; };
+		1E4C01D11186A49C0092F9AD /* OAHMAC_SHA1SignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B41186A49C0092F9AD /* OAHMAC_SHA1SignatureProvider.m */; };
+		1E4C01D21186A49C0092F9AD /* OAMutableURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B61186A49C0092F9AD /* OAMutableURLRequest.m */; };
+		1E4C01D31186A49C0092F9AD /* OAPlaintextSignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B81186A49C0092F9AD /* OAPlaintextSignatureProvider.m */; };
+		1E4C01D41186A49C0092F9AD /* OAProblem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01BA1186A49C0092F9AD /* OAProblem.m */; };
+		1E4C01D51186A49C0092F9AD /* OARequestParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01BC1186A49C0092F9AD /* OARequestParameter.m */; };
+		1E4C01D61186A49C0092F9AD /* OAServiceTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01BE1186A49C0092F9AD /* OAServiceTicket.m */; };
+		1E4C01D81186A49C0092F9AD /* OAToken_KeychainExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01C21186A49C0092F9AD /* OAToken_KeychainExtensions.m */; };
+		1E4C01D91186A49C0092F9AD /* OAToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01C41186A49C0092F9AD /* OAToken.m */; };
+		1E4C01E01186A5260092F9AD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E4C01DF1186A5260092F9AD /* Security.framework */; };
 		44F7517C0E47DBD600858A1B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44F7517B0E47DBD600858A1B /* libxml2.dylib */; };
 		44F7518F0E47DDD500858A1B /* MGTwitterUsersLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F751890E47DDD500858A1B /* MGTwitterUsersLibXMLParser.m */; };
 		44F751900E47DDD500858A1B /* MGTwitterMiscLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F7518A0E47DDD500858A1B /* MGTwitterMiscLibXMLParser.m */; };
@@ -34,6 +65,59 @@
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1E4C01851186A47C0092F9AD /* yajl_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yajl_common.h; path = src/api/yajl_common.h; sourceTree = "<group>"; };
+		1E4C01861186A47C0092F9AD /* yajl_gen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yajl_gen.h; path = src/api/yajl_gen.h; sourceTree = "<group>"; };
+		1E4C01871186A47C0092F9AD /* yajl_parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yajl_parse.h; path = src/api/yajl_parse.h; sourceTree = "<group>"; };
+		1E4C01881186A47C0092F9AD /* yajl_alloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = yajl_alloc.c; path = src/yajl_alloc.c; sourceTree = "<group>"; };
+		1E4C01891186A47C0092F9AD /* yajl_alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yajl_alloc.h; path = src/yajl_alloc.h; sourceTree = "<group>"; };
+		1E4C018A1186A47C0092F9AD /* yajl_buf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = yajl_buf.c; path = src/yajl_buf.c; sourceTree = "<group>"; };
+		1E4C018B1186A47C0092F9AD /* yajl_buf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yajl_buf.h; path = src/yajl_buf.h; sourceTree = "<group>"; };
+		1E4C018C1186A47C0092F9AD /* yajl_bytestack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yajl_bytestack.h; path = src/yajl_bytestack.h; sourceTree = "<group>"; };
+		1E4C018D1186A47C0092F9AD /* yajl_encode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = yajl_encode.c; path = src/yajl_encode.c; sourceTree = "<group>"; };
+		1E4C018E1186A47C0092F9AD /* yajl_encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yajl_encode.h; path = src/yajl_encode.h; sourceTree = "<group>"; };
+		1E4C018F1186A47C0092F9AD /* yajl_gen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = yajl_gen.c; path = src/yajl_gen.c; sourceTree = "<group>"; };
+		1E4C01901186A47C0092F9AD /* yajl_lex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = yajl_lex.c; path = src/yajl_lex.c; sourceTree = "<group>"; };
+		1E4C01911186A47C0092F9AD /* yajl_lex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yajl_lex.h; path = src/yajl_lex.h; sourceTree = "<group>"; };
+		1E4C01921186A47C0092F9AD /* yajl_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = yajl_parser.c; path = src/yajl_parser.c; sourceTree = "<group>"; };
+		1E4C01931186A47C0092F9AD /* yajl_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yajl_parser.h; path = src/yajl_parser.h; sourceTree = "<group>"; };
+		1E4C01941186A47C0092F9AD /* yajl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = yajl.c; path = src/yajl.c; sourceTree = "<group>"; };
+		1E4C01A01186A49C0092F9AD /* NSMutableURLRequest+Parameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+Parameters.h"; sourceTree = "<group>"; };
+		1E4C01A11186A49C0092F9AD /* NSMutableURLRequest+Parameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableURLRequest+Parameters.m"; sourceTree = "<group>"; };
+		1E4C01A21186A49C0092F9AD /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
+		1E4C01A31186A49C0092F9AD /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
+		1E4C01A41186A49C0092F9AD /* NSURL+Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Base.h"; sourceTree = "<group>"; };
+		1E4C01A51186A49C0092F9AD /* NSURL+Base.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Base.m"; sourceTree = "<group>"; };
+		1E4C01A71186A49C0092F9AD /* Base64Transcoder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Base64Transcoder.c; sourceTree = "<group>"; };
+		1E4C01A81186A49C0092F9AD /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
+		1E4C01A91186A49C0092F9AD /* hmac.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hmac.c; sourceTree = "<group>"; };
+		1E4C01AA1186A49C0092F9AD /* hmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmac.h; sourceTree = "<group>"; };
+		1E4C01AB1186A49C0092F9AD /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
+		1E4C01AC1186A49C0092F9AD /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
+		1E4C01AD1186A49C0092F9AD /* OACall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OACall.h; sourceTree = "<group>"; };
+		1E4C01AE1186A49C0092F9AD /* OACall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OACall.m; sourceTree = "<group>"; };
+		1E4C01AF1186A49C0092F9AD /* OAConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAConsumer.h; sourceTree = "<group>"; };
+		1E4C01B01186A49C0092F9AD /* OAConsumer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAConsumer.m; sourceTree = "<group>"; };
+		1E4C01B11186A49C0092F9AD /* OADataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OADataFetcher.h; sourceTree = "<group>"; };
+		1E4C01B21186A49C0092F9AD /* OADataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OADataFetcher.m; sourceTree = "<group>"; };
+		1E4C01B31186A49C0092F9AD /* OAHMAC_SHA1SignatureProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAHMAC_SHA1SignatureProvider.h; sourceTree = "<group>"; };
+		1E4C01B41186A49C0092F9AD /* OAHMAC_SHA1SignatureProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAHMAC_SHA1SignatureProvider.m; sourceTree = "<group>"; };
+		1E4C01B51186A49C0092F9AD /* OAMutableURLRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAMutableURLRequest.h; sourceTree = "<group>"; };
+		1E4C01B61186A49C0092F9AD /* OAMutableURLRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAMutableURLRequest.m; sourceTree = "<group>"; };
+		1E4C01B71186A49C0092F9AD /* OAPlaintextSignatureProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAPlaintextSignatureProvider.h; sourceTree = "<group>"; };
+		1E4C01B81186A49C0092F9AD /* OAPlaintextSignatureProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAPlaintextSignatureProvider.m; sourceTree = "<group>"; };
+		1E4C01B91186A49C0092F9AD /* OAProblem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAProblem.h; sourceTree = "<group>"; };
+		1E4C01BA1186A49C0092F9AD /* OAProblem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAProblem.m; sourceTree = "<group>"; };
+		1E4C01BB1186A49C0092F9AD /* OARequestParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OARequestParameter.h; sourceTree = "<group>"; };
+		1E4C01BC1186A49C0092F9AD /* OARequestParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OARequestParameter.m; sourceTree = "<group>"; };
+		1E4C01BD1186A49C0092F9AD /* OAServiceTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAServiceTicket.h; sourceTree = "<group>"; };
+		1E4C01BE1186A49C0092F9AD /* OAServiceTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAServiceTicket.m; sourceTree = "<group>"; };
+		1E4C01BF1186A49C0092F9AD /* OASignatureProviding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OASignatureProviding.h; sourceTree = "<group>"; };
+		1E4C01C11186A49C0092F9AD /* OAToken_KeychainExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAToken_KeychainExtensions.h; sourceTree = "<group>"; };
+		1E4C01C21186A49C0092F9AD /* OAToken_KeychainExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAToken_KeychainExtensions.m; sourceTree = "<group>"; };
+		1E4C01C31186A49C0092F9AD /* OAToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAToken.h; sourceTree = "<group>"; };
+		1E4C01C41186A49C0092F9AD /* OAToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAToken.m; sourceTree = "<group>"; };
+		1E4C01C71186A49C0092F9AD /* OAuthConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthConsumer.h; sourceTree = "<group>"; };
+		1E4C01DF1186A5260092F9AD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -104,6 +188,7 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				44F7517C0E47DBD600858A1B /* libxml2.dylib in Frameworks */,
+				1E4C01E01186A5260092F9AD /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +198,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1E4C019E1186A48A0092F9AD /* OAuthConsumer */,
+				1E4C01841186A45C0092F9AD /* yajl */,
 				C9FEB1280D609585009AA322 /* Demo */,
 				C9FEB1290D609598009AA322 /* MATwitterEngine */,
 			);
@@ -145,6 +232,88 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		1E4C01841186A45C0092F9AD /* yajl */ = {
+			isa = PBXGroup;
+			children = (
+				1E4C01851186A47C0092F9AD /* yajl_common.h */,
+				1E4C01861186A47C0092F9AD /* yajl_gen.h */,
+				1E4C01871186A47C0092F9AD /* yajl_parse.h */,
+				1E4C01881186A47C0092F9AD /* yajl_alloc.c */,
+				1E4C01891186A47C0092F9AD /* yajl_alloc.h */,
+				1E4C018A1186A47C0092F9AD /* yajl_buf.c */,
+				1E4C018B1186A47C0092F9AD /* yajl_buf.h */,
+				1E4C018C1186A47C0092F9AD /* yajl_bytestack.h */,
+				1E4C018D1186A47C0092F9AD /* yajl_encode.c */,
+				1E4C018E1186A47C0092F9AD /* yajl_encode.h */,
+				1E4C018F1186A47C0092F9AD /* yajl_gen.c */,
+				1E4C01901186A47C0092F9AD /* yajl_lex.c */,
+				1E4C01911186A47C0092F9AD /* yajl_lex.h */,
+				1E4C01921186A47C0092F9AD /* yajl_parser.c */,
+				1E4C01931186A47C0092F9AD /* yajl_parser.h */,
+				1E4C01941186A47C0092F9AD /* yajl.c */,
+			);
+			path = yajl;
+			sourceTree = "<group>";
+		};
+		1E4C019E1186A48A0092F9AD /* OAuthConsumer */ = {
+			isa = PBXGroup;
+			children = (
+				1E4C019F1186A49C0092F9AD /* Categories */,
+				1E4C01A61186A49C0092F9AD /* Crytpo */,
+				1E4C01AD1186A49C0092F9AD /* OACall.h */,
+				1E4C01AE1186A49C0092F9AD /* OACall.m */,
+				1E4C01AF1186A49C0092F9AD /* OAConsumer.h */,
+				1E4C01B01186A49C0092F9AD /* OAConsumer.m */,
+				1E4C01B11186A49C0092F9AD /* OADataFetcher.h */,
+				1E4C01B21186A49C0092F9AD /* OADataFetcher.m */,
+				1E4C01B31186A49C0092F9AD /* OAHMAC_SHA1SignatureProvider.h */,
+				1E4C01B41186A49C0092F9AD /* OAHMAC_SHA1SignatureProvider.m */,
+				1E4C01B51186A49C0092F9AD /* OAMutableURLRequest.h */,
+				1E4C01B61186A49C0092F9AD /* OAMutableURLRequest.m */,
+				1E4C01B71186A49C0092F9AD /* OAPlaintextSignatureProvider.h */,
+				1E4C01B81186A49C0092F9AD /* OAPlaintextSignatureProvider.m */,
+				1E4C01B91186A49C0092F9AD /* OAProblem.h */,
+				1E4C01BA1186A49C0092F9AD /* OAProblem.m */,
+				1E4C01BB1186A49C0092F9AD /* OARequestParameter.h */,
+				1E4C01BC1186A49C0092F9AD /* OARequestParameter.m */,
+				1E4C01BD1186A49C0092F9AD /* OAServiceTicket.h */,
+				1E4C01BE1186A49C0092F9AD /* OAServiceTicket.m */,
+				1E4C01BF1186A49C0092F9AD /* OASignatureProviding.h */,
+				1E4C01C11186A49C0092F9AD /* OAToken_KeychainExtensions.h */,
+				1E4C01C21186A49C0092F9AD /* OAToken_KeychainExtensions.m */,
+				1E4C01C31186A49C0092F9AD /* OAToken.h */,
+				1E4C01C41186A49C0092F9AD /* OAToken.m */,
+				1E4C01C71186A49C0092F9AD /* OAuthConsumer.h */,
+			);
+			path = OAuthConsumer;
+			sourceTree = "<group>";
+		};
+		1E4C019F1186A49C0092F9AD /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1E4C01A01186A49C0092F9AD /* NSMutableURLRequest+Parameters.h */,
+				1E4C01A11186A49C0092F9AD /* NSMutableURLRequest+Parameters.m */,
+				1E4C01A21186A49C0092F9AD /* NSString+URLEncoding.h */,
+				1E4C01A31186A49C0092F9AD /* NSString+URLEncoding.m */,
+				1E4C01A41186A49C0092F9AD /* NSURL+Base.h */,
+				1E4C01A51186A49C0092F9AD /* NSURL+Base.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		1E4C01A61186A49C0092F9AD /* Crytpo */ = {
+			isa = PBXGroup;
+			children = (
+				1E4C01A71186A49C0092F9AD /* Base64Transcoder.c */,
+				1E4C01A81186A49C0092F9AD /* Base64Transcoder.h */,
+				1E4C01A91186A49C0092F9AD /* hmac.c */,
+				1E4C01AA1186A49C0092F9AD /* hmac.h */,
+				1E4C01AB1186A49C0092F9AD /* sha1.c */,
+				1E4C01AC1186A49C0092F9AD /* sha1.h */,
+			);
+			path = Crytpo;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* MATwitterIntegration */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +325,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				1E4C01DF1186A5260092F9AD /* Security.framework */,
 			);
 			name = MATwitterIntegration;
 			sourceTree = "<group>";
@@ -339,6 +509,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E4C01691186A3780092F9AD /* MGTwitterMiscYAJLParser.m in Sources */,
+				1E4C016A1186A3780092F9AD /* MGTwitterStatusesYAJLParser.m in Sources */,
+				1E4C016B1186A3780092F9AD /* MGTwitterMessagesYAJLParser.m in Sources */,
+				1E4C016C1186A3780092F9AD /* MGTwitterYAJLParser.m in Sources */,
+				1E4C016D1186A3780092F9AD /* MGTwitterUsersYAJLParser.m in Sources */,
+				1E4C016E1186A3780092F9AD /* MGTwitterSearchYAJLParser.m in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				C9811E5D0D5F696200720D77 /* AppController.m in Sources */,
 				C9811E640D5F69B500720D77 /* MGTwitterEngine.m in Sources */,
@@ -357,6 +533,30 @@
 				44F751A70E47DEC400858A1B /* NSData+Base64.m in Sources */,
 				D47CF9B511541D0A00E07931 /* MGTwitterSocialGraphParser.m in Sources */,
 				D47CFCA9115567ED00E07931 /* MGTwitterSocialGraphLibXMLParser.m in Sources */,
+				1E4C01951186A47C0092F9AD /* yajl_alloc.c in Sources */,
+				1E4C01961186A47C0092F9AD /* yajl_buf.c in Sources */,
+				1E4C01971186A47C0092F9AD /* yajl_encode.c in Sources */,
+				1E4C01981186A47C0092F9AD /* yajl_gen.c in Sources */,
+				1E4C01991186A47C0092F9AD /* yajl_lex.c in Sources */,
+				1E4C019A1186A47C0092F9AD /* yajl_parser.c in Sources */,
+				1E4C019B1186A47C0092F9AD /* yajl.c in Sources */,
+				1E4C01C81186A49C0092F9AD /* NSMutableURLRequest+Parameters.m in Sources */,
+				1E4C01C91186A49C0092F9AD /* NSString+URLEncoding.m in Sources */,
+				1E4C01CA1186A49C0092F9AD /* NSURL+Base.m in Sources */,
+				1E4C01CB1186A49C0092F9AD /* Base64Transcoder.c in Sources */,
+				1E4C01CC1186A49C0092F9AD /* hmac.c in Sources */,
+				1E4C01CD1186A49C0092F9AD /* sha1.c in Sources */,
+				1E4C01CE1186A49C0092F9AD /* OACall.m in Sources */,
+				1E4C01CF1186A49C0092F9AD /* OAConsumer.m in Sources */,
+				1E4C01D01186A49C0092F9AD /* OADataFetcher.m in Sources */,
+				1E4C01D11186A49C0092F9AD /* OAHMAC_SHA1SignatureProvider.m in Sources */,
+				1E4C01D21186A49C0092F9AD /* OAMutableURLRequest.m in Sources */,
+				1E4C01D31186A49C0092F9AD /* OAPlaintextSignatureProvider.m in Sources */,
+				1E4C01D41186A49C0092F9AD /* OAProblem.m in Sources */,
+				1E4C01D51186A49C0092F9AD /* OARequestParameter.m in Sources */,
+				1E4C01D61186A49C0092F9AD /* OAServiceTicket.m in Sources */,
+				1E4C01D81186A49C0092F9AD /* OAToken_KeychainExtensions.m in Sources */,
+				1E4C01D91186A49C0092F9AD /* OAToken.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +585,7 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -392,12 +593,18 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MGTwitterEngine_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					"\"$(SRCROOT)/yajl/build/yajl-1.0.7/include/yajl\"",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/yajl/build/yajl-0.4.0/lib\"",
+					"\"$(SRCROOT)/yajl/build/yajl-1.0.7/lib\"",
+					"\"$(SRCROOT)\"",
 				);
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH_ACTUAL)";
 				PRODUCT_NAME = MGTwitterEngine;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -411,11 +618,16 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MGTwitterEngine_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					"\"$(SRCROOT)/yajl/build/yajl-1.0.7/include/yajl\"",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/yajl/build/yajl-0.4.0/lib\"",
+					"\"$(SRCROOT)/yajl/build/yajl-1.0.7/lib\"",
+					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = MGTwitterEngine;
 				WRAPPER_EXTENSION = app;
