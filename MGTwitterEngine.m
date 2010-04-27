@@ -756,9 +756,10 @@
 							connectionIdentifier:identifier requestType:requestType 
 								responseType:responseType URL:URL];
 			break;
-		case MGTwitterOAuthTokenRequest:
-			NSLog(@"Something with OAuth!");
-			break;
+		case MGTwitterOAuthToken:;
+			OAToken *token = [[[OAToken alloc] initWithHTTPResponseBody:[[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] autorelease]] autorelease];
+			[self parsingSucceededForRequest:identifier ofResponseType:requestType
+						   withParsedObjects:[NSArray arrayWithObject:token]];
         default:
             break;
     }
@@ -792,9 +793,10 @@
 			[MGTwitterSocialGraphParser parserWithXML:xmlData delegate:self 
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType];
-		case MGTwitterOAuthTokenRequest:
-			NSLog(@"Something with OAuth!");
-			break;
+		case MGTwitterOAuthToken:;
+			OAToken *token = [[[OAToken alloc] initWithHTTPResponseBody:[[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] autorelease]] autorelease];
+			[self parsingSucceededForRequest:identifier ofResponseType:requestType
+						   withParsedObjects:[NSArray arrayWithObject:token]];
         default:
             break;
     }
