@@ -8,7 +8,7 @@
 
 #import "MGTwitterEngine.h"
 #import "MGTwitterHTTPURLConnection.h"
-@class OAToken;
+#import "OAuthConsumer.h"
 
 #import "NSData+Base64.h"
 
@@ -442,7 +442,7 @@
 
     NSMutableURLRequest *theRequest = [self _baseRequestWithMethod:method 
                                                               path:path
-                                                       requestType:requestType 
+													requestType:requestType 
                                                    queryParameters:params];
     
     // Set the request body if this is a POST request.
@@ -614,11 +614,23 @@
 		NSLog(@"MGTwitterEngine: finalURL = %@", finalURL);
 	}
 #endif
-    
+
     // Construct an NSMutableURLRequest for the URL and set appropriate request method.
-    NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:finalURL 
-                                                              cachePolicy:NSURLRequestReloadIgnoringCacheData 
-                                                          timeoutInterval:URL_REQUEST_TIMEOUT];
+	NSMutableURLRequest *theRequest = nil;
+    if(_accessToken){
+		theRequest = [[[OAMutableURLRequest alloc] initWithURL:finalURL
+													  consumer:[[[OAConsumer alloc] initWithKey:[self consumerKey]
+																						 secret:[self consumerSecret]] autorelease]
+														 token:_accessToken
+														 realm:nil
+											 signatureProvider:nil] autorelease];
+		[theRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData ];
+		[theRequest setTimeoutInterval:URL_REQUEST_TIMEOUT];
+	}else{
+		theRequest = [NSMutableURLRequest requestWithURL:finalURL 
+											 cachePolicy:NSURLRequestReloadIgnoringCacheData 
+										 timeoutInterval:URL_REQUEST_TIMEOUT];
+	}
     if (method) {
         [theRequest setHTTPMethod:method];
     }
@@ -639,6 +651,11 @@
 		[theRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
 	}
 #endif
+	
+	//OAMutableURLRequests need to have prepare called on them
+	if([theRequest respondsToSelector:@selector(prepare)]){
+		[theRequest prepare];
+	}
 
     return theRequest;
 }
@@ -690,7 +707,10 @@
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
 			break;
-		case MGTwitterOAuthTokenRequest:
+		case MGTwitterOAuthToken:;
+			OAToken *token = [[[OAToken alloc] initWithHTTPResponseBody:[[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] autorelease]] autorelease];
+			[self parsingSucceededForRequest:identifier ofResponseType:requestType
+						   withParsedObjects:[NSArray arrayWithObject:token]];
 			break;
        default:
             break;
@@ -736,6 +756,9 @@
 							connectionIdentifier:identifier requestType:requestType 
 								responseType:responseType URL:URL];
 			break;
+		case MGTwitterOAuthTokenRequest:
+			NSLog(@"Something with OAuth!");
+			break;
         default:
             break;
     }
@@ -769,6 +792,9 @@
 			[MGTwitterSocialGraphParser parserWithXML:xmlData delegate:self 
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType];
+		case MGTwitterOAuthTokenRequest:
+			NSLog(@"Something with OAuth!");
+			break;
         default:
             break;
     }
@@ -819,6 +845,11 @@
 		case MGTwitterSocialGraph:
 			if ([self _isValidDelegateForSelector:@selector(socialGraphInfoReceived:forRequest:)])
 				[_delegate socialGraphInfoReceived: parsedObjects forRequest:identifier];
+			break;
+		case MGTwitterOAuthTokenRequest:
+			if ([self _isValidDelegateForSelector:@selector(accessTokenReceived:forRequest:)] && [parsedObjects count] > 0)
+				[_delegate accessTokenReceived:[parsedObjects objectAtIndex:0]
+									forRequest:identifier];
 			break;
         default:
             break;
@@ -1914,10 +1945,40 @@
 
 - (NSString *)getXAuthAccessTokenForUsername:(NSString *)username 
 									password:(NSString *)password{
-	return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
-							requestType:MGTwitterOAuthGetXAuthAccessToken 
-						   responseType:MGTwitterOAuthToken];
+	OAConsumer *consumer = [[[OAConsumer alloc] initWithKey:[self consumerKey] secret:[self consumerSecret]] autorelease];
 	
+	OAMutableURLRequest *request = [[OAMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.twitter.com/oauth/access_token"]
+																   consumer:consumer
+																	  token:nil // xAuth needs no request token?
+																	  realm:nil   // our service provider doesn't specify a realm
+														  signatureProvider:nil]; // use the default method, HMAC-SHA1
+	
+	[request setHTTPMethod:@"POST"];
+	
+	[request setParameters:[NSArray arrayWithObjects:
+							[OARequestParameter requestParameter:@"x_auth_mode" value:@"client_auth"],
+							[OARequestParameter requestParameter:@"x_auth_username" value:username],
+							[OARequestParameter requestParameter:@"x_auth_password" value:password],
+							nil]];		
+	
+	[request prepare];
+	
+    // Create a connection using this request, with the default timeout and caching policy, 
+    // and appropriate Twitter request and response types for parsing and error reporting.
+    MGTwitterHTTPURLConnection *connection;
+    connection = [[MGTwitterHTTPURLConnection alloc] initWithRequest:request
+                                                            delegate:self 
+                                                         requestType:MGTwitterOAuthTokenRequest
+                                                        responseType:MGTwitterOAuthToken];
+    
+    if (!connection) {
+        return nil;
+    } else {
+        [_connections setObject:connection forKey:[connection identifier]];
+        [connection release];
+    }
+    
+    return [connection identifier];
 }
 
 @end
