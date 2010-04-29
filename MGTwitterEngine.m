@@ -652,11 +652,6 @@
 	}
 #endif
 	
-	//OAMutableURLRequests need to have prepare called on them
-	if([theRequest respondsToSelector:@selector(prepare)]){
-		[theRequest prepare];
-	}
-
     return theRequest;
 }
 
@@ -1962,8 +1957,6 @@
 							[OARequestParameter requestParameter:@"x_auth_username" value:username],
 							[OARequestParameter requestParameter:@"x_auth_password" value:password],
 							nil]];		
-	
-	[request prepare];
 	
     // Create a connection using this request, with the default timeout and caching policy, 
     // and appropriate Twitter request and response types for parsing and error reporting.
