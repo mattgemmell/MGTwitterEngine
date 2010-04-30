@@ -1177,7 +1177,8 @@
     
     NSString *path = [NSString stringWithFormat:@"statuses/update.%@", API_FORMAT];
     
-    NSString *trimmedText = status;
+	// Convert the status to Unicode Normalized Form C to conform to Twitter's character counting requirement. See http://apiwiki.twitter.com/Counting-Characters .
+	NSString *trimmedText = [status precomposedStringWithCanonicalMapping];
     if ([trimmedText length] > MAX_MESSAGE_LENGTH) {
         trimmedText = [trimmedText substringToIndex:MAX_MESSAGE_LENGTH];
     }
