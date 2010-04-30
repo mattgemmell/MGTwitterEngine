@@ -556,7 +556,7 @@
 {
     // Construct appropriate URL string.
     NSString *fullPath = [path stringByAddingPercentEscapesUsingEncoding:NSNonLossyASCIIStringEncoding];
-    if (params) {
+    if (params && ![method isEqualToString:HTTP_POST_METHOD]) {
         fullPath = [self _queryStringWithBase:fullPath parameters:params prefixed:YES];
     }
     
