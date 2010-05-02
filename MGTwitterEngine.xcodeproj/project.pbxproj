@@ -362,8 +362,7 @@
 			children = (
 				1E7989E5118D077E00DDD6D9 /* Source */,
 			);
-			name = TouchJSON;
-			path = ../deps/TouchJSON;
+			path = TouchJSON;
 			sourceTree = "<group>";
 		};
 		1E7989E5118D077E00DDD6D9 /* Source */ = {
