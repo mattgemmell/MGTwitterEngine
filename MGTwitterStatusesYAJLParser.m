@@ -20,6 +20,7 @@
 		return;
 	}
 	
+	//add the item to its dictionary
 	NSMutableDictionary *lastDictionary = [_dictionaries lastObject];
 	[lastDictionary setObject:value forKey:key];
 	
@@ -34,11 +35,13 @@
 	NSLog(@"status: dictionary start = %@", key);
 #endif
 	
+	//initialize the array that will hold all of the dictionaries if it doesn't exist yet
 	if (!_dictionaries) 
 	{
 		_dictionaries = [[NSMutableArray alloc] init];
 	}
 	
+	//initialize the array that will hold all of the dictionary keys if it doesn't exist yet
 	if (!_dictionaryKeys) 
 	{
 		_dictionaryKeys = [[NSMutableArray alloc] init];
@@ -49,8 +52,12 @@
 	[_dictionaries addObject:newDictionary];
 	[newDictionary release];
 	
+	//convert the key to camel case
+	NSString *camelKey = [[key capitalizedString] stringByReplacingOccurrencesOfString:@"_" withString:@""];
+	camelKey = [NSString stringWithFormat:@"%@%@", [[camelKey substringToIndex:1] lowercaseString], [camelKey substringFromIndex:1]];
+	
 	//add a key for the above dictionary to the array
-	[_dictionaryKeys addObject:(key) ? key : @""];
+	[_dictionaryKeys addObject:(key) ? camelKey : @""];
 }
 
 - (void)endDictionary

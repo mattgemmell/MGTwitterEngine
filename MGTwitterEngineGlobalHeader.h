@@ -49,6 +49,7 @@
 */
 
 #define YAJL_AVAILABLE 0
+#define TOUCHJSON_AVAILABLE 1
 
 #if YAJL_AVAILABLE
 	/*

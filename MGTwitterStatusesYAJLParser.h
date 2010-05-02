@@ -11,8 +11,8 @@
 #import "MGTwitterYAJLParser.h"
 
 @interface MGTwitterStatusesYAJLParser : MGTwitterYAJLParser {
-	NSMutableArray *_dictionaries; // effectively a stack for parsing nested dictionaries
-	NSMutableArray *_dictionaryKeys;
+	NSMutableArray *_dictionaries;		//an array of NSMutableDictionary objects
+	NSMutableArray *_dictionaryKeys;	//an array of NSMutableDictionary keys corresponding to _dictionaries
 }
 
 @end

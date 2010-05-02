@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E874648115AD8D80076FC51 /* MGTwitterTouchJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E874647115AD8D80076FC51 /* MGTwitterTouchJSONParser.m */; };
 		44F7517C0E47DBD600858A1B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44F7517B0E47DBD600858A1B /* libxml2.dylib */; };
 		44F7518F0E47DDD500858A1B /* MGTwitterUsersLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F751890E47DDD500858A1B /* MGTwitterUsersLibXMLParser.m */; };
 		44F751900E47DDD500858A1B /* MGTwitterMiscLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F7518A0E47DDD500858A1B /* MGTwitterMiscLibXMLParser.m */; };
@@ -34,6 +35,8 @@
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1E874646115AD8D80076FC51 /* MGTwitterTouchJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTwitterTouchJSONParser.h; sourceTree = "<group>"; };
+		1E874647115AD8D80076FC51 /* MGTwitterTouchJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTwitterTouchJSONParser.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -143,6 +146,15 @@
 				8D1107320486CEB800E47090 /* MGTwitterEngine.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1E874644115AD7BF0076FC51 /* Twitter TouchJSON Parsers */ = {
+			isa = PBXGroup;
+			children = (
+				1E874646115AD8D80076FC51 /* MGTwitterTouchJSONParser.h */,
+				1E874647115AD8D80076FC51 /* MGTwitterTouchJSONParser.m */,
+			);
+			name = "Twitter TouchJSON Parsers";
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* MATwitterIntegration */ = {
@@ -279,6 +291,7 @@
 				44F7517D0E47DBF600858A1B /* Twitter LibXML Parsers */,
 				C90F74CB0D6A3B5300F602A5 /* Twitter NSXML Parsers */,
 				44AEFFD00F213814004F5AE3 /* Twitter YAJL Parsers */,
+				1E874644115AD7BF0076FC51 /* Twitter TouchJSON Parsers */,
 				C90F748C0D69FDE000F602A5 /* Categories */,
 			);
 			name = MATwitterEngine;
@@ -357,6 +370,7 @@
 				44F751A70E47DEC400858A1B /* NSData+Base64.m in Sources */,
 				D47CF9B511541D0A00E07931 /* MGTwitterSocialGraphParser.m in Sources */,
 				D47CFCA9115567ED00E07931 /* MGTwitterSocialGraphLibXMLParser.m in Sources */,
+				1E874648115AD8D80076FC51 /* MGTwitterTouchJSONParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
