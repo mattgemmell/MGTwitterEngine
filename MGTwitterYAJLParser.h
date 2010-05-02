@@ -25,6 +25,7 @@
 	MGTwitterEngineDeliveryOptions deliveryOptions;
 	
 	yajl_handle _handle;
+	NSUInteger arrayDepth;
 }
 
 + (id)parserWithJSON:(NSData *)theJSON

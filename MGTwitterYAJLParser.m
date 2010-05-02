@@ -34,8 +34,7 @@ int process_yajl_boolean(void * ctx, int boolVal)
 	{
 		[self addValue:[NSNumber numberWithBool:(BOOL)boolVal] forKey:currentKey];
 
-		[currentKey release];
-		currentKey = nil;
+		[self clearCurrentKey];
 	}
 
     return 1;
@@ -49,13 +48,18 @@ int process_yajl_number(void *ctx, const char *numberVal, unsigned int numberLen
 	{
 		NSString *stringValue = [[NSString alloc] initWithBytesNoCopy:(void *)numberVal length:numberLen encoding:NSUTF8StringEncoding freeWhenDone:NO];
 		
-		NSNumber *longLongValue = [NSNumber numberWithLongLong:[stringValue longLongValue]];
-		[self addValue:longLongValue forKey:currentKey];
+		// if there's a decimal, assume it's a double
+		if([stringValue rangeOfString:@"."].location != NSNotFound){
+			NSNumber *doubleValue = [NSNumber numberWithDouble:[stringValue doubleValue]];
+			[self addValue:doubleValue forKey:currentKey];
+		}else{
+			NSNumber *longLongValue = [NSNumber numberWithLongLong:[stringValue longLongValue]];
+			[self addValue:longLongValue forKey:currentKey];
+		}
 		
 		[stringValue release];
 		
-		[currentKey release];
-		currentKey = nil;    
+		[self clearCurrentKey];
 	}
 	
 	return 1;
@@ -98,8 +102,7 @@ int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int
 			[self addValue:value forKey:currentKey];
 		}
 		
-		[currentKey release];
-		currentKey = nil;
+		[self clearCurrentKey];
 	}
 
     return 1;
@@ -107,10 +110,10 @@ int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int
 
 int process_yajl_map_key(void *ctx, const unsigned char * stringVal, unsigned int stringLen)
 {
+	id self = (id)ctx;
 	if (currentKey)
 	{
-		[currentKey release];
-		currentKey = nil;
+		[self clearCurrentKey];
 	}
 	
 	currentKey = [[NSString alloc] initWithBytes:stringVal length:stringLen encoding:NSUTF8StringEncoding];
@@ -317,6 +320,8 @@ static yajl_callbacks callbacks = {
 	// default implementation -- override in subclasses
 	
 	NSLog(@"array start = %@", key);
+
+	arrayDepth++;
 }
 
 - (void)endArray
@@ -324,8 +329,17 @@ static yajl_callbacks callbacks = {
 	// default implementation -- override in subclasses
 	
 	NSLog(@"array end");
+
+	arrayDepth--;
+	[self clearCurrentKey];
 }
 
+- (void)clearCurrentKey{
+	if(arrayDepth == 0){
+		[currentKey release];
+		currentKey = nil;
+	}
+}
 
 #pragma mark Delegate callbacks
 

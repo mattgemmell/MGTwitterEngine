@@ -8,7 +8,7 @@
 
 #import "MGTwitterStatusesYAJLParser.h"
 
-#define DEBUG_PARSING 0
+#define DEBUG_PARSING 1
 
 @implementation MGTwitterStatusesYAJLParser
 
@@ -21,7 +21,12 @@
 	}
 	
 	NSMutableDictionary *lastDictionary = [_dictionaries lastObject];
-	[lastDictionary setObject:value forKey:key];
+	if([[lastDictionary objectForKey:key] isKindOfClass:[NSArray class]]){
+		NSMutableArray *array = [lastDictionary objectForKey:key];
+		[array addObject:value];
+	}else{
+		[lastDictionary setObject:value forKey:key];
+	}
 	
 #if DEBUG_PARSING
 	NSLog(@"parsed item: %@ = %@ (%@)", key, value, NSStringFromClass([value class]));
@@ -90,6 +95,11 @@
 
 - (void)startArrayWithKey:(NSString *)key
 {
+	arrayDepth++;
+	
+	NSMutableArray *newArray = [NSMutableArray array];
+	[self addValue:newArray forKey:key];
+	
 #if DEBUG_PARSING
 	NSLog(@"status: array start = %@", key);
 #endif
@@ -100,6 +110,9 @@
 #if DEBUG_PARSING
 	NSLog(@"status: array end");
 #endif
+
+	arrayDepth--;
+	[self clearCurrentKey];
 }
 
 - (void)dealloc
