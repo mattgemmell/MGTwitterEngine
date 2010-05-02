@@ -8,7 +8,7 @@
 
 #import "MGTwitterStatusesYAJLParser.h"
 
-#define DEBUG_PARSING 1
+#define DEBUG_PARSING 0
 
 @implementation MGTwitterStatusesYAJLParser
 
