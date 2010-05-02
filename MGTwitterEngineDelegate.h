@@ -7,7 +7,7 @@
 //
 
 #import "MGTwitterEngineGlobalHeader.h"
-
+@class OAToken;
 
 typedef enum _MGTwitterEngineDeliveryOptions {
 	// all results will be delivered as an array via statusesReceived: and similar delegate methods
@@ -46,6 +46,7 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 - (void)searchResultsReceived:(NSArray *)searchResults forRequest:(NSString *)connectionIdentifier;
 #endif
 - (void)socialGraphInfoReceived:(NSArray *)socialGraphInfo forRequest:(NSString *)connectionIdentifier;
+- (void)accessTokenReceived:(OAToken *)token forRequest:(NSString *)connectionIdentifier;
 
 #if TARGET_OS_IPHONE
 - (void)imageReceived:(UIImage *)image forRequest:(NSString *)connectionIdentifier;

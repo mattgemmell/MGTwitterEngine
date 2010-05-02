@@ -9,8 +9,15 @@
 #import <Cocoa/Cocoa.h>
 #import "MGTwitterEngine.h"
 
+@class OAToken;
+
 @interface AppController : NSObject <MGTwitterEngineDelegate> {
     MGTwitterEngine *twitterEngine;
+	
+	OAToken *token;
 }
+
+// this gets called when the OAuth token is received
+-(void)runTests;
 
 @end
