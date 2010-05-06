@@ -459,7 +459,7 @@
 		}
         if (_clientSourceToken) {
             finalBody = [finalBody stringByAppendingString:[NSString stringWithFormat:@"%@source=%@", 
-                                                            (body) ? @"&" : @"?" , 
+                                                            (body) ? @"&" : @"" , 
                                                             _clientSourceToken]];
         }
         
