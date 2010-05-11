@@ -427,6 +427,9 @@
         [_connections setObject:connection forKey:[connection identifier]];
         [connection release];
     }
+	
+	if ([self _isValidDelegateForSelector:@selector(connectionStarted:)])
+		[_delegate connectionStarted:[connection identifier]];
     
     return [connection identifier];
 }
@@ -488,6 +491,9 @@
         [_connections setObject:connection forKey:[connection identifier]];
         [connection release];
     }
+	
+	if ([self _isValidDelegateForSelector:@selector(connectionStarted:)])
+		[_delegate connectionStarted:[connection identifier]];
     
     return [connection identifier];
 }
@@ -547,6 +553,9 @@
         [_connections setObject:connection forKey:[connection identifier]];
         [connection release];
     }
+	
+	if ([self _isValidDelegateForSelector:@selector(connectionStarted:)])
+		[_delegate connectionStarted:[connection identifier]];
     
     return [connection identifier];
     
@@ -1992,6 +2001,9 @@
         [_connections setObject:connection forKey:[connection identifier]];
         [connection release];
     }
+	
+	if ([self _isValidDelegateForSelector:@selector(connectionStarted:)])
+		[_delegate connectionStarted:[connection identifier]];
     
     return [connection identifier];
 }
