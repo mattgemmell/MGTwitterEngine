@@ -20,9 +20,7 @@
 #if YAJL_AVAILABLE
 	#define API_FORMAT @"json"
 
-	#import "MGTwitterStatusesYAJLParser.h"
-	#import "MGTwitterMessagesYAJLParser.h"
-	#import "MGTwitterUsersYAJLParser.h"
+	#import "MGTwitterGenericObjectsYAJLParser.h"
 	#import "MGTwitterMiscYAJLParser.h"
 	#import "MGTwitterSearchYAJLParser.h"
 #elif TOUCHJSON_AVAILABLE
@@ -688,40 +686,32 @@
 
 #if YAJL_AVAILABLE
     switch (responseType) {
-        case MGTwitterStatuses:
-        case MGTwitterStatus:
-            [MGTwitterStatusesYAJLParser parserWithJSON:jsonData delegate:self 
-                              connectionIdentifier:identifier requestType:requestType 
-                                      responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
-            break;
-        case MGTwitterUsers:
-        case MGTwitterUser:
-            [MGTwitterUsersYAJLParser parserWithJSON:jsonData delegate:self 
-                           connectionIdentifier:identifier requestType:requestType 
-                                   responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
-            break;
-        case MGTwitterDirectMessages:
-        case MGTwitterDirectMessage:
-            [MGTwitterMessagesYAJLParser parserWithJSON:jsonData delegate:self 
-                              connectionIdentifier:identifier requestType:requestType 
-                                      responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
+		case MGTwitterStatuses:
+		case MGTwitterStatus:
+		case MGTwitterUsers:
+		case MGTwitterUser:
+		case MGTwitterDirectMessages:
+		case MGTwitterDirectMessage:
+            [MGTwitterGenericObjectsYAJLParser parserWithJSON:jsonData delegate:self 
+										 connectionIdentifier:identifier requestType:requestType 
+												 responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
             break;
 		case MGTwitterMiscellaneous:
 			[MGTwitterMiscYAJLParser parserWithJSON:jsonData delegate:self 
-						  connectionIdentifier:identifier requestType:requestType 
-								  responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
+							   connectionIdentifier:identifier requestType:requestType 
+									   responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
 			break;
-        case MGTwitterSearchResults:
+		case MGTwitterSearchResults:
  			[MGTwitterSearchYAJLParser parserWithJSON:jsonData delegate:self 
-						  connectionIdentifier:identifier requestType:requestType 
-								  responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
+								 connectionIdentifier:identifier requestType:requestType 
+										 responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
 			break;
 		case MGTwitterOAuthToken:;
 			OAToken *token = [[[OAToken alloc] initWithHTTPResponseBody:[[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] autorelease]] autorelease];
 			[self parsingSucceededForRequest:identifier ofResponseType:requestType
 						   withParsedObjects:[NSArray arrayWithObject:token]];
 			break;
-       default:
+		default:
             break;
     }
 #elif TOUCHJSON_AVAILABLE
