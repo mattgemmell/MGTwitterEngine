@@ -8,7 +8,6 @@
 
 #import "AppController.h"
 
-
 @implementation AppController
 
 
@@ -17,17 +16,27 @@
     // Put your Twitter username and password here:
     NSString *username = nil;
     NSString *password = nil;
-    
+	
+	NSString *consumerKey = nil;
+	NSString *consumerSecret = nil;
+	
     // Most API calls require a name and password to be set...
-    if (! username || ! password) {
-        NSLog(@"You forgot to specify your username/password in AppController.m, things might not work!");
+    if (! username || ! password || !consumerKey || !consumerSecret) {
+        NSLog(@"You forgot to specify your username/password/key/secret in AppController.m, things might not work!");
 		NSLog(@"And if things are mysteriously working without the username/password, it's because NSURLConnection is using a session cookie from another connection.");
     }
     
     // Create a TwitterEngine and set our login details.
     twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
-    [twitterEngine setUsername:username password:password];
-    
+	[twitterEngine setUsesSecureConnection:NO];
+	[twitterEngine setConsumerKey:consumerKey secret:consumerSecret];
+	 
+	[twitterEngine getXAuthAccessTokenForUsername:username password:password];
+}
+
+-(void)runTests{
+	[twitterEngine setAccessToken:token];
+	
 	// Configure how the delegate methods are called to deliver results. See MGTwitterEngineDelegate.h for more info
 	//[twitterEngine setDeliveryOptions:MGTwitterEngineDeliveryIndividualResultsOption];
 
@@ -42,11 +51,11 @@
 	#define TESTING_MESSAGE_ID 52182684
 	
 	// Status methods:
-	//  NSLog(@"getHomeTimelineFor: connectionIdentifier = %@", [twitterEngine getHomeTimelineSinceID:0 startingAtPage:0 count:20]);
-	//NSLog(@"getUserTimelineFor: connectionIdentifier = %@", [twitterEngine getUserTimelineFor:TESTING_SECONDARY_USER sinceID:0 startingAtPage:0 count:3]);
-	//NSLog(@"getUpdate: connectionIdentifier = %@", [twitterEngine getUpdate:TESTING_ID]);
+	NSLog(@"getHomeTimelineFor: connectionIdentifier = %@", [twitterEngine getHomeTimelineSinceID:0 startingAtPage:0 count:20]);
+	NSLog(@"getUserTimelineFor: connectionIdentifier = %@", [twitterEngine getUserTimelineFor:TESTING_SECONDARY_USER sinceID:0 startingAtPage:0 count:3]);
+	NSLog(@"getUpdate: connectionIdentifier = %@", [twitterEngine getUpdate:TESTING_ID]);
 	//NSLog(@"sendUpdate: connectionIdentifier = %@", [twitterEngine sendUpdate:[@"This is a test on " stringByAppendingString:[[NSDate date] description]]]);
-	//NSLog(@"getRepliesStartingAtPage: connectionIdentifier = %@", [twitterEngine getRepliesStartingAtPage:0]);
+	NSLog(@"getRepliesStartingAtPage: connectionIdentifier = %@", [twitterEngine getRepliesStartingAtPage:0]);
 	//NSLog(@"deleteUpdate: connectionIdentifier = %@", [twitterEngine deleteUpdate:TESTING_ID]);
 
 	// User methods:
@@ -97,7 +106,7 @@
 	//NSLog(@"getFriendIDsFor: connectionIdentifier = %@", [twitterEngine getFriendIDsFor:TESTING_SECONDARY_USER startingFromCursor:-1]);
 	//NSLog(@"getFollowerIDsFor: connectionIdentifier = %@", [twitterEngine getFollowerIDsFor:TESTING_SECONDARY_USER startingFromCursor:-1]);
 
-#if YAJL_AVAILABLE
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 	// Search method
 	//NSLog(@"getSearchResultsForQuery: connectionIdentifier = %@", [twitterEngine getSearchResultsForQuery:TESTING_PRIMARY_USER sinceID:0 startingAtPage:1 count:20]);
 	
@@ -186,7 +195,15 @@
 	}
 }
 
-#if YAJL_AVAILABLE
+- (void)accessTokenReceived:(OAToken *)aToken forRequest:(NSString *)connectionIdentifier
+{
+	NSLog(@"Access token received! %@",aToken);
+
+	token = [aToken retain];
+	[self runTests];
+}
+
+#if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 
 - (void)receivedObject:(NSDictionary *)dictionary forRequest:(NSString *)connectionIdentifier
 {
