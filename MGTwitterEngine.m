@@ -694,6 +694,7 @@
 		case MGTwitterUser:
 		case MGTwitterDirectMessages:
 		case MGTwitterDirectMessage:
+		case MGTwitterSocialGraph:
             [MGTwitterYAJLParser parserWithJSON:jsonData delegate:self 
 										 connectionIdentifier:identifier requestType:requestType 
 												 responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
