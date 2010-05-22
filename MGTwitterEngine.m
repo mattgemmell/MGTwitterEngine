@@ -727,9 +727,18 @@
             break;
     }
 #elif TOUCHJSON_AVAILABLE
-	[MGTwitterTouchJSONParser parserWithJSON:jsonData delegate:self
-						connectionIdentifier:identifier requestType:requestType
-								responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
+	switch (responseType) {
+		case MGTwitterOAuthToken:;
+			OAToken *token = [[[OAToken alloc] initWithHTTPResponseBody:[[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] autorelease]] autorelease];
+			[self parsingSucceededForRequest:identifier ofResponseType:requestType
+						   withParsedObjects:[NSArray arrayWithObject:token]];
+			break;
+		default:
+			[MGTwitterTouchJSONParser parserWithJSON:jsonData delegate:self
+								connectionIdentifier:identifier requestType:requestType
+										responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
+			break;
+	}
 #endif
 	
 }
