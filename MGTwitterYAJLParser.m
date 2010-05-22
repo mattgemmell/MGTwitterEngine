@@ -14,7 +14,7 @@
 
 static NSString *currentKey;
 
-int process_yajl_null(void *ctx)
+int MGTwitterYAJLParser_processNull(void *ctx)
 {
 	id self = ctx;
 	
@@ -26,7 +26,7 @@ int process_yajl_null(void *ctx)
     return 1;
 }
 
-int process_yajl_boolean(void * ctx, int boolVal)
+int MGTwitterYAJLParser_processBoolean(void * ctx, int boolVal)
 {
 	id self = ctx;
 
@@ -40,7 +40,7 @@ int process_yajl_boolean(void * ctx, int boolVal)
     return 1;
 }
 
-int process_yajl_number(void *ctx, const char *numberVal, unsigned int numberLen)
+int MGTwitterYAJLParser_processNumber(void *ctx, const char *numberVal, unsigned int numberLen)
 {
 	id self = ctx;
 	
@@ -65,7 +65,7 @@ int process_yajl_number(void *ctx, const char *numberVal, unsigned int numberLen
 	return 1;
 }
 
-int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int stringLen)
+int MGTwitterYAJLParser_processString(void *ctx, const unsigned char * stringVal, unsigned int stringLen)
 {
 	id self = ctx;
 	
@@ -108,7 +108,7 @@ int process_yajl_string(void *ctx, const unsigned char * stringVal, unsigned int
     return 1;
 }
 
-int process_yajl_map_key(void *ctx, const unsigned char * stringVal, unsigned int stringLen)
+int MGTwitterYAJLParser_processMapKey(void *ctx, const unsigned char * stringVal, unsigned int stringLen)
 {
 	id self = (id)ctx;
 	if (currentKey)
@@ -121,7 +121,7 @@ int process_yajl_map_key(void *ctx, const unsigned char * stringVal, unsigned in
     return 1;
 }
 
-int process_yajl_start_map(void *ctx)
+int MGTwitterYAJLParser_processStartMap(void *ctx)
 {
 	id self = ctx;
 	
@@ -131,7 +131,7 @@ int process_yajl_start_map(void *ctx)
 }
 
 
-int process_yajl_end_map(void *ctx)
+int MGTwitterYAJLParser_processEndMap(void *ctx)
 {
 	id self = ctx;
 	
@@ -140,7 +140,7 @@ int process_yajl_end_map(void *ctx)
 	return 1;
 }
 
-int process_yajl_start_array(void *ctx)
+int MGTwitterYAJLParser_processStartArray(void *ctx)
 {
 	id self = ctx;
 	
@@ -149,7 +149,7 @@ int process_yajl_start_array(void *ctx)
     return 1;
 }
 
-int process_yajl_end_array(void *ctx)
+int MGTwitterYAJLParser_processEndArray(void *ctx)
 {
 	id self = ctx;
 	
@@ -158,18 +158,18 @@ int process_yajl_end_array(void *ctx)
     return 1;
 }
 
-static yajl_callbacks callbacks = {
-	process_yajl_null,
-	process_yajl_boolean,
+static yajl_callbacks sMGTwitterYAJLParserCallbacks = {
+	MGTwitterYAJLParser_processNull,
+	MGTwitterYAJLParser_processBoolean,
 	NULL,
 	NULL,
-	process_yajl_number,
-	process_yajl_string,
-	process_yajl_start_map,
-	process_yajl_map_key,
-	process_yajl_end_map,
-	process_yajl_start_array,
-	process_yajl_end_array
+	MGTwitterYAJLParser_processNumber,
+	MGTwitterYAJLParser_processString,
+	MGTwitterYAJLParser_processStartMap,
+	MGTwitterYAJLParser_processMapKey,
+	MGTwitterYAJLParser_processEndMap,
+	MGTwitterYAJLParser_processStartArray,
+	MGTwitterYAJLParser_processEndArray
 };
 
 #pragma mark Creation and Destruction
@@ -249,7 +249,7 @@ static yajl_callbacks callbacks = {
 				0, // allowComments: if nonzero, javascript style comments will be allowed in the input (both /* */ and //)
 				0  // checkUTF8: if nonzero, invalid UTF8 strings will cause a parse error
 			};
-			_handle = yajl_alloc(&callbacks, &cfg, NULL, self);
+			_handle = yajl_alloc(&sMGTwitterYAJLParserCallbacks, &cfg, NULL, self);
 			if (! _handle)
 			{
 				return nil;
