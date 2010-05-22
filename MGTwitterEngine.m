@@ -460,7 +460,9 @@
 		if (body) {
 			finalBody = [finalBody stringByAppendingString:body];
 		}
-        if (_clientSourceToken) {
+
+        // if using OAuth, Twitter already knows your application's name, so don't send it
+        if (_clientSourceToken && _accessToken == nil) {
             finalBody = [finalBody stringByAppendingString:[NSString stringWithFormat:@"%@source=%@", 
                                                             (body) ? @"&" : @"" , 
                                                             _clientSourceToken]];
