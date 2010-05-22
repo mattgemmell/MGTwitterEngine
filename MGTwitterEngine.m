@@ -20,7 +20,7 @@
 #if YAJL_AVAILABLE
 	#define API_FORMAT @"json"
 
-	#import "MGTwitterGenericObjectsYAJLParser.h"
+	#import "MGTwitterYAJLParser.h"
 	#import "MGTwitterMiscYAJLParser.h"
 	#import "MGTwitterSearchYAJLParser.h"
 #elif TOUCHJSON_AVAILABLE
