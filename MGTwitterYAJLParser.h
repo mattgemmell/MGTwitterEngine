@@ -26,6 +26,9 @@
 	
 	yajl_handle _handle;
 	NSUInteger arrayDepth;
+
+	NSMutableArray *_dictionaries; // effectively a stack for parsing nested dictionaries
+	NSMutableArray *_dictionaryKeys;
 }
 
 + (id)parserWithJSON:(NSData *)theJSON

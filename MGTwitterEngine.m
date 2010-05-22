@@ -694,7 +694,7 @@
 		case MGTwitterUser:
 		case MGTwitterDirectMessages:
 		case MGTwitterDirectMessage:
-            [MGTwitterGenericObjectsYAJLParser parserWithJSON:jsonData delegate:self 
+            [MGTwitterYAJLParser parserWithJSON:jsonData delegate:self 
 										 connectionIdentifier:identifier requestType:requestType 
 												 responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
             break;

@@ -143,8 +143,6 @@
 
 - (void)dealloc
 {
-	[_dictionaries release];
-	[_dictionaryKeys release];
 	[_status release];
 	
 	[super dealloc];

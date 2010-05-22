@@ -13,8 +13,6 @@
 @interface MGTwitterSearchYAJLParser : MGTwitterYAJLParser {
 	BOOL insideArray;
 	NSMutableDictionary *_status;
-	NSMutableArray *_dictionaries; // effectively a stack for parsing nested dictionaries
-	NSMutableArray *_dictionaryKeys;
 }
 
 @end
