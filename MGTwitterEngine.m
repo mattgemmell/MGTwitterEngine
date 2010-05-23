@@ -1852,10 +1852,6 @@
 
 - (NSString *)getSearchResultsForQuery:(NSString *)query sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count geocode:(NSString *)geocode
 {
-#if LARGE_ID_TEST
-	if (sinceID > 0) sinceID -= 0x7fffffff;
-#endif
-
     NSString *path = [NSString stringWithFormat:@"search.%@", API_FORMAT];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
