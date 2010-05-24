@@ -478,6 +478,12 @@
         }
     }
     
+	return [self _sendRequest:theRequest withRequestType:requestType responseType:responseType];
+}
+
+-(NSString *)_sendRequest:(NSURLRequest *)theRequest 
+		  withRequestType:(MGTwitterRequestType)requestType
+			 responseType:(MGTwitterResponseType)responseType{
     
     // Create a connection using this request, with the default timeout and caching policy, 
     // and appropriate Twitter request and response types for parsing and error reporting.
