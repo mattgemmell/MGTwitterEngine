@@ -67,6 +67,27 @@
 
 #define URL_REQUEST_TIMEOUT     25.0 // Twitter usually fails quickly if it's going to fail at all.
 
+@interface NSDictionary (MGTwitterEngineExtensions)
+
+-(NSDictionary *)MGTE_dictionaryByRemovingObjectForKey:(NSString *)key;
+
+@end
+
+@implementation NSDictionary (MGTwitterEngineExtensions)
+
+-(NSDictionary *)MGTE_dictionaryByRemovingObjectForKey:(NSString *)key{
+	NSDictionary *result = self;
+	if(key){
+		NSMutableDictionary *newParams = [[self mutableCopy] autorelease];
+		[newParams removeObjectForKey:key];
+		self = [[newParams copy] autorelease];
+	}
+	return result;
+}
+
+@end
+
+
 
 @interface MGTwitterEngine (PrivateMethods)
 
@@ -477,7 +498,7 @@
 #endif
         }
     }
-    
+	
 	return [self _sendRequest:theRequest withRequestType:requestType responseType:responseType];
 }
 
@@ -575,6 +596,13 @@
                                     requestType:(MGTwitterRequestType)requestType 
                                 queryParameters:(NSDictionary *)params 
 {
+	NSString *contentType = [params objectForKey:@"Content-Type"];
+	if(contentType){
+		params = [params MGTE_dictionaryByRemovingObjectForKey:@"Content-Type"];
+	}else{
+		contentType = @"application/x-www-form-urlencoded";
+	}
+	
     // Construct appropriate URL string.
     NSString *fullPath = [path stringByAddingPercentEscapesUsingEncoding:NSNonLossyASCIIStringEncoding];
     if (params && ![method isEqualToString:HTTP_POST_METHOD]) {
@@ -662,6 +690,8 @@
     [theRequest setValue:_clientName    forHTTPHeaderField:@"X-Twitter-Client"];
     [theRequest setValue:_clientVersion forHTTPHeaderField:@"X-Twitter-Client-Version"];
     [theRequest setValue:_clientURL     forHTTPHeaderField:@"X-Twitter-Client-URL"];
+	
+    [theRequest setValue:contentType    forHTTPHeaderField:@"Content-Type"];
     
 #if SET_AUTHORIZATION_IN_HEADER
 	if ([self username] && [self password]) {
