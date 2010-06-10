@@ -175,6 +175,10 @@
 	NSLog(@"Got social graph results for %@:\r%@", connectionIdentifier, socialGraphInfo);
 }
 
+- (void)userListsReceived:(NSArray *)userInfo forRequest:(NSString *)connectionIdentifier
+{
+    NSLog(@"Got user lists for %@:\r%@", connectionIdentifier, userInfo);
+}
 
 - (void)imageReceived:(NSImage *)image forRequest:(NSString *)connectionIdentifier
 {

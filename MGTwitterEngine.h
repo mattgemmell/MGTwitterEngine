@@ -132,6 +132,8 @@
 
 - (NSString *)getUserInformationForEmail:(NSString *)email; // users/show
 
+//	List Methods
+- (NSString *)getListsForUser:(NSString *)username;
 
 // Direct Message methods
 

@@ -44,6 +44,7 @@
 		#import "MGTwitterMessagesParser.h"
 		#import "MGTwitterMiscParser.h"
 		#import "MGTwitterSocialGraphParser.h"
+		#import "MGTwitterUserListsParser.h"
 	#endif
 #endif
 
@@ -851,6 +852,13 @@
 						  connectionIdentifier:identifier requestType:requestType 
 								  responseType:responseType];
 			break;
+		case MGTwitterUserLists:
+			NSLog(@"response type: %d", responseType);
+			[MGTwitterUserListsParser parserWithXML:xmlData delegate:self 
+						  connectionIdentifier:identifier requestType:requestType 
+								  responseType:responseType];
+			break;
+			
 		case MGTwitterSocialGraph:
 			[MGTwitterSocialGraphParser parserWithXML:xmlData delegate:self 
 						  connectionIdentifier:identifier requestType:requestType 
@@ -880,6 +888,7 @@
                  withParsedObjects:(NSArray *)parsedObjects
 {
     // Forward appropriate message to _delegate, depending on responseType.
+	NSLog(@"here at parsingSucceededForRequest");
     switch (responseType) {
         case MGTwitterStatuses:
         case MGTwitterStatus:
@@ -910,6 +919,10 @@
 			if ([self _isValidDelegateForSelector:@selector(socialGraphInfoReceived:forRequest:)])
 				[_delegate socialGraphInfoReceived: parsedObjects forRequest:identifier];
 			break;
+		case MGTwitterUserLists:
+			if ([self _isValidDelegateForSelector:@selector(userListsReceived:forRequest:)])
+				[_delegate userListsReceived: parsedObjects forRequest:identifier];
+			break;			
 		case MGTwitterOAuthTokenRequest:
 			if ([self _isValidDelegateForSelector:@selector(accessTokenReceived:forRequest:)] && [parsedObjects count] > 0)
 				[_delegate accessTokenReceived:[parsedObjects objectAtIndex:0]
@@ -1522,6 +1535,16 @@
                            responseType:MGTwitterDirectMessage];
 }
 
+#pragma mark Lists
+
+- (NSString *)getListsForUser:(NSString *)username
+{
+	NSString *path = [NSString stringWithFormat:@"%@/lists.%@", username, API_FORMAT];
+    
+    return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
+                            requestType:MGTwitterUserListsRequest 
+                           responseType:MGTwitterUserLists];
+}
 
 #pragma mark Friendship methods
 

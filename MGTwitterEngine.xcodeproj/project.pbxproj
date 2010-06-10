@@ -71,6 +71,7 @@
 		C9FEB12C0D6095AF009AA322 /* MGTwitterStatusesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C9FEB12B0D6095AF009AA322 /* MGTwitterStatusesParser.m */; };
 		D47CF9B511541D0A00E07931 /* MGTwitterSocialGraphParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D47CF9B411541D0A00E07931 /* MGTwitterSocialGraphParser.m */; };
 		D47CFCA9115567ED00E07931 /* MGTwitterSocialGraphLibXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D47CFCA8115567ED00E07931 /* MGTwitterSocialGraphLibXMLParser.m */; };
+		F4763D2A11C1837300A35E7E /* MGTwitterUserListsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F4763D2911C1837300A35E7E /* MGTwitterUserListsParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -212,6 +213,8 @@
 		D47CF9B411541D0A00E07931 /* MGTwitterSocialGraphParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTwitterSocialGraphParser.m; sourceTree = "<group>"; };
 		D47CFCA7115567ED00E07931 /* MGTwitterSocialGraphLibXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTwitterSocialGraphLibXMLParser.h; sourceTree = "<group>"; };
 		D47CFCA8115567ED00E07931 /* MGTwitterSocialGraphLibXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTwitterSocialGraphLibXMLParser.m; sourceTree = "<group>"; };
+		F4763D2811C1837300A35E7E /* MGTwitterUserListsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTwitterUserListsParser.h; sourceTree = "<group>"; };
+		F4763D2911C1837300A35E7E /* MGTwitterUserListsParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTwitterUserListsParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -504,6 +507,8 @@
 		C90F74CB0D6A3B5300F602A5 /* Twitter NSXML Parsers */ = {
 			isa = PBXGroup;
 			children = (
+				F4763D2811C1837300A35E7E /* MGTwitterUserListsParser.h */,
+				F4763D2911C1837300A35E7E /* MGTwitterUserListsParser.m */,
 				C90F74CC0D6A3B7500F602A5 /* MGTwitterXMLParser.h */,
 				C90F74CD0D6A3B7500F602A5 /* MGTwitterXMLParser.m */,
 				C9FEB12A0D6095AF009AA322 /* MGTwitterStatusesParser.h */,
@@ -663,6 +668,7 @@
 				1E798A6D118D077E00DDD6D9 /* CJSONScanner.m in Sources */,
 				1E798A6E118D077E00DDD6D9 /* CJSONSerializer.m in Sources */,
 				1E798A6F118D077E00DDD6D9 /* CSerializedJSONData.m in Sources */,
+				F4763D2A11C1837300A35E7E /* MGTwitterUserListsParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
