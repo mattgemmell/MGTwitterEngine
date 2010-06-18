@@ -642,7 +642,7 @@
 	}
 #endif
 	
-#if SET_AUTHORIZATION_IN_HEADER
+#if 1 // SET_AUTHORIZATION_IN_HEADER
     NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@", 
                            connectionType,
                            domain, fullPath];
