@@ -80,7 +80,7 @@
 	if(key){
 		NSMutableDictionary *newParams = [[self mutableCopy] autorelease];
 		[newParams removeObjectForKey:key];
-		self = [[newParams copy] autorelease];
+		result = [[newParams copy] autorelease];
 	}
 	return result;
 }
