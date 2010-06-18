@@ -2037,7 +2037,9 @@
                                                             delegate:self 
                                                          requestType:MGTwitterOAuthTokenRequest
                                                         responseType:MGTwitterOAuthToken];
-    
+
+    [request release], request = nil;
+
     if (!connection) {
         return nil;
     } else {
