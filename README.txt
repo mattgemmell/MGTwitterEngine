@@ -75,7 +75,7 @@ Sometimes, of course, requests will fail - that's just how life is. In the unlik
 
 It's far more common however that the connection itself will go ahead just fine, but there will be an error on Twitter's side, either due to technical difficulties, or because there was something wrong with your request (e.g. you entered the wrong username and password, or you tried to get info on a user that doesn't exist, or some such thing). The specific error conditions are mostly documented in the Twitter API documentation online.
 
-In these cases you'll receive a call to requestFailed:withError: which will include an NSError object detailing the error. Twitter usually returns meaningful HTTP error codes (like 404 for 'user not found', etc), and in that case the -domain of the NSError will be "HTTP" and the -code will be the relevant HTTP status code. This makes it really, really easy to know what's happening with your connections.
+In these cases you'll receive a call to requestFailed:withError: which will include an NSError object detailing the error. Twitter usually returns meaningful HTTP error codes (like 404 for 'user not found', etc), and in that case the -domain of the NSError will be "HTTP" and the -code will be the relevant HTTP status code. The userInfo of the NSError will contain a key "body" that may contain the response body and "response" which will contain the NSHTTPURLResponse. This makes it really, really easy to know what's happening with your connections.
 
 
 

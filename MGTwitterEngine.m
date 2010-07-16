@@ -976,22 +976,10 @@
     
     // Get response code.
     NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
+    [connection setResponse:resp];
     NSInteger statusCode = [resp statusCode];
     
-    if (statusCode >= 400) {
-        // Assume failure, and report to delegate.
-        NSError *error = [NSError errorWithDomain:@"HTTP" code:statusCode userInfo:nil];
-		if ([self _isValidDelegateForSelector:@selector(requestFailed:withError:)])
-			[_delegate requestFailed:[connection identifier] withError:error];
-        
-        // Destroy the connection.
-        [connection cancel];
-		NSString *connectionIdentifier = [connection identifier];
-		[_connections removeObjectForKey:connectionIdentifier];
-		if ([self _isValidDelegateForSelector:@selector(connectionFinished:)])
-			[_delegate connectionFinished:connectionIdentifier];
-			        
-    } else if (statusCode == 304 || [connection responseType] == MGTwitterGeneric) {
+    if (statusCode == 304 || [connection responseType] == MGTwitterGeneric) {
         // Not modified, or generic success.
 		if ([self _isValidDelegateForSelector:@selector(requestSucceeded:)])
 			[_delegate requestSucceeded:[connection identifier]];
@@ -1048,7 +1036,32 @@
 
 - (void)connectionDidFinishLoading:(MGTwitterHTTPURLConnection *)connection
 {
-	NSString *connID = nil;
+
+    NSInteger statusCode = [[connection response] statusCode];
+
+    if (statusCode >= 400) {
+        // Assume failure, and report to delegate.
+        NSData *receivedData = [connection data];
+        NSString *body = [receivedData length] ? [NSString stringWithUTF8String:[receivedData bytes]] : @"";
+
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [connection response], @"response",
+                                  body, @"body",
+                                  nil];
+        NSError *error = [NSError errorWithDomain:@"HTTP" code:statusCode userInfo:userInfo];
+		if ([self _isValidDelegateForSelector:@selector(requestFailed:withError:)])
+			[_delegate requestFailed:[connection identifier] withError:error];
+
+        // Destroy the connection.
+        [connection cancel];
+		NSString *connectionIdentifier = [connection identifier];
+		[_connections removeObjectForKey:connectionIdentifier];
+		if ([self _isValidDelegateForSelector:@selector(connectionFinished:)])
+			[_delegate connectionFinished:connectionIdentifier];
+        return;
+    }
+
+    NSString *connID = nil;
 	MGTwitterResponseType responseType = 0;
 	connID = [connection identifier];
 	responseType = [connection responseType];

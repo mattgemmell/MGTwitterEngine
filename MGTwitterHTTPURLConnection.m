@@ -28,6 +28,8 @@
 @implementation MGTwitterHTTPURLConnection
 
 
+@synthesize response = _response;
+
 #pragma mark Initializer
 
 
@@ -51,6 +53,7 @@
 
 - (void)dealloc
 {
+    [_response release];
     [_data release];
     [_identifier release];
 	[_URL release];
