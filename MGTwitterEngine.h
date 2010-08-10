@@ -133,7 +133,17 @@
 - (NSString *)getUserInformationForEmail:(NSString *)email; // users/show
 
 //	List Methods
+
+//	List the lists of the specified user. Private lists will be included if the 
+//	authenticated users is the same as the user who's lists are being returned.
 - (NSString *)getListsForUser:(NSString *)username;
+
+//	Creates a new list for the authenticated user. Accounts are limited to 20 lists.
+//	Options include:
+//	mode - Whether your list is public or private. Values can be public or private. 
+//		If no mode is specified the list will be public.
+//	description - The description to give the list.
+- (NSString *)createListsForUser:(NSString *)username withName:(NSString *)listName withOptions:(NSDictionary *)options;
 
 // Direct Message methods
 

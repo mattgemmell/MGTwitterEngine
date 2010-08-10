@@ -1549,13 +1549,38 @@
 }
 
 #pragma mark Lists
-
+ 
 - (NSString *)getListsForUser:(NSString *)username
 {
 	NSString *path = [NSString stringWithFormat:@"%@/lists.%@", username, API_FORMAT];
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterUserListsRequest 
+                           responseType:MGTwitterUserLists];
+}
+
+- (NSString *)createListsForUser:(NSString *)username withName:(NSString *)listName withOptions:(NSDictionary *)options;
+{
+	if (!username || !listName) {
+		NSLog(@"returning nil");
+		return nil;
+	}
+	
+	NSString *path = [NSString stringWithFormat:@"%@/lists.%@", username, API_FORMAT];
+	
+    NSMutableDictionary *queryParameters = [NSMutableDictionary dictionaryWithCapacity:0];
+	if ([options objectForKey:@"mode"]) {
+		[queryParameters setObject:[options objectForKey:@"mode"] forKey:@"mode"];
+	}
+	if ([options objectForKey:@"description"]) {
+		[queryParameters setObject:[options objectForKey:@"description"] forKey:@"description"];
+	}
+	[queryParameters setObject:listName forKey:@"name"];
+    NSString *body = [self _queryStringWithBase:nil parameters:queryParameters prefixed:NO];
+    
+    return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
+                        queryParameters:queryParameters body:body 
+                            requestType:MGTwitterUserListCreate
                            responseType:MGTwitterUserLists];
 }
 
