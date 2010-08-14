@@ -1611,6 +1611,22 @@
                            responseType:MGTwitterUserLists];
 }
 
+- (NSString *)getListForUser:(NSString *)username withID:(MGTwitterEngineID)listID
+{
+	if (!username || !listID) {
+		NSLog(@"returning nil");
+		return nil;
+	}
+	NSString *path = [NSString stringWithFormat:@"%@/lists/%llu.%@", username, listID, API_FORMAT];
+	
+    NSString *body = [self _queryStringWithBase:nil parameters:nil prefixed:NO];
+    
+    return [self _sendRequestWithMethod:nil path:path 
+                        queryParameters:nil body:body 
+                            requestType:MGTwitterUserListCreate
+                           responseType:MGTwitterUserLists];
+}
+
 #pragma mark Friendship methods
 
 
