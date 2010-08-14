@@ -1559,7 +1559,7 @@
                            responseType:MGTwitterUserLists];
 }
 
-- (NSString *)createListsForUser:(NSString *)username withName:(NSString *)listName withOptions:(NSDictionary *)options;
+- (NSString *)createListForUser:(NSString *)username withName:(NSString *)listName withOptions:(NSDictionary *)options;
 {
 	if (!username || !listName) {
 		NSLog(@"returning nil");

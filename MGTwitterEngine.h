@@ -143,7 +143,7 @@
 //	mode - Whether your list is public or private. Values can be public or private. 
 //		If no mode is specified the list will be public.
 //	description - The description to give the list.
-- (NSString *)createListsForUser:(NSString *)username withName:(NSString *)listName withOptions:(NSDictionary *)options;
+- (NSString *)createListForUser:(NSString *)username withName:(NSString *)listName withOptions:(NSDictionary *)options;
 
 // Direct Message methods
 
