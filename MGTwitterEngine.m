@@ -1584,6 +1584,33 @@
                            responseType:MGTwitterUserLists];
 }
 
+- (NSString *)updateListForUser:(NSString *)username withID:(MGTwitterEngineID)listID withOptions:(NSDictionary *)options
+{
+	if (!username || !listID) {
+		NSLog(@"returning nil");
+		return nil;
+	}
+	NSString *path = [NSString stringWithFormat:@"%@/lists/%llu.%@", username, listID, API_FORMAT];
+	
+    NSMutableDictionary *queryParameters = [NSMutableDictionary dictionaryWithCapacity:0];
+	if ([options objectForKey:@"name"]) {
+		[queryParameters setObject:[options objectForKey:@"name"] forKey:@"name"];
+	}
+	if ([options objectForKey:@"mode"]) {
+		[queryParameters setObject:[options objectForKey:@"mode"] forKey:@"mode"];
+	}
+	if ([options objectForKey:@"description"]) {
+		[queryParameters setObject:[options objectForKey:@"description"] forKey:@"description"];
+	}
+	
+    NSString *body = [self _queryStringWithBase:nil parameters:queryParameters prefixed:NO];
+    
+    return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
+                        queryParameters:queryParameters body:body 
+                            requestType:MGTwitterUserListCreate
+                           responseType:MGTwitterUserLists];
+}
+
 #pragma mark Friendship methods
 
 

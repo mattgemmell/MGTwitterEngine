@@ -145,6 +145,9 @@
 //	description - The description to give the list.
 - (NSString *)createListForUser:(NSString *)username withName:(NSString *)listName withOptions:(NSDictionary *)options;
 
+//	update an existing list
+- (NSString *)updateListForUser:(NSString *)username withID:(MGTwitterEngineID)listID withOptions:(NSDictionary *)options;
+
 // Direct Message methods
 
 - (NSString *)getDirectMessagesSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)pageNum; // direct_messages
