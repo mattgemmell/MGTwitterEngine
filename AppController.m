@@ -30,6 +30,9 @@
     twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
 	[twitterEngine setUsesSecureConnection:NO];
 	[twitterEngine setConsumerKey:consumerKey secret:consumerSecret];
+	// This has been undepreciated for the purposes of dealing with Lists.
+	// At present the list API calls require you to specify a user that owns the list.
+	[twitterEngine setUsername:username];
 	 
 	[twitterEngine getXAuthAccessTokenForUsername:username password:password];
 }

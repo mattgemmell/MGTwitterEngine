@@ -1988,6 +1988,12 @@
     return [[_username retain] autorelease];
 }
 
+- (void)setUsername:(NSString *)newUsername
+{
+    // Set new credentials.
+    [_username release];
+    _username = [newUsername retain];
+}
 
 - (NSString *)password
 {
