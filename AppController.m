@@ -15,13 +15,15 @@
 {
     // Put your Twitter username and password here:
     NSString *username = nil;
-    NSString *password = nil;
 	
 	NSString *consumerKey = nil;
 	NSString *consumerSecret = nil;
 	
+	// this file will set username, consumerKey and consumerSecret
+#include "SecretValues.h"
+	
     // Most API calls require a name and password to be set...
-    if (! username || ! password || !consumerKey || !consumerSecret) {
+    if (! username || !consumerKey || !consumerSecret) {
         NSLog(@"You forgot to specify your username/password/key/secret in AppController.m, things might not work!");
 		NSLog(@"And if things are mysteriously working without the username/password, it's because NSURLConnection is using a session cookie from another connection.");
     }
@@ -34,7 +36,25 @@
 	// At present the list API calls require you to specify a user that owns the list.
 	[twitterEngine setUsername:username];
 	 
-	[twitterEngine getXAuthAccessTokenForUsername:username password:password];
+	[twitterEngine getRequestToken];
+}
+
+
+- (void)requestTokenReceived:(OAToken *)aToken forRequest:(NSString *)connectionIdentifier
+{
+	NSLog(@"Request token received! %@",aToken);
+	token = [aToken retain];
+
+	[twitterEngine openAuthorizePageForRequestToken: token];
+	
+	[NSBundle loadNibNamed:@"PinWindow" owner:self];
+//	NSWindowController* awc = [[NSWindowController alloc] initWithWindowNibName:@"PinWindow"];
+}
+
+-(IBAction)enteredPin: (id)sender
+{
+	[twitterEngine getAccessTokenForRequestToken: token pin: [pinCode stringValue]];
+	[pinWindow close];
 }
 
 -(void)runTests{
@@ -203,11 +223,6 @@
 - (void)connectionFinished:(NSString *)connectionIdentifier
 {
     NSLog(@"Connection finished %@", connectionIdentifier);
-
-	if ([twitterEngine numberOfConnections] == 0)
-	{
-		[NSApp terminate:self];
-	}
 }
 
 - (void)accessTokenReceived:(OAToken *)aToken forRequest:(NSString *)connectionIdentifier

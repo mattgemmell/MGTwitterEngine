@@ -269,6 +269,11 @@
 - (NSString *)getXAuthAccessTokenForUsername:(NSString *)username 
 									password:(NSString *)password;
 
+- (NSString *)getRequestToken;
+- (NSString *)openAuthorizePageForRequestToken: (OAToken *)requestToken;
+
+- (NSString *)getAccessTokenForRequestToken: (OAToken *)requestToken pin: (NSString* )pin;
+
 @end
 
 

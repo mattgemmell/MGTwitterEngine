@@ -57,7 +57,35 @@
 		C4156A31126886C100B7F462 /* hmac.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AA1186A49C0092F9AD /* hmac.h */; };
 		C4156A32126886C100B7F462 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AB1186A49C0092F9AD /* sha1.c */; };
 		C4156A33126886C100B7F462 /* sha1.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AC1186A49C0092F9AD /* sha1.h */; };
+		C42ED4F612688A9D00779DCC /* AppController.h in Sources */ = {isa = PBXBuildFile; fileRef = C9811E5B0D5F696200720D77 /* AppController.h */; };
+		C42ED4F712688A9D00779DCC /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9811E5C0D5F696200720D77 /* AppController.m */; };
+		C42ED4FE12688AC000779DCC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		C42ED50112688AE100779DCC /* MGTwitterEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41569381268819E00B7F462 /* MGTwitterEngine.framework */; };
+		C42ED54512688CF200779DCC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1107310486CEB800E47090 /* Info.plist */; };
+		C42ED54612688CF200779DCC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		C42ED54712688CF200779DCC /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		C42ED58912688E5200779DCC /* NSMutableURLRequest+Parameters.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A01186A49C0092F9AD /* NSMutableURLRequest+Parameters.h */; };
+		C42ED58A12688E5200779DCC /* NSMutableURLRequest+Parameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A11186A49C0092F9AD /* NSMutableURLRequest+Parameters.m */; };
+		C42ED58B12688E5200779DCC /* NSString+URLEncoding.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A21186A49C0092F9AD /* NSString+URLEncoding.h */; };
+		C42ED58C12688E5200779DCC /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A31186A49C0092F9AD /* NSString+URLEncoding.m */; };
+		C42ED58D12688E5200779DCC /* NSURL+Base.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A41186A49C0092F9AD /* NSURL+Base.h */; };
+		C42ED58E12688E5200779DCC /* NSURL+Base.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A51186A49C0092F9AD /* NSURL+Base.m */; };
+		C42ED5A812688EB400779DCC /* NSString+UUID.h in Sources */ = {isa = PBXBuildFile; fileRef = C9EF989F0D68AB970041A17E /* NSString+UUID.h */; };
+		C42ED5A912688EB400779DCC /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF98A00D68AB970041A17E /* NSString+UUID.m */; };
+		C42ED5AA12688EB400779DCC /* NSData+Base64.h in Sources */ = {isa = PBXBuildFile; fileRef = 44F751A60E47DEC400858A1B /* NSData+Base64.h */; };
+		C42ED5AB12688EB400779DCC /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F751A50E47DEC400858A1B /* NSData+Base64.m */; };
+		C42ED60A1268958100779DCC /* PinWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = C42ED6091268958100779DCC /* PinWindow.nib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C42ED56212688D2A00779DCC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C41569371268819E00B7F462 /* MGTwitterEngine */;
+			remoteInfo = MGTwitterEngine;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -170,6 +198,10 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C41569381268819E00B7F462 /* MGTwitterEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MGTwitterEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C41569391268819E00B7F462 /* MGTwitterEngine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MGTwitterEngine-Info.plist"; sourceTree = "<group>"; };
+		C42ED4D712688A7000779DCC /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C42ED4D912688A7100779DCC /* Demo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Demo-Info.plist"; sourceTree = "<group>"; };
+		C42ED6091268958100779DCC /* PinWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PinWindow.nib; sourceTree = "<group>"; };
+		C42ED6BC12689CD700779DCC /* SecretValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecretValues.h; sourceTree = "<group>"; };
 		C90031BA0D6B796400C38924 /* MGTwitterUsersParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTwitterUsersParser.h; sourceTree = "<group>"; };
 		C90031BB0D6B796400C38924 /* MGTwitterUsersParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTwitterUsersParser.m; sourceTree = "<group>"; };
 		C90031BE0D6B798800C38924 /* MGTwitterMessagesParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTwitterMessagesParser.h; sourceTree = "<group>"; };
@@ -211,6 +243,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C42ED4D512688A7000779DCC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C42ED50112688AE100779DCC /* MGTwitterEngine.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -248,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				C41569381268819E00B7F462 /* MGTwitterEngine.framework */,
+				C42ED4D712688A7000779DCC /* Demo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -407,6 +448,7 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				1E4C01DF1186A5260092F9AD /* Security.framework */,
 				C41569391268819E00B7F462 /* MGTwitterEngine-Info.plist */,
+				C42ED4D912688A7100779DCC /* Demo-Info.plist */,
 			);
 			name = MATwitterIntegration;
 			sourceTree = "<group>";
@@ -423,6 +465,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C42ED6091268958100779DCC /* PinWindow.nib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
@@ -514,6 +557,7 @@
 			children = (
 				C9811E5B0D5F696200720D77 /* AppController.h */,
 				C9811E5C0D5F696200720D77 /* AppController.m */,
+				C42ED6BC12689CD700779DCC /* SecretValues.h */,
 			);
 			name = Demo;
 			sourceTree = "<group>";
@@ -569,6 +613,24 @@
 			productReference = C41569381268819E00B7F462 /* MGTwitterEngine.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		C42ED4D612688A7000779DCC /* Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C42ED4DC12688A7100779DCC /* Build configuration list for PBXNativeTarget "Demo" */;
+			buildPhases = (
+				C42ED4D312688A7000779DCC /* Resources */,
+				C42ED4D412688A7000779DCC /* Sources */,
+				C42ED4D512688A7000779DCC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C42ED56312688D2A00779DCC /* PBXTargetDependency */,
+			);
+			name = Demo;
+			productName = Demo;
+			productReference = C42ED4D712688A7000779DCC /* Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -582,6 +644,7 @@
 			projectRoot = "";
 			targets = (
 				C41569371268819E00B7F462 /* MGTwitterEngine */,
+				C42ED4D612688A7000779DCC /* Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -594,6 +657,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C42ED4D312688A7000779DCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C42ED54512688CF200779DCC /* Info.plist in Resources */,
+				C42ED54612688CF200779DCC /* InfoPlist.strings in Resources */,
+				C42ED54712688CF200779DCC /* MainMenu.nib in Resources */,
+				C42ED60A1268958100779DCC /* PinWindow.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -601,6 +675,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C42ED5A812688EB400779DCC /* NSString+UUID.h in Sources */,
+				C42ED5A912688EB400779DCC /* NSString+UUID.m in Sources */,
+				C42ED5AA12688EB400779DCC /* NSData+Base64.h in Sources */,
+				C42ED5AB12688EB400779DCC /* NSData+Base64.m in Sources */,
+				C42ED58912688E5200779DCC /* NSMutableURLRequest+Parameters.h in Sources */,
+				C42ED58A12688E5200779DCC /* NSMutableURLRequest+Parameters.m in Sources */,
+				C42ED58B12688E5200779DCC /* NSString+URLEncoding.h in Sources */,
+				C42ED58C12688E5200779DCC /* NSString+URLEncoding.m in Sources */,
+				C42ED58D12688E5200779DCC /* NSURL+Base.h in Sources */,
+				C42ED58E12688E5200779DCC /* NSURL+Base.m in Sources */,
 				C4156A2E126886C100B7F462 /* Base64Transcoder.c in Sources */,
 				C4156A2F126886C100B7F462 /* Base64Transcoder.h in Sources */,
 				C4156A30126886C100B7F462 /* hmac.c in Sources */,
@@ -654,7 +738,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C42ED4D412688A7000779DCC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C42ED4FE12688AC000779DCC /* main.m in Sources */,
+				C42ED4F612688A9D00779DCC /* AppController.h in Sources */,
+				C42ED4F712688A9D00779DCC /* AppController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C42ED56312688D2A00779DCC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C41569371268819E00B7F462 /* MGTwitterEngine */;
+			targetProxy = C42ED56212688D2A00779DCC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
@@ -763,6 +865,54 @@
 			};
 			name = Release;
 		};
+		C42ED4DA12688A7100779DCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Demo-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Demo;
+			};
+			name = Debug;
+		};
+		C42ED4DB12688A7100779DCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Demo-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Demo;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -780,6 +930,15 @@
 			buildConfigurations = (
 				C415693A1268819E00B7F462 /* Debug */,
 				C415693B1268819E00B7F462 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C42ED4DC12688A7100779DCC /* Build configuration list for PBXNativeTarget "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C42ED4DA12688A7100779DCC /* Debug */,
+				C42ED4DB12688A7100779DCC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
