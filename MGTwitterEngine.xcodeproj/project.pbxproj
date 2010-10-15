@@ -29,6 +29,34 @@
 		C41569621268820C00B7F462 /* MGTwitterMiscParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C9CB60EB0DF98ED300EE8FCF /* MGTwitterMiscParser.m */; };
 		C41569631268820C00B7F462 /* MGTwitterSocialGraphParser.h in Sources */ = {isa = PBXBuildFile; fileRef = D47CF9B311541D0A00E07931 /* MGTwitterSocialGraphParser.h */; };
 		C41569641268820C00B7F462 /* MGTwitterSocialGraphParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D47CF9B411541D0A00E07931 /* MGTwitterSocialGraphParser.m */; };
+		C415697A1268837200B7F462 /* OACall.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AD1186A49C0092F9AD /* OACall.h */; };
+		C415697B1268837200B7F462 /* OACall.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AE1186A49C0092F9AD /* OACall.m */; };
+		C415697C1268837200B7F462 /* OAConsumer.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AF1186A49C0092F9AD /* OAConsumer.h */; };
+		C415697D1268837200B7F462 /* OAConsumer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B01186A49C0092F9AD /* OAConsumer.m */; };
+		C415697E1268837200B7F462 /* OADataFetcher.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B11186A49C0092F9AD /* OADataFetcher.h */; };
+		C415697F1268837200B7F462 /* OADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B21186A49C0092F9AD /* OADataFetcher.m */; };
+		C41569801268837200B7F462 /* OAHMAC_SHA1SignatureProvider.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B31186A49C0092F9AD /* OAHMAC_SHA1SignatureProvider.h */; };
+		C41569811268837200B7F462 /* OAHMAC_SHA1SignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B41186A49C0092F9AD /* OAHMAC_SHA1SignatureProvider.m */; };
+		C41569821268837200B7F462 /* OAMutableURLRequest.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B51186A49C0092F9AD /* OAMutableURLRequest.h */; };
+		C41569831268837200B7F462 /* OAMutableURLRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B61186A49C0092F9AD /* OAMutableURLRequest.m */; };
+		C41569841268837200B7F462 /* OAPlaintextSignatureProvider.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B71186A49C0092F9AD /* OAPlaintextSignatureProvider.h */; };
+		C41569851268837200B7F462 /* OAPlaintextSignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B81186A49C0092F9AD /* OAPlaintextSignatureProvider.m */; };
+		C41569861268837200B7F462 /* OAProblem.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01B91186A49C0092F9AD /* OAProblem.h */; };
+		C41569871268837200B7F462 /* OAProblem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01BA1186A49C0092F9AD /* OAProblem.m */; };
+		C41569881268837200B7F462 /* OARequestParameter.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01BB1186A49C0092F9AD /* OARequestParameter.h */; };
+		C41569891268837200B7F462 /* OARequestParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01BC1186A49C0092F9AD /* OARequestParameter.m */; };
+		C415698A1268837200B7F462 /* OAServiceTicket.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01BD1186A49C0092F9AD /* OAServiceTicket.h */; };
+		C415698B1268837200B7F462 /* OAServiceTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01BE1186A49C0092F9AD /* OAServiceTicket.m */; };
+		C415698C1268837200B7F462 /* OASignatureProviding.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01BF1186A49C0092F9AD /* OASignatureProviding.h */; };
+		C415698D1268837200B7F462 /* OAToken.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01C31186A49C0092F9AD /* OAToken.h */; };
+		C415698E1268837200B7F462 /* OAToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01C41186A49C0092F9AD /* OAToken.m */; };
+		C415698F1268837200B7F462 /* OAuthConsumer.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01C71186A49C0092F9AD /* OAuthConsumer.h */; };
+		C4156A2E126886C100B7F462 /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A71186A49C0092F9AD /* Base64Transcoder.c */; };
+		C4156A2F126886C100B7F462 /* Base64Transcoder.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A81186A49C0092F9AD /* Base64Transcoder.h */; };
+		C4156A30126886C100B7F462 /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01A91186A49C0092F9AD /* hmac.c */; };
+		C4156A31126886C100B7F462 /* hmac.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AA1186A49C0092F9AD /* hmac.h */; };
+		C4156A32126886C100B7F462 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AB1186A49C0092F9AD /* sha1.c */; };
+		C4156A33126886C100B7F462 /* sha1.h in Sources */ = {isa = PBXBuildFile; fileRef = 1E4C01AC1186A49C0092F9AD /* sha1.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -573,6 +601,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4156A2E126886C100B7F462 /* Base64Transcoder.c in Sources */,
+				C4156A2F126886C100B7F462 /* Base64Transcoder.h in Sources */,
+				C4156A30126886C100B7F462 /* hmac.c in Sources */,
+				C4156A31126886C100B7F462 /* hmac.h in Sources */,
+				C4156A32126886C100B7F462 /* sha1.c in Sources */,
+				C4156A33126886C100B7F462 /* sha1.h in Sources */,
+				C415697A1268837200B7F462 /* OACall.h in Sources */,
+				C415697B1268837200B7F462 /* OACall.m in Sources */,
+				C415697C1268837200B7F462 /* OAConsumer.h in Sources */,
+				C415697D1268837200B7F462 /* OAConsumer.m in Sources */,
+				C415697E1268837200B7F462 /* OADataFetcher.h in Sources */,
+				C415697F1268837200B7F462 /* OADataFetcher.m in Sources */,
+				C41569801268837200B7F462 /* OAHMAC_SHA1SignatureProvider.h in Sources */,
+				C41569811268837200B7F462 /* OAHMAC_SHA1SignatureProvider.m in Sources */,
+				C41569821268837200B7F462 /* OAMutableURLRequest.h in Sources */,
+				C41569831268837200B7F462 /* OAMutableURLRequest.m in Sources */,
+				C41569841268837200B7F462 /* OAPlaintextSignatureProvider.h in Sources */,
+				C41569851268837200B7F462 /* OAPlaintextSignatureProvider.m in Sources */,
+				C41569861268837200B7F462 /* OAProblem.h in Sources */,
+				C41569871268837200B7F462 /* OAProblem.m in Sources */,
+				C41569881268837200B7F462 /* OARequestParameter.h in Sources */,
+				C41569891268837200B7F462 /* OARequestParameter.m in Sources */,
+				C415698A1268837200B7F462 /* OAServiceTicket.h in Sources */,
+				C415698B1268837200B7F462 /* OAServiceTicket.m in Sources */,
+				C415698C1268837200B7F462 /* OASignatureProviding.h in Sources */,
+				C415698D1268837200B7F462 /* OAToken.h in Sources */,
+				C415698E1268837200B7F462 /* OAToken.m in Sources */,
+				C415698F1268837200B7F462 /* OAuthConsumer.h in Sources */,
 				C41569571268820C00B7F462 /* MGTwitterUserListsParser.h in Sources */,
 				C41569581268820C00B7F462 /* MGTwitterUserListsParser.m in Sources */,
 				C41569591268820C00B7F462 /* MGTwitterXMLParser.h in Sources */,
@@ -657,6 +713,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -670,7 +727,9 @@
 					AppKit,
 				);
 				PREBINDING = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = MGTwitterEngine;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 			};
 			name = Debug;
 		};
@@ -684,6 +743,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.objc;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
@@ -696,7 +756,9 @@
 					AppKit,
 				);
 				PREBINDING = NO;
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = MGTwitterEngine;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				ZERO_LINK = NO;
 			};
 			name = Release;
