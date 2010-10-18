@@ -38,6 +38,7 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 // These delegate methods are called after all results are parsed from the connection. If 
 // the deliveryOption is configured for MGTwitterEngineDeliveryAllResults (the default), a
 // collection of all results is also returned.
+- (void)accountInfoReceived:(NSDictionary *)accountInfo forRequest:(NSString *)connectionIdentifier;
 - (void)statusesReceived:(NSArray *)statuses forRequest:(NSString *)connectionIdentifier;
 - (void)directMessagesReceived:(NSArray *)messages forRequest:(NSString *)connectionIdentifier;
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)connectionIdentifier;
@@ -48,6 +49,7 @@ typedef enum _MGTwitterEngineDeliveryOptions {
 #endif
 - (void)socialGraphInfoReceived:(NSArray *)socialGraphInfo forRequest:(NSString *)connectionIdentifier;
 - (void)accessTokenReceived:(OAToken *)token forRequest:(NSString *)connectionIdentifier;
+- (void)requestTokenReceived:(OAToken *)aToken forRequest:(NSString *)connectionIdentifier;
 
 #if TARGET_OS_IPHONE
 - (void)imageReceived:(UIImage *)image forRequest:(NSString *)connectionIdentifier;

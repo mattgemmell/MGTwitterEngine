@@ -74,6 +74,7 @@ typedef enum _MGTwitterResponseType {
 	MGTwitterOAuthToken         = 11,
 	MGTwitterUserLists          = 12,
 	MGTwitterOAuthRequestToken  = 13,
+	MGTwitterAccountInfo        = 14,
 } MGTwitterResponseType;
 
 // This key is added to each tweet or direct message returned,

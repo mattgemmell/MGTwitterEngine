@@ -733,6 +733,7 @@
                               connectionIdentifier:identifier requestType:requestType 
                                       responseType:responseType URL:URL deliveryOptions:_deliveryOptions];
             break;
+        case MGTwitterAccountInfo:
         case MGTwitterUsers:
         case MGTwitterUser:
             [MGTwitterUsersYAJLParser parserWithJSON:jsonData delegate:self 
@@ -807,6 +808,7 @@
                               connectionIdentifier:identifier requestType:requestType 
                                       responseType:responseType URL:URL];
             break;
+        case MGTwitterAccountInfo:
         case MGTwitterUsers:
         case MGTwitterUser:
             [MGTwitterUsersLibXMLParser parserWithXML:xmlData delegate:self 
@@ -851,6 +853,7 @@
                               connectionIdentifier:identifier requestType:requestType 
                                       responseType:responseType];
             break;
+        case MGTwitterAccountInfo:
         case MGTwitterUsers:
         case MGTwitterUser:
             [MGTwitterUsersParser parserWithXML:xmlData delegate:self 
@@ -955,6 +958,10 @@
 				[_delegate requestTokenReceived:[parsedObjects objectAtIndex:0]
 									forRequest:identifier];
 			break;
+        case MGTwitterAccountInfo:
+			if ([self _isValidDelegateForSelector:@selector(accountInfoReceived:forRequest:)])
+				[_delegate accountInfoReceived:[parsedObjects objectAtIndex:0] forRequest:identifier];
+            break;
         default:
             break;
     }
@@ -1711,7 +1718,7 @@
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterAccountRequest 
-                           responseType:MGTwitterUser];
+                           responseType:MGTwitterAccountInfo];
 }
 
 
