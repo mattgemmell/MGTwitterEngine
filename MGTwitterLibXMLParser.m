@@ -85,6 +85,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 
 #pragma mark Subclass utilities
 
+//TODO: Examine how _nodeValue could be re-written as it relates to http://github.com/mattgemmell/MGTwitterEngine/issues/issue/61
 // get the value from the current node
 - (xmlChar *)_nodeValue
 {
