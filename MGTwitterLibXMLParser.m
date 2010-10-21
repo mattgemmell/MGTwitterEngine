@@ -278,6 +278,10 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 					[dictionary setObject:number forKey:[NSString stringWithUTF8String:(const char *)name]];
 				}
 			}
+			else if (xmlStrEqual(name, BAD_CAST "status"))
+			{
+				[dictionary setObject:[self _statusDictionaryForNodeWithName:name] forKey:@"status"];
+			}			
 			else if (xmlStrEqual(name, BAD_CAST "protected"))
 			{
 				// process element as a boolean
