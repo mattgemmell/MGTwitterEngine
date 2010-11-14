@@ -1129,12 +1129,12 @@
 
 #pragma mark -
 
-- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count; // statuses/home_timeline
+- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count entities:(BOOL)entities; // statuses/home_timeline
 {
-  return [self getHomeTimelineSinceID:sinceID withMaximumID:0 startingAtPage:page count:count];
+  return [self getHomeTimelineSinceID:sinceID withMaximumID:0 startingAtPage:page count:count entities:entities];
 }
 
-- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page count:(int)count; // statuses/home_timeline
+- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page count:(int)count entities:(BOOL)entities; // statuses/home_timeline
 {
   NSString *path = [NSString stringWithFormat:@"statuses/home_timeline.%@", API_FORMAT];
   
@@ -1150,6 +1150,9 @@
   }
   if (count > 0) {
     [params setObject:[NSString stringWithFormat:@"%d", count] forKey:@"count"];
+  }
+  if (entities) {
+    [params setObject:[NSString stringWithFormat:@"true"] forKey:@"include_entities"];
   }
   
   return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
