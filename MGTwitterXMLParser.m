@@ -113,7 +113,9 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
        // Change date-string into an NSDate.
 		// NSLog(@"%@", [currentNode objectForKey:elementName]);
 		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+		NSLocale *loc = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+		[dateFormatter setLocale:loc];
+		[loc release];
 		dateFormatter.dateFormat = @"EEE MMM dd HH:mm:ss +0000 yyyy";
 		NSDate *creationDate = [dateFormatter dateFromString:[currentNode objectForKey:elementName]];
 		[dateFormatter release];
