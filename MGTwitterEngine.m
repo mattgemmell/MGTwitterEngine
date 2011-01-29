@@ -1630,6 +1630,39 @@
                            responseType:MGTwitterUserLists];
 }
 
+- (NSString *)getListTimelineForUser:(NSString *)username listID:(MGTwitterEngineID)listID sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page perPage:(int)perPage entities:(BOOL)entities
+{
+	return [self getListTimelineForUser:username listID:listID sinceID:sinceID withMaximumID:0 startingAtPage:page perPage:perPage entities:entities];
+}
+
+- (NSString *)getListTimelineForUser:(NSString *)username listID:(MGTwitterEngineID)listID sinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page perPage:(int)perPage entities:(BOOL)entities
+{
+	NSString *path = [NSString stringWithFormat:@"%@/lists/%llu/statuses.%@", username, listID, API_FORMAT];
+	
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+	if (sinceID > 0) {
+		[params setObject:[NSString stringWithFormat:@"%llu", sinceID] forKey:@"since_id"];
+	}
+	if (maxID > 0) {
+		[params setObject:[NSString stringWithFormat:@"%llu", maxID] forKey:@"max_id"];
+	}
+	if (page > 0) {
+		[params setObject:[NSString stringWithFormat:@"%d", page] forKey:@"page"];
+	}
+	if (perPage > 0) {
+		[params setObject:[NSString stringWithFormat:@"%d", perPage] forKey:@"per_page"];
+	}
+	if (entities) {
+		[params setObject:[NSString stringWithFormat:@"true"] forKey:@"include_entities"];
+	}
+	
+	return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+							requestType:MGTwitterUserListTimelineRequest 
+						   responseType:MGTwitterStatuses];
+	
+}
+
+
 #pragma mark Friendship methods
 
 
