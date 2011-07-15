@@ -48,7 +48,7 @@
  target.
 */
 
-#define YAJL_AVAILABLE 0
+#define YAJL_AVAILABLE 1
 #define TOUCHJSON_AVAILABLE 0
 
 #ifndef __MGTWITTERENGINEID__
