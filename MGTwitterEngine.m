@@ -1262,8 +1262,12 @@
     
     NSString *path = [NSString stringWithFormat:@"statuses/update.%@", API_FORMAT];
     
+    // Compatible with Twitter escaping
+    NSString *unescapedStatus = [status stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
+    unescapedStatus = [unescapedStatus stringByReplacingOccurrencesOfString:@"&gt;" withString:@">"];
+    
 	// Convert the status to Unicode Normalized Form C to conform to Twitter's character counting requirement. See http://apiwiki.twitter.com/Counting-Characters .
-	NSString *trimmedText = [status precomposedStringWithCanonicalMapping];
+	NSString *trimmedText = [unescapedStatus precomposedStringWithCanonicalMapping];
     if ([trimmedText length] > MAX_MESSAGE_LENGTH) {
         trimmedText = [trimmedText substringToIndex:MAX_MESSAGE_LENGTH];
     }
