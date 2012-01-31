@@ -8,8 +8,6 @@
 // Original development by Dave Winer.
 //
 
-#import "MGTwitterEngineGlobalHeader.h"
-
 @interface NSData (Base64)
 
 /*!	@function	+dataWithBase64EncodedString:
