@@ -1194,7 +1194,7 @@
 
 - (NSString *)getUserTimelineFor:(NSString *)username sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page count:(int)count
 {
-    return [self getUserTimelineFor:username sinceID:sinceID withMaximumID:0 startingAtPage:0 count:count];
+    return [self getUserTimelineFor:username sinceID:sinceID withMaximumID:0 startingAtPage:page count:count];
 }
 
 - (NSString *)getUserTimelineFor:(NSString *)username sinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page count:(int)count
@@ -1625,6 +1625,23 @@
                         queryParameters:nil body:body 
                             requestType:MGTwitterUserListCreate
                            responseType:MGTwitterUserLists];
+}
+
+
+- (NSString *)getStatusesFromList:(NSString *)listName onAccount:(NSString *)username
+{
+	if (!username || !listName) {
+		NSLog(@"returning nil");
+		return nil;
+	}
+	NSString *path = [NSString stringWithFormat:@"%@/lists/%@/statuses.%@", username, listName, API_FORMAT];
+	
+    NSString *body = [self _queryStringWithBase:nil parameters:nil prefixed:NO];
+    
+    return [self _sendRequestWithMethod:nil path:path 
+                        queryParameters:nil body:body 
+                            requestType:MGTwitterListTimelineRequest
+                           responseType:MGTwitterStatuses];
 }
 
 #pragma mark Friendship methods

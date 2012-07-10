@@ -15,10 +15,13 @@ Using MGTwitterEngine is easy. The basic steps are:
 1. Copy all the relevant source files into your own project. You need everything that starts with "MGTwitter", and also the NSString+UUID and NSData+Base64 category files.
 
 
-2. In whatever class you're going to use MGTwitterEngine from, obviously make sure you #import the MGTwitterEngine.h header file. You should also declare that your class implements the MGTwitterEngineDelegate protocol. The AppController.h header file in the demo project is an example you can use.
+2. Include all files from the TouchJSON library in your code. http://github.com/schwa/TouchJSON
 
 
-3. Implement the MGTwitterEngineDelegate methods, just as the AppController in the demo project does. These are the methods you'll need to implement:
+3. In whatever class you're going to use MGTwitterEngine from, obviously make sure you #import the MGTwitterEngine.h header file. You should also declare that your class implements the MGTwitterEngineDelegate protocol.
+
+
+4. Implement the MGTwitterEngineDelegate methods, just as the AppController in the demo project does. These are the methods you'll need to implement:
 
 - (void)requestSucceeded:(NSString *)requestIdentifier;
 - (void)requestFailed:(NSString *)requestIdentifier withError:(NSError *)error;
@@ -27,38 +30,8 @@ Using MGTwitterEngine is easy. The basic steps are:
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier;
 
 
-4. Go ahead and use MGTwitterEngine! Just instantiate the object and set the relevant username and password (as AppController does in the demo project), and then go ahead and call some of the Twitter API methods - you can see a full list of them in the MGTwitterEngine.h header file, which also includes a link to the Twitter API documentation online.
+5. Go ahead and use MGTwitterEngine! Just instantiate the object and set the relevant username and password (as AppController does in the demo project), and then go ahead and call some of the Twitter API methods - you can see a full list of them in the MGTwitterEngine.h header file, which also includes a link to the Twitter API documentation online.
 
-
-A note about XML parsing
-========================
-
-You may wish to use the LibXML parser rather than the NSXMLParser, since LibXML can be faster and has a smaller memory footprint.
-
-In this case, you make need to make the following changes to your project:
-
-1. Set USE_LIBXML to 1, near the top of the MGTwitterEngine.m file.
-
-2. Add libxml2.dylib in Other Frameworks. You'll find the library in:
-
-	/usr/lib/libxml2.dylib
-	
-3. Add "/usr/include/libxml2" as a Header Search Path in your Project Settings.
-
-
-
-A note about using MGTwitterEngine on the iPhone
-================================================
-
-MGTwitterEngine can also be used on the iPhone (with the official iPhone SDK). Simply add it to your iPhone application project as usual.
-
-It's recommended that you use the LibXML parser rather than the NSXMLParser on the iPhone. The native parser is faster and has a smaller memory footprint, and every little bit counts on the device. If you configure USE_LIBXML to 1 in MGTwitterEngine.m, you'll need to make a couple of additions to your project.
-
-1. Add libxml2.dylib in Other Frameworks. You'll find the library in:
-
-	/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk/usr/lib/libxml2.dylib
-	
-2. Add "$SDKROOT/usr/include/libxml2" as a Header Search Path in your Project Settings.
 
 
 
