@@ -85,6 +85,7 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 
 #pragma mark Subclass utilities
 
+//TODO: Examine how _nodeValue could be re-written as it relates to http://github.com/mattgemmell/MGTwitterEngine/issues/issue/61
 // get the value from the current node
 - (xmlChar *)_nodeValue
 {
@@ -278,6 +279,10 @@ connectionIdentifier:(NSString *)theIdentifier requestType:(MGTwitterRequestType
 					[dictionary setObject:number forKey:[NSString stringWithUTF8String:(const char *)name]];
 				}
 			}
+			else if (xmlStrEqual(name, BAD_CAST "status"))
+			{
+				[dictionary setObject:[self _statusDictionaryForNodeWithName:name] forKey:@"status"];
+			}			
 			else if (xmlStrEqual(name, BAD_CAST "protected"))
 			{
 				// process element as a boolean
