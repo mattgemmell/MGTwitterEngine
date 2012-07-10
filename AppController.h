@@ -15,9 +15,14 @@
     MGTwitterEngine *twitterEngine;
 	
 	OAToken *token;
+	
+	IBOutlet NSTextField* pinCode;
+	IBOutlet NSWindow* pinWindow;
 }
 
 // this gets called when the OAuth token is received
 -(void)runTests;
+
+- (IBAction)enteredPin: (id)sender;
 
 @end

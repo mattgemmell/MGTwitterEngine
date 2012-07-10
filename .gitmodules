@@ -1,0 +1,3 @@
+[submodule "OAuthConsumer"]
+	path = OAuthConsumer
+	url = git@github.com:fxtentacle/oauthconsumer.git
