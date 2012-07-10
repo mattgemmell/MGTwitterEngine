@@ -48,8 +48,13 @@
  target.
 */
 
+#ifndef YAJL_AVAILABLE
 #define YAJL_AVAILABLE 0
+#endif
+
+#ifndef TOUCHJSON_AVAILABLE
 #define TOUCHJSON_AVAILABLE 0
+#endif
 
 #ifndef __MGTWITTERENGINEID__
 #define __MGTWITTERENGINEID__
