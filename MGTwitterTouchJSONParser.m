@@ -133,9 +133,11 @@ connectionIdentifier:(NSString *)theIdentifier
 - (void)_parsedObject:(NSDictionary *)dictionary
 {
 	[parsedObjects addObject:dictionary];
+#if TOUCHJSON_AVAILABLE
 	if (deliveryOptions & MGTwitterEngineDeliveryIndividualResultsOption)
 		if ([self _isValidDelegateForSelector:@selector(parsedObject:forRequest:ofResponseType:)])
 			[delegate parsedObject:(NSDictionary *)dictionary forRequest:identifier ofResponseType:responseType];
+#endif
 }
 
 @end

@@ -95,8 +95,8 @@
 
 - (NSString *)getPublicTimeline; // statuses/public_timeline
 
-- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)pageNum count:(int)count; // statuses/home_timeline
-- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)pageNum count:(int)count; // statuses/home_timeline
+- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)pageNum count:(int)count entities:(BOOL)entities; // statuses/home_timeline
+- (NSString *)getHomeTimelineSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)pageNum count:(int)count entities:(BOOL)entities; // statuses/home_timeline
 
 - (NSString *)getFollowedTimelineSinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)pageNum count:(int)count; // statuses/friends_timeline
 - (NSString *)getFollowedTimelineSinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)pageNum count:(int)count; // statuses/friends_timeline
@@ -150,6 +150,9 @@
 
 //	Show the specified list. Private lists will only be shown if the authenticated user owns the specified list.
 - (NSString *)getListForUser:(NSString *)username withID:(MGTwitterEngineID)listID;
+
+- (NSString *)getListTimelineForUser:(NSString *)username listID:(MGTwitterEngineID)listID sinceID:(MGTwitterEngineID)sinceID startingAtPage:(int)page perPage:(int)perPage entities:(BOOL)entities;
+- (NSString *)getListTimelineForUser:(NSString *)username listID:(MGTwitterEngineID)listID sinceID:(MGTwitterEngineID)sinceID withMaximumID:(MGTwitterEngineID)maxID startingAtPage:(int)page perPage:(int)perPage entities:(BOOL)entities;
 
 // Direct Message methods
 
