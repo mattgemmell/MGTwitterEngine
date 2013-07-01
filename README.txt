@@ -30,21 +30,20 @@ Using MGTwitterEngine is easy. The basic steps are:
 4. Go ahead and use MGTwitterEngine! Just instantiate the object and set the relevant username and password (as AppController does in the demo project), and then go ahead and call some of the Twitter API methods - you can see a full list of them in the MGTwitterEngine.h header file, which also includes a link to the Twitter API documentation online.
 
 
-A note about XML parsing
+A note about JSON parsing
+=========================
+
+For the required JSON support, you need to use either YAJL or TouchJSON (http://github.com/TouchCode/TouchJSON).
+Set either of the following definitions to 1 in MGTwitterEngineGlobalHeader.h:
+#define YAJL_AVAILABLE 0
+#define TOUCHJSON_AVAILABLE 0
+
+
+A note about Twitter 1.1
 ========================
 
-You may wish to use the LibXML parser rather than the NSXMLParser, since LibXML can be faster and has a smaller memory footprint.
-
-In this case, you make need to make the following changes to your project:
-
-1. Set USE_LIBXML to 1, near the top of the MGTwitterEngine.m file.
-
-2. Add libxml2.dylib in Other Frameworks. You'll find the library in:
-
-	/usr/lib/libxml2.dylib
-	
-3. Add "/usr/include/libxml2" as a Header Search Path in your Project Settings.
-
+The implementation has not been fully updated to Twitter's 1.1 API. Most REST functions
+will work, YMWV.
 
 
 A note about using MGTwitterEngine on the iPhone

@@ -8,14 +8,9 @@
 
 #import "MGTwitterEngine.h"
 #import "MGTwitterHTTPURLConnection.h"
-#import "OAuthConsumer.h"
+#import "OAMutableURLRequest.h"
 
 #import "NSData+Base64.h"
-
-#ifndef USE_LIBXML
-//  if you wish to use LibXML, add USE_LIBXML=1 to "Precompiler Macros" in Project Info for all targets
-#   define USE_LIBXML 0
-#endif
 
 #if YAJL_AVAILABLE
 	#define API_FORMAT @"json"
@@ -30,25 +25,12 @@
 
 	#import "MGTwitterTouchJSONParser.h"
 #else
-	#define API_FORMAT @"xml"
 
-	#if USE_LIBXML
-		#import "MGTwitterStatusesLibXMLParser.h"
-		#import "MGTwitterMessagesLibXMLParser.h"
-		#import "MGTwitterUsersLibXMLParser.h"
-		#import "MGTwitterMiscLibXMLParser.h"
-		#import "MGTwitterSocialGraphLibXMLParser.h"
-	#else
-		#import "MGTwitterStatusesParser.h"
-		#import "MGTwitterUsersParser.h"
-		#import "MGTwitterMessagesParser.h"
-		#import "MGTwitterMiscParser.h"
-		#import "MGTwitterSocialGraphParser.h"
-		#import "MGTwitterUserListsParser.h"
-	#endif
+#error "Need to define either YAJL_AVAILABLE or TOUCHJSON_AVAILABLE in MGTwitterEngineGlobalHeader.h!"
+
 #endif
 
-#define TWITTER_DOMAIN          @"api.twitter.com/1"
+#define TWITTER_DOMAIN          @"api.twitter.com/1.1"
 
 #if YAJL_AVAILABLE || TOUCHJSON_AVAILABLE
 	#define TWITTER_SEARCH_DOMAIN	@"search.twitter.com"
@@ -415,7 +397,7 @@
     NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, 
                                                                  (CFStringRef)string, 
                                                                  NULL, 
-                                                                 (CFStringRef)@";/?:@&=$+{}<>,",
+																 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                                                  kCFStringEncodingUTF8);
     return [result autorelease];
 }
@@ -653,7 +635,7 @@
                            [self _encodeString:_username], [self _encodeString:_password], 
                            domain, fullPath];
 #endif
-    
+
     NSURL *finalURL = [NSURL URLWithString:urlString];
     if (!finalURL) {
         return nil;
@@ -888,7 +870,7 @@
                  withParsedObjects:(NSArray *)parsedObjects
 {
     // Forward appropriate message to _delegate, depending on responseType.
-	NSLog(@"here at parsingSucceededForRequest");
+	//NSLog(@"here at parsingSucceededForRequest");
     switch (responseType) {
         case MGTwitterStatuses:
         case MGTwitterStatus:
@@ -1270,6 +1252,8 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     [params setObject:trimmedText forKey:@"status"];
+	//$$fb added this per Twitter documentation
+    [params setObject:@"true" forKey:@"include_entities"];
     if (updateID > 0) {
         [params setObject:[NSString stringWithFormat:@"%llu", updateID] forKey:@"in_reply_to_status_id"];
     }
